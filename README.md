@@ -9,3 +9,4 @@ SchoolADVGDProject
 <p>George: glininger@hotmail.com</p>
 <p>Steven: deathmock@gmail.com</p>
 <p>Jeremy: fox_the_apprentice@yahoo.com</p>
+<p>Licence: Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)</p>
