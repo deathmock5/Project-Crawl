@@ -1,0 +1,5 @@
+If you click on the issues tab near the top you may create a new issue.
+these issues can be anything from questions to bug reports.
+this also contains the milestone calander.
+on tuesday we need to create a milestone calander for our progress. (required)
+questions coments ext. put here insted of in a random text file.
