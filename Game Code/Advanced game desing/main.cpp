@@ -13,11 +13,14 @@
 #include <stdlib.h>
 #include <time.h>
 
-//refrenced classes and namespaces
-#include "SystemVars.cpp";
-
 using namespace std;
+
+//refrenced classes and namespaces
+#include "SystemVars.h"
+#include "Map.h"
+
 SystemVars systemvars;
+Map mymap; 
 int main(int argc, char **argv)
 {
 	bool done = false;
@@ -44,6 +47,8 @@ int main(int argc, char **argv)
 	al_init_image_addon();
 	timer = al_create_timer(1.0 / systemvars.FPS);
 
+	mymap = Map("Place");
+	al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 	event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -77,14 +82,13 @@ int main(int argc, char **argv)
 		{
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
-			//draw walls
-			//draw doors
-			//make inlay
-			//draw floor
+			mymap.draw();
+			mymap.drawLight(display);
 			//draw gui
 			//draw entitys
 			//draw player
 			//posibility of lighting
+			
 			al_flip_display();
 		}
 	}

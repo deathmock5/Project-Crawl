@@ -1,7 +1,7 @@
 class Entity
 {
 public:
-	Entity(float spawnx,float spawny);
+	Entity(float,float);
 	~Entity();
 	void Draw();
 	void travelToPos(float tarx,float tary,float speed);
@@ -16,3 +16,15 @@ private:
 	float velocityx;
 	float velocityy;
 };
+Entity::Entity(float spawnx,float spawny)
+{
+}
+Entity::~Entity()
+{
+}
+void Entity::Draw(){}
+void Entity::travelToPos(float tarx,float tary,float speed){}
+void Entity::update(){}
+bool Entity::isLiveingCreature(){return true;}
+bool Entity::isAlive(){return true;}
+void Entity::drawLight(){}

@@ -30,8 +30,8 @@
     <ClCompile Include="GameVars.cpp">
       <Filter>Source Files\lib</Filter>
     </ClCompile>
-    <ClCompile Include="SystemVars.cpp">
-      <Filter>Source Files\lib</Filter>
+    <ClCompile Include="SystemVars.h">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
