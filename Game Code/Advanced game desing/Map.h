@@ -17,6 +17,7 @@ public:
 	void draw();
 	void drawLight(ALLEGRO_DISPLAY*);
 	void moveMapToPos(float posx,float posy,float speed);
+	void update();
 	bool isOnScreen();
 	void show();
 	void hide();
@@ -44,6 +45,8 @@ private:
 	ALLEGRO_BITMAP *chestimg;
 
 	ALLEGRO_BITMAP *shadowlayer;
+
+	ALLEGRO_BITMAP *torchlight;
 	//tiles
 	Tile maptiles[25][19];
 	//enemys
@@ -51,6 +54,7 @@ private:
 
 	ALLEGRO_BITMAP* randomTileType(bool);
 	string myconcat(string,string);
+	void spawnEnttityInMap(string,int,int);
 };
 Map::Map()
 {
@@ -69,6 +73,8 @@ Map::Map(string mystring)
 
 	doortileopen = al_load_bitmap(myconcat(mystring, "dooropen.png").c_str());
 	doortileclosed = al_load_bitmap(myconcat(mystring, "doorclosed.png").c_str());
+	
+	torchlight = al_load_bitmap(myconcat(mystring, "Light.png").c_str());
 	
 	//garbage blocks load1
 	//garbage blocks load2
@@ -101,7 +107,6 @@ Map::Map(string mystring)
 		cout << endl;
 	}
 	maptiles[12][0] = Tile(false,doortileclosed,12,0);
-
 	shadowlayer = al_create_bitmap(800,608);
 	originx = 0;
 	originy = 32.0;
@@ -118,18 +123,48 @@ void Map::draw()
 				maptiles[r][c].draw((32.0f * r) + originx,(32.0f * c) + originy);
 			}
 		}
+		for(Entity myent : entitys)
+		{
+			myent.Draw();
+		}
 	}
 }
 void Map::drawLight(ALLEGRO_DISPLAY* display)
 {
-	al_set_target_bitmap(shadowlayer);
-	//set to 50% black
-	//draw each lightsource
-	al_set_target_bitmap(al_get_backbuffer(display));//return to the display
-	al_draw_bitmap(shadowlayer,0,32.0f,0);//draw the shadow layer
+	if(isOnScreen())
+	{
+		al_set_target_bitmap(shadowlayer);
+		al_clear_to_color(al_map_rgba(0,0,0,255));
+		al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
+		for(int r = 0;r < 25;r++)
+		{
+			for(int c = 0;c < 19;c++)
+			{
+				maptiles[r][c].drawLight((32.0f * r) + originx,(32.0f * c) + originy);
+			}
+		}
+		for(Entity myent : entitys)
+		{
+			myent.drawLight();
+		}
+		//al_draw_tinted_bitmap(torchlight,al_map_rgba(1,1,1,255),60,60,0);
+		al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
+		al_set_target_bitmap(al_get_backbuffer(display));//return to the display
+		al_draw_tinted_bitmap(shadowlayer,al_map_rgba(0,0,0,175),0,32,0);
+	}
 }
 void Map::moveMapToPos(float posx,float posy,float speed)
 {
+}
+void Map::update()
+{
+	if(isOnScreen())
+	{
+		for(int i = 0;i < entitys.size();i++)
+		{
+			entitys[i].update();
+		}
+	}
 }
 bool Map::isOnScreen()
 {

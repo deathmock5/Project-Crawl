@@ -3,16 +3,51 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Advanced game desing", "Advanced game desing\Advanced game desing.vcxproj", "{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungMaker", "DungMaker\DungMaker.csproj", "{79825588-1214-4364-9CA4-1B6E13CF8A43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|Win32 = Debug|Win32
+		dungediter|Any CPU = dungediter|Any CPU
+		dungediter|Mixed Platforms = dungediter|Mixed Platforms
+		dungediter|Win32 = dungediter|Win32
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Debug|Win32.ActiveCfg = Debug|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Debug|Win32.Build.0 = Debug|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.dungediter|Any CPU.ActiveCfg = dungediter|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.dungediter|Mixed Platforms.ActiveCfg = dungediter|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.dungediter|Mixed Platforms.Build.0 = dungediter|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.dungediter|Win32.ActiveCfg = dungediter|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.dungediter|Win32.Build.0 = dungediter|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Release|Any CPU.ActiveCfg = Release|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Release|Win32.ActiveCfg = Release|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Release|Win32.Build.0 = Release|Win32
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.dungediter|Any CPU.ActiveCfg = dungediter|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.dungediter|Any CPU.Build.0 = dungediter|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.dungediter|Mixed Platforms.ActiveCfg = dungediter|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.dungediter|Mixed Platforms.Build.0 = dungediter|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.dungediter|Win32.ActiveCfg = dungediter|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

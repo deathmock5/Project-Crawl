@@ -7,7 +7,7 @@ public:
 	Tile();
 	Tile(bool,ALLEGRO_BITMAP*,float,float);
 	void draw(float posx,float posy);
-	void drawLight();
+	void drawLight(float posx,float posy);
 	bool isWall();
 private:
 	bool wall;
@@ -90,7 +90,7 @@ void Tile::draw(float posx,float posy)
 		
 	}
 }
-void Tile::drawLight()
+void Tile::drawLight(float posx,float posy)
 {
 }
 bool Tile::isWall()
