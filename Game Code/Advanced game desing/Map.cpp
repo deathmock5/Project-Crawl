@@ -117,6 +117,10 @@ void Map::update()
 		{
 			entitys[i].update();
 		}
+		for(int i = 0;i < curentplayers;i++)
+		{
+			players[i].update();
+		}
 	}
 }
 bool Map::isOnScreen()

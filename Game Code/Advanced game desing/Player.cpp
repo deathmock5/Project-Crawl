@@ -56,16 +56,16 @@ void Player::update()
 			switch (direction)
 			{
 			case BACK:
-				posy--;
+				posy -= 2;
 				break;
 			case LEFT:
-				posx--;
+				posx-=2;
 				break;
 			case FORWARD:
-				posy++;
+				posy += 2;
 				break;
 			case RIGHT:
-				posx++;
+				posx +=2;
 				break;
 			default:
 				break;
@@ -102,6 +102,7 @@ void Player::processInput(ACTIONS action,DIRECTION dir)
 	default:
 		break;
 	}
+	stateChanged = true;
 	framecount = 0;
 	direction = dir;
 }

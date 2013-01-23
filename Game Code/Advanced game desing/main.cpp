@@ -18,8 +18,14 @@ using namespace std;
 #include "SystemVars.h"
 #include "Map.h"
 #include "Player.h"
-
+enum keys{BUTTONCLICKED,STATECHANGED};
+bool buttonPressed[2][4] = {{false,false,false,false},
+							{false,false,false,false}};
 Map mymap;
+bool anyButtonChangedStatus();
+bool anyButtonIsPressed();
+bool noOtherButtonsArePressed(int);
+void buttonHelper();
 int main(int argc, char **argv)
 {
 	bool done = false;
@@ -66,18 +72,23 @@ int main(int argc, char **argv)
 				done = true;
 				break;
 			case ALLEGRO_KEY_W:
-				mymap.players[0].processInput(WALK,BACK);
+				buttonPressed[BUTTONCLICKED][BACK] = true;
+				buttonPressed[STATECHANGED][BACK] = true;
 				break;
 			case ALLEGRO_KEY_A:
-				mymap.players[0].processInput(WALK,LEFT);
+				buttonPressed[BUTTONCLICKED][LEFT] = true;
+				buttonPressed[STATECHANGED][LEFT] = true;
 				break;
 			case ALLEGRO_KEY_S:
-				mymap.players[0].processInput(WALK,FORWARD);
+				buttonPressed[BUTTONCLICKED][FORWARD] = true;
+				buttonPressed[STATECHANGED][FORWARD] = true;
 				break;
 			case ALLEGRO_KEY_D:
-				mymap.players[0].processInput(WALK,RIGHT);
+				buttonPressed[BUTTONCLICKED][RIGHT] = true;
+				buttonPressed[STATECHANGED][RIGHT] = true;
 				break;
 			}
+			buttonHelper();
 		}
 		else if(ev.type == ALLEGRO_EVENT_KEY_UP)
 		{
@@ -87,18 +98,39 @@ int main(int argc, char **argv)
 				done = true;
 				break;
 			case ALLEGRO_KEY_W:
-				mymap.players[0].processInput(STAND,BACK);
+				if(buttonPressed[BUTTONCLICKED][BACK])
+				{
+					//if(noOtherButtonsArePressed(BACK))
+						buttonPressed[STATECHANGED][BACK] = true;
+					buttonPressed[BUTTONCLICKED][BACK] = false;
+				}
 				break;
 			case ALLEGRO_KEY_A:
-				mymap.players[0].processInput(STAND,LEFT);
+				if(buttonPressed[BUTTONCLICKED][LEFT])
+				{
+					//if(noOtherButtonsArePressed(LEFT))
+						buttonPressed[STATECHANGED][LEFT] = true;
+					buttonPressed[BUTTONCLICKED][LEFT] = false;
+				}
 				break;
 			case ALLEGRO_KEY_S:
-				mymap.players[0].processInput(STAND,FORWARD);
+				if(buttonPressed[BUTTONCLICKED][FORWARD])
+				{
+					//if(noOtherButtonsArePressed(FORWARD))
+						buttonPressed[STATECHANGED][FORWARD] = true;
+					buttonPressed[BUTTONCLICKED][FORWARD] = false;
+				}
 				break;
 			case ALLEGRO_KEY_D:
-				mymap.players[0].processInput(STAND,RIGHT);
+				if(buttonPressed[BUTTONCLICKED][RIGHT])
+				{
+					//if(noOtherButtonsArePressed(RIGHT))
+						buttonPressed[STATECHANGED][RIGHT] = true;
+					buttonPressed[BUTTONCLICKED][RIGHT] = false;
+				}
 				break;
 			}
+			buttonHelper();
 		}
 		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			{
@@ -113,6 +145,8 @@ int main(int argc, char **argv)
 		{
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
+			
+			
 			mymap.update();
 			mymap.draw();
 			mymap.drawLight(display);
@@ -124,5 +158,99 @@ int main(int argc, char **argv)
 			al_flip_display();
 		}
 	}
+	al_destroy_event_queue(event_queue);
+	al_destroy_display(display);
 	return 0;
+}
+bool anyButtonChangedStatus()
+{
+	for(int i = 0;i < 4;i++)
+	{
+		if(buttonPressed[1][i])
+		{
+			return true;
+		}
+	}
+	return false;
+}
+bool anyButtonIsPressed()
+{
+	for(int i = 0;i < 4;i++)
+	{
+		if(buttonPressed[0][i])
+		{
+			return true;
+		}
+	}
+	return false;
+}
+bool noOtherButtonsArePressed(int dir)
+{
+	for(int i = 0;i < 4;i++)
+	{
+		if(buttonPressed[0][i])
+		{
+			if(dir != i)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+void buttonHelper()
+{
+	if(anyButtonChangedStatus())
+	{
+			if(anyButtonIsPressed())
+			{
+				if(buttonPressed[BUTTONCLICKED][BACK] && buttonPressed[STATECHANGED][BACK])
+				{
+					mymap.players[0].processInput(WALK,BACK);
+				}
+				else if(buttonPressed[BUTTONCLICKED][LEFT] && buttonPressed[STATECHANGED][LEFT])
+				{
+					mymap.players[0].processInput(WALK,LEFT);
+				}
+				else if(buttonPressed[BUTTONCLICKED][RIGHT] && buttonPressed[STATECHANGED][RIGHT])
+				{
+					mymap.players[0].processInput(WALK,RIGHT);
+				}
+				else if(buttonPressed[BUTTONCLICKED][FORWARD] && buttonPressed[STATECHANGED][FORWARD])
+				{
+					mymap.players[0].processInput(WALK,FORWARD);
+				}
+				else if(noOtherButtonsArePressed(BACK))
+				{
+					mymap.players[0].processInput(WALK,BACK);
+				}
+				else if(noOtherButtonsArePressed(LEFT))
+				{
+					mymap.players[0].processInput(WALK,LEFT);
+				}
+				else if(noOtherButtonsArePressed(RIGHT))
+				{
+					mymap.players[0].processInput(WALK,RIGHT);
+				}
+				else if(noOtherButtonsArePressed(FORWARD))
+				{
+					mymap.players[0].processInput(WALK,FORWARD);
+				}
+			}
+			else
+			{
+				if(buttonPressed[STATECHANGED][BACK])
+					mymap.players[0].processInput(STAND,BACK);
+				else if(buttonPressed[STATECHANGED][LEFT])
+					mymap.players[0].processInput(STAND,LEFT);
+				else if(buttonPressed[STATECHANGED][RIGHT])
+					mymap.players[0].processInput(STAND,RIGHT);
+				else if(buttonPressed[STATECHANGED][FORWARD])
+					mymap.players[0].processInput(STAND,FORWARD);
+			}
+		buttonPressed[STATECHANGED][BACK] = false;
+		buttonPressed[STATECHANGED][RIGHT] = false;
+		buttonPressed[STATECHANGED][FORWARD] = false;
+		buttonPressed[STATECHANGED][LEFT] = false;
+	}
 }
