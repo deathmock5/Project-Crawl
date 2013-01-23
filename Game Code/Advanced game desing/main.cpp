@@ -12,15 +12,14 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
-
 using namespace std;
 
 //refrenced classes and namespaces
 #include "SystemVars.h"
 #include "Map.h"
+#include "Player.h"
 
-SystemVars systemvars;
-Map mymap; 
+Map mymap;
 int main(int argc, char **argv)
 {
 	bool done = false;
@@ -31,8 +30,7 @@ int main(int argc, char **argv)
 
 	if(!al_init())
 		return -1; //Init
-	int test = systemvars.SCREEN_WIDTH;
-	display = al_create_display(systemvars.SCREEN_WIDTH, systemvars.SCREEN_HEIGHT); //make display
+	display = al_create_display(SystemVars::SCREEN_WIDTH, SystemVars::SCREEN_HEIGHT); //make display
 
 	if(!display)
 		return -1;
@@ -45,9 +43,9 @@ int main(int argc, char **argv)
 	al_init_ttf_addon();										//init ttf
 	al_init_acodec_addon();										//init codec
 	al_init_image_addon();
-	timer = al_create_timer(1.0 / systemvars.FPS);
+	timer = al_create_timer(1.0 / SystemVars::FPS);
 
-	mymap = Map("Place");
+	mymap = Map("Place",1);
 	al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 	event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -67,6 +65,39 @@ int main(int argc, char **argv)
 			case ALLEGRO_KEY_ESCAPE:
 				done = true;
 				break;
+			case ALLEGRO_KEY_W:
+				mymap.players[0].processInput(WALK,BACK);
+				break;
+			case ALLEGRO_KEY_A:
+				mymap.players[0].processInput(WALK,LEFT);
+				break;
+			case ALLEGRO_KEY_S:
+				mymap.players[0].processInput(WALK,FORWARD);
+				break;
+			case ALLEGRO_KEY_D:
+				mymap.players[0].processInput(WALK,RIGHT);
+				break;
+			}
+		}
+		else if(ev.type == ALLEGRO_EVENT_KEY_UP)
+		{
+			switch(ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_ESCAPE:
+				done = true;
+				break;
+			case ALLEGRO_KEY_W:
+				mymap.players[0].processInput(STAND,BACK);
+				break;
+			case ALLEGRO_KEY_A:
+				mymap.players[0].processInput(STAND,LEFT);
+				break;
+			case ALLEGRO_KEY_S:
+				mymap.players[0].processInput(STAND,FORWARD);
+				break;
+			case ALLEGRO_KEY_D:
+				mymap.players[0].processInput(STAND,RIGHT);
+				break;
 			}
 		}
 		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -82,6 +113,7 @@ int main(int argc, char **argv)
 		{
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
+			mymap.update();
 			mymap.draw();
 			mymap.drawLight(display);
 			//draw gui
