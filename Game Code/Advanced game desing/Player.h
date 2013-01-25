@@ -1,12 +1,20 @@
-#pragma once
+#ifndef _allegro_h_
+#define _allegro_h_
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
-#include <allegro5\allegro_native_dialog.h>
+#include <allegro5\allegro_primitives.h>
+#endif // !_allegro_h_
+
+#ifndef _Player_h_
+#define _Player_h_
+
+
 
 #include <vector>
 #include <cstdlib>
 #include <sstream>
+#include <iostream>
 
 #include "Tile.h"
 #include "Entity.h"
@@ -29,7 +37,7 @@ public:
 	Player();
 	Player(string);
 	void draw();
-	void drawLight();
+	void drawLight(ALLEGRO_BITMAP*);
 	void update();
 	void processInput(ACTIONS,DIRECTION);
 private:
@@ -40,8 +48,12 @@ private:
 	int animation;
 	float tilesize;
 	Item invintory[8];
+	int health;
+	int mana;
+	int lives;
 	int delay;
 	int maxDelay;
 	bool stateChanged;
 	string playername;
 };
+#endif // !_Player_h_

@@ -1,5 +1,5 @@
 #include "Map.h"
-#include <iostream>
+
 
 using namespace std;
 Map::Map()
@@ -98,12 +98,12 @@ void Map::drawLight(ALLEGRO_DISPLAY* display)
 		}
 		for(int i = 0;i < curentplayers;i++)
 		{
-			players[i].drawLight();
+			players[i].drawLight(torchlight);
 		}
 		//al_draw_tinted_bitmap(torchlight,al_map_rgba(1,1,1,255),60,60,0);
 		al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 		al_set_target_bitmap(al_get_backbuffer(display));//return to the display
-		al_draw_tinted_bitmap(shadowlayer,al_map_rgba(0,0,0,175),0,32,0);
+		al_draw_tinted_bitmap(shadowlayer,al_map_rgba(0,0,0,255),0,32,0);
 	}
 }
 void Map::moveMapToPos(float posx,float posy,float speed)

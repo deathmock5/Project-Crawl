@@ -1,11 +1,17 @@
-#pragma once
+#ifndef _allegro_h_
+#define _allegro_h_
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
+#include <allegro5\allegro_primitives.h>
+#endif // !_allegro_h_
+#ifndef _Map_h_
+#define _Map_h_
 
 #include <vector>
 #include <cstdlib>
 #include <sstream>
+#include <iostream>
 
 #include "Tile.h"
 #include "Entity.h"
@@ -48,6 +54,7 @@ private:
 	ALLEGRO_BITMAP *chestimg;
 
 	ALLEGRO_BITMAP *shadowlayer;
+	ALLEGRO_BITMAP *gorelayer;
 
 	ALLEGRO_BITMAP *torchlight;
 	//tiles
@@ -62,3 +69,4 @@ private:
 	string myconcat(string,string);
 	void spawnEnttityInMap(string,int,int);
 };
+#endif // !_Map_h_

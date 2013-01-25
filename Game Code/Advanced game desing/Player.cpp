@@ -1,5 +1,5 @@
 #include "Player.h"
-#include <iostream>
+
 
 using namespace std;
 //const enum FRAMESET{ULTI = 0,MAGIC = 1, WALKING = 2,SLASH = 3,BOW = 4,DEAD = 5,STANDING = 6};
@@ -38,8 +38,10 @@ void Player::draw()
 	}
 	al_draw_bitmap_region(tileset,(float)framecount * tilesize,(float)frameSet[animation][direction] * tilesize,tilesize,tilesize,posx,posy,0);
 }
-void Player::drawLight()
+void Player::drawLight(ALLEGRO_BITMAP *torchlight)
 {
+	int v2 = rand() % 4 + 1;     // v2 in the range 1 to 4
+	al_draw_tinted_scaled_bitmap(torchlight,al_map_rgba(1,1,1,255),0,0,64.0f,64.0f,posx - 32.0f + v2,posy - 64.0f,128.0f,128.0f + v2,0);
 }
 void Player::update()
 {
