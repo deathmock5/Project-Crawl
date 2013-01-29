@@ -16,6 +16,7 @@ namespace DungMaker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MonsterMaker());
             Application.Run(new Form1());
         }
     }

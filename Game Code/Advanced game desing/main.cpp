@@ -14,6 +14,7 @@
 #include <time.h>
 using namespace std;
 
+
 //refrenced classes and namespaces
 #include "SystemVars.h"
 #include "Map.h"
@@ -51,7 +52,7 @@ int main(int argc, char **argv)
 	al_init_image_addon();
 	timer = al_create_timer(1.0 / SystemVars::FPS);
 
-	mymap = Map("Place",1);
+	mymap = Map("Lv1",1);
 	al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 	event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -147,13 +148,10 @@ int main(int argc, char **argv)
 			al_clear_to_color(al_map_rgb(0,0,0));
 			
 			
-			mymap.update();
+			mymap.update(mymap);
 			mymap.draw();
 			mymap.drawLight(display);
 			//draw gui
-			//draw entitys
-			//draw player
-			//posibility of lighting
 			
 			al_flip_display();
 		}

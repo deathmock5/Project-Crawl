@@ -17,6 +17,10 @@
 #include "Entity.h"
 #include "Player.h"
 using namespace std;
+
+class Tile;
+class Entity;
+class Player;
 class Map
 {
 public:
@@ -25,34 +29,19 @@ public:
 	void draw();
 	void drawLight(ALLEGRO_DISPLAY*);
 	void moveMapToPos(float posx,float posy,float speed);
-	void update();
+	void update(Map&);
 	bool isOnScreen();
 	void show();
 	void hide();
-	Player players[8];
+	std::vector<Player> players;
 private:
 	float originx;
 	float originy;
+	bool onscreen;
 
 	//floor tiles
-	ALLEGRO_BITMAP *floortiletype1;//normal
-	ALLEGRO_BITMAP *floortiletype2;//diffrent
-	ALLEGRO_BITMAP *floortiletype3;//diffrent
-	ALLEGRO_BITMAP *floortiletype4;//broken
-
-	//wall tiles
-	ALLEGRO_BITMAP *walltiletype1;//normal
-	ALLEGRO_BITMAP *walltiletype2;//diffrent
-	ALLEGRO_BITMAP *walltiletype3;//diffrent
-	ALLEGRO_BITMAP *walltiletype4;//broken
-
-	ALLEGRO_BITMAP *doortileopen;
-	ALLEGRO_BITMAP *doortileclosed;
-
-	ALLEGRO_BITMAP *potimg;
-	ALLEGRO_BITMAP *torchimgs[5];
-	ALLEGRO_BITMAP *chestimg;
-
+	ALLEGRO_BITMAP *lvtileset;
+	
 	ALLEGRO_BITMAP *shadowlayer;
 	ALLEGRO_BITMAP *gorelayer;
 
@@ -65,8 +54,7 @@ private:
 	
 	int curentplayers;
 	//methods
-	ALLEGRO_BITMAP* randomTileType(bool);
-	string myconcat(string,string);
+	string myconcat(string,string,string);
 	void spawnEnttityInMap(string,int,int);
 };
 #endif // !_Map_h_

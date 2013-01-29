@@ -7,17 +7,21 @@
 #endif // !_allegro_h_
 #ifndef _Entity_h_
 #define _Entity_h_
-
+#include "Player.h"
+#include "Map.h"
+class Player;
+class Map;
 class Entity
 {
 public:
 	Entity(float,float);
 	~Entity();
-	void draw();
+	void draw(float,float);
 	void travelToPos(float tarx,float tary,float speed);
-	void update();
+	void update(std::vector<Player>,int,Map);
 	bool isLiveingCreature();
 	bool isAlive();
+	bool isSolid();
 	void drawLight();
 private:
 	float posx;

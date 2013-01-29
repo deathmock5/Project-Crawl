@@ -7,21 +7,9 @@ Map::Map()
 }
 Map::Map(string mystring,int player)
 {
-	floortiletype1 = al_load_bitmap(myconcat(mystring, "floor1.png").c_str());
-	floortiletype2 = al_load_bitmap(myconcat(mystring, "floor2.png").c_str());
-	floortiletype3 = al_load_bitmap(myconcat(mystring, "floor3.png").c_str());
-	floortiletype4 = al_load_bitmap(myconcat(mystring, "floor4.png").c_str());
-
-	walltiletype1 = al_load_bitmap(myconcat(mystring, "wall1.png").c_str());
-	walltiletype2 = al_load_bitmap(myconcat(mystring, "wall2.png").c_str());
-	walltiletype3 = al_load_bitmap(myconcat(mystring, "wall3.png").c_str());
-	walltiletype4 = al_load_bitmap(myconcat(mystring, "wall4.png").c_str());
-
-	doortileopen = al_load_bitmap(myconcat(mystring, "dooropen.png").c_str());
-	doortileclosed = al_load_bitmap(myconcat(mystring, "doorclosed.png").c_str());
+	lvtileset = al_load_bitmap(myconcat("Dungions/" ,mystring, "Sprites.png").c_str());
 	
-	torchlight = al_load_bitmap(myconcat(mystring, "Light.png").c_str());
-	
+	torchlight = al_load_bitmap(myconcat("Images/","LightCore", "Light.png").c_str());
 	//garbage blocks load1
 	//garbage blocks load2
 	//garbage blocks load3
@@ -40,21 +28,23 @@ Map::Map(string mystring,int player)
 			if(r == 0 || r == 24 || c == 0 || c == 18)
 			{
 				//its an edge
-				maptiles[r][c] = Tile(true,randomTileType(true),r,c);
+				maptiles[r][c] = Tile(WALL,lvtileset,r,c,rand() % 3 + 0);
 			}
 			else
 			{
-				maptiles[r][c] = Tile(false,randomTileType(false),r,c);
+				maptiles[r][c] = Tile(FLOOR,lvtileset,r,c,rand() % 3 + 0);
 			}
-			
 		}
 	}
-	maptiles[12][0] = Tile(false,doortileclosed,12,0);
+	maptiles[12][0] = Tile(DOOR,lvtileset,12,0);
+	maptiles[12][18] = Tile(DOOR,lvtileset,12,18);
+	maptiles[0][9] = Tile(DOOR,lvtileset,0,9);
+	maptiles[24][9] = Tile(DOOR,lvtileset,24,9);
 	shadowlayer = al_create_bitmap(800,608);
 	originx = 0;
 	originy = 32.0;
 	curentplayers = player;
-	players[0] = Player("Bla");
+	players.push_back(Player("Fuck"));
 }
 void Map::draw()
 {
@@ -70,7 +60,7 @@ void Map::draw()
 		}
 		for(int i = 0;i < (int)entitys.size();i++)
 		{
-			entitys[i].draw();
+			entitys[i].draw(originx,originy);
 		}
 		for(int i = 0;i < curentplayers;i++)
 		{
@@ -109,83 +99,37 @@ void Map::drawLight(ALLEGRO_DISPLAY* display)
 void Map::moveMapToPos(float posx,float posy,float speed)
 {
 }
-void Map::update()
+void Map::update(Map &thismap)
 {
 	if(isOnScreen())
 	{
 		for(int i = 0;i < (int)entitys.size();i++)
 		{
-			entitys[i].update();
+			entitys[i].update(players,curentplayers,thismap);
 		}
 		for(int i = 0;i < curentplayers;i++)
 		{
-			players[i].update();
+			players[i].update(entitys,maptiles);
 		}
 	}
 }
 bool Map::isOnScreen()
 {
-	return true;
+	return onscreen;
 }
 void Map::show()
 {
+	onscreen = true;
 }
 void Map::hide()
 {
+	onscreen = false;
 }
-ALLEGRO_BITMAP* Map::randomTileType(bool iswall)
-{
-	int v2 = rand() % 4 + 1;     // v2 in the range 1 to 4
-	switch(v2)
-	{
-	case 1:
-		if(iswall)
-		{
-			return walltiletype1;
-		}
-		else
-		{
-			return floortiletype1;
-		}
-		break;
-	case 2:
-		if(iswall)
-		{
-			return walltiletype2;
-		}
-		else
-		{
-			return floortiletype2;
-		}
-		break;
-	case 3:
-		if(iswall)
-		{
-			return walltiletype3;
-		}
-		else
-		{
-			return floortiletype3;
-		}
-		break;
-	case 4:
-		if(iswall)
-		{
-			return walltiletype4;
-		}
-		else
-		{
-			return floortiletype4;
-		}
-		break;
-	}
-	return NULL;
-}
-string Map::myconcat(string var1,string var2)
+string Map::myconcat(string folder,string innerfolder,string filename)
 {
 	std::stringstream ss;
-	string var3 = "Images/";
-	ss << var3 << var1 << "/" << var2;
+	ss << folder << innerfolder << "/" << filename;
 	std::string s = ss.str();
+	cout << s << endl;
 	return s;
 }

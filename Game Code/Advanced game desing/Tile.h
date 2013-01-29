@@ -8,20 +8,23 @@
 
 #ifndef _Tile_h_
 #define _Tile_h_
-
+const enum TILETYPE{FLOOR,WALL,DOOR,WATER};
 class Tile
 {
 public:
 	Tile();
-	Tile(bool,ALLEGRO_BITMAP*,float,float);
+	Tile(TILETYPE,ALLEGRO_BITMAP*,float,float);
+	Tile(TILETYPE,ALLEGRO_BITMAP*,float,float,int);
 	void draw(float posx,float posy);
 	void drawLight(float posx,float posy);
-	bool isWall();
+	TILETYPE getTileType();
+	bool passable();
 private:
-	bool wall;
+	TILETYPE type;
 	float gridx;
 	float gridy;
 	ALLEGRO_BITMAP *myimg;
 	ALLEGRO_COLOR color;
+	int mystate;
 };
 #endif // !_Tile_h_

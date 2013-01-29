@@ -21,6 +21,10 @@
 #include "Item.h"
 
 using namespace std;
+class Tile;
+class Entity;
+class Item;
+
 const enum ACTIONS{STAND,WALK,ATACK};
 const enum FRAMESET{ULTI = 0,MAGIC = 1, WALKING = 2,SLASH = 3,BOW = 4,DEAD = 5,STANDING = 6};
 const enum DIRECTION{BACK,LEFT,FORWARD,RIGHT};
@@ -38,22 +42,24 @@ public:
 	Player(string);
 	void draw();
 	void drawLight(ALLEGRO_BITMAP*);
-	void update();
+	void update(vector<Entity>,Tile[25][19]);
 	void processInput(ACTIONS,DIRECTION);
 private:
+	//animation and rendering
+	int delay;
+	int maxDelay;
+	bool stateChanged;
 	float posx,posy;
 	ALLEGRO_BITMAP* tileset;
 	DIRECTION direction;
 	int framecount;
 	int animation;
 	float tilesize;
+	//player data
 	Item invintory[8];
 	int health;
 	int mana;
 	int lives;
-	int delay;
-	int maxDelay;
-	bool stateChanged;
 	string playername;
 };
 #endif // !_Player_h_

@@ -16,10 +16,17 @@ class Item
 {
 public:
 	Item();
+	Item(string);
+	void drawIcon();
+
 private:
-	string name;
-	int amount;
+	//rednering
 	ALLEGRO_BITMAP *itemimage;
 
+	//information
+	string name;
+	int amount;
+
+	//vector<Efects> 
 };
 #endif // !_Item_h_

@@ -28,6 +28,7 @@ Player::Player(string username)
 }
 void Player::draw()
 {
+	al_draw_filled_rectangle(posx,posy,posx+1.0f,posy+1.0f,al_map_rgb(255,255,255));
 	if(delay++ >= maxDelay)
 	{
 	if(framecount++ >= frameSet[animation][4] -1)
@@ -43,7 +44,7 @@ void Player::drawLight(ALLEGRO_BITMAP *torchlight)
 	int v2 = rand() % 4 + 1;     // v2 in the range 1 to 4
 	al_draw_tinted_scaled_bitmap(torchlight,al_map_rgba(1,1,1,255),0,0,64.0f,64.0f,posx - 32.0f + v2,posy - 64.0f,128.0f,128.0f + v2,0);
 }
-void Player::update()
+void Player::update(vector<Entity> ents,Tile tiles[25][19])
 {
 	if(stateChanged)
 	{
@@ -58,16 +59,28 @@ void Player::update()
 			switch (direction)
 			{
 			case BACK:
-				posy -= 2;
+				if(tiles[(int)(posx + 32.0f)/32][((int)(posy + 32.0f)/32)-1].passable())
+				{
+					posy -= 2.0f;
+				}
 				break;
 			case LEFT:
-				posx-=2;
+				if(tiles[((int)(posx + 48.0f)/32)-1][((int)(posy + 14.0f)/32)].passable())
+				{
+					posx -= 2.0f;
+				}
 				break;
 			case FORWARD:
-				posy += 2;
+				if(tiles[((int)(posx + 32.0f)/32)][((int)(posy + 0.0f)/32)+1].passable())
+				{
+					posy += 2;
+				}
 				break;
 			case RIGHT:
-				posx +=2;
+				if(tiles[((int)(posx + 16.0f)/32)+1][((int)(posy + 14.0f)/32)].passable())
+				{
+					posx +=2;
+				}
 				break;
 			default:
 				break;
