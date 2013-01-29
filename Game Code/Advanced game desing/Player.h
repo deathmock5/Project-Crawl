@@ -44,6 +44,7 @@ public:
 	void drawLight(ALLEGRO_BITMAP*);
 	void update(vector<Entity>,Tile[25][19]);
 	void processInput(ACTIONS,DIRECTION);
+	Entity playerHasBeenHit(vector<Entity>);
 private:
 	//animation and rendering
 	int delay;
@@ -56,7 +57,7 @@ private:
 	int animation;
 	float tilesize;
 	//player data
-	Item invintory[8];
+	Item invintory[9];
 	int health;
 	int mana;
 	int lives;

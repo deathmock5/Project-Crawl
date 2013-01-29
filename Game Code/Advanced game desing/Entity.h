@@ -14,6 +14,7 @@ class Map;
 class Entity
 {
 public:
+	Entity();
 	Entity(float,float);
 	~Entity();
 	void draw(float,float);
@@ -23,6 +24,7 @@ public:
 	bool isAlive();
 	bool isSolid();
 	void drawLight();
+	bool exists();
 private:
 	float posx;
 	float posy;

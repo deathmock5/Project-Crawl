@@ -100,6 +100,12 @@ void Player::update(vector<Entity> ents,Tile tiles[25][19])
 			stateChanged = false;
 		}
 	}
+	Entity anyatackingmob = playerHasBeenHit(ents);
+	if(anyatackingmob.exists())
+	{
+		//damage calculation code
+
+	}
 }
 void Player::processInput(ACTIONS action,DIRECTION dir)
 {
@@ -120,4 +126,9 @@ void Player::processInput(ACTIONS action,DIRECTION dir)
 	stateChanged = true;
 	framecount = 0;
 	direction = dir;
+}
+Entity Player::playerHasBeenHit(vector<Entity> ents)
+{
+	//boundschecking code
+	return Entity();
 }

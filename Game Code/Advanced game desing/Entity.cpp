@@ -1,4 +1,8 @@
 #include "Entity.h"
+Entity::Entity()
+{
+
+}
 Entity::Entity(float spawnx,float spawny)
 {
 }
@@ -11,3 +15,7 @@ void Entity::update(std::vector<Player> players,int numplayers,Map curentmap){}
 bool Entity::isLiveingCreature(){return true;}
 bool Entity::isAlive(){return true;}
 void Entity::drawLight(){}
+bool Entity::exists()
+{
+	return true;
+}
