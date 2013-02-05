@@ -11,4 +11,4 @@ SchoolADVGDProject
 <p>License: Lesser <a href="http://www.gnu.org/licenses/lgpl.html">GNU Public License v3</a></p>
 <p></p>
 <p>Compiled with: <a href="http://www.microsoft.com/visualstudio/eng/downloads">Visual studios 2012<a/></p>
-<p>Using: <a href"http://sourceforge.net/projects/alleg/files/allegro/5.0.8/">Allegro 5.0.8</a></p>
+<p>Using: <a href="http://sourceforge.net/projects/alleg/files/allegro/5.0.8/">Allegro 5.0.8</a></p>
