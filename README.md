@@ -10,3 +10,6 @@ SchoolADVGDProject
 <p>Steven: deathmock@gmail.com</p>
 <p>Jeremy: fox_the_apprentice@yahoo.com</p>
 <p>License: Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)</p>
+<p></p>
+<p>Compiled with Visual studios 2012</p>
+<p>Using Allegro 5.0.8</p>
