@@ -1,8 +1,10 @@
+https://github.com/stefanbeller/lpc
+
 All tiles for dungeon creation (crawl-tiles pack): http://creativecommons.org/publicdomain/zero/1.0/legalcode
 Player character: http://creativecommons.org/licenses/by-sa/3.0/
-	Attribution: Matthew Krohn, adapted from the work of Johannes Sjölund and Shaun Williams
+	Attribution: Matthew Krohn, adapted from the work of Johannes Sjï¿½lund and Shaun Williams
 Orc enemy (pubdlcnt.php.png): http://www.gnu.org/licenses/gpl-3.0.html http://creativecommons.org/licenses/by-sa/3.0/
-	Attribution: Walkcycle, Hurt, Slash, and Spellcast animations by Stephen Challener (AKA Redshrike), Shooting and Thrusting animations by Johannes Sjölund, Male and female orc heads by MadMarcel and based on Stephen Challener's Sinbad, Tanned, Tanned2, and Dark colors by MadMarcel, other credit to Matthew Krohn
+	Attribution: Walkcycle, Hurt, Slash, and Spellcast animations by Stephen Challener (AKA Redshrike), Shooting and Thrusting animations by Johannes Sjï¿½lund, Male and female orc heads by MadMarcel and based on Stephen Challener's Sinbad, Tanned, Tanned2, and Dark colors by MadMarcel, other credit to Matthew Krohn
 Bunny enemy (bunnysheet5.png): http://creativecommons.org/licenses/by/3.0/
 	Attribution: PixelFarm (https://bitbucket.org/tebruno99/pixelfarm) Stephen "Redshrike" Challener
 Skeleton enemy (LPC entry set): http://www.gnu.org/licenses/gpl-3.0.html http://creativecommons.org/licenses/by-sa/3.0/
