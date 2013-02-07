@@ -8,6 +8,7 @@
 #include <allegro5\allegro_acodec.h>
 #include <allegro5\allegro_image.h>
 
+
 //system imports
 #include <iostream>
 #include <stdlib.h>
@@ -17,8 +18,9 @@ using namespace std;
 
 //refrenced classes and namespaces
 #include "SystemVars.h"
-#include "Map.h"
 #include "Player.h"
+#include "Map.h"
+#include "Menu.h"
 enum keys{BUTTONCLICKED,STATECHANGED};
 bool buttonPressed[2][4] = {{false,false,false,false},
 							{false,false,false,false}};
@@ -34,13 +36,16 @@ int main(int argc, char **argv)
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
-
+	ALLEGRO_SAMPLE *bgs;
+	Menu mymenu = Menu();
 	if(!al_init())
 		return -1; //Init
 	display = al_create_display(SystemVars::SCREEN_WIDTH, SystemVars::SCREEN_HEIGHT); //make display
 
 	if(!display)
 		return -1;
+	int pos_x = 0;
+	int pos_y = 0;
 	//init
 	al_init_primitives_addon();									//init primitives
 	al_install_keyboard();										//init keyboard
@@ -52,7 +57,11 @@ int main(int argc, char **argv)
 	al_init_image_addon();
 	timer = al_create_timer(1.0 / SystemVars::FPS);
 
+	al_reserve_samples(100);
+	bgs = al_load_sample("snd\\01.wav");
+	al_play_sample(bgs,0.5f,0,1,ALLEGRO_PLAYMODE_LOOP,NULL);
 	mymap = Map("Lv1",1);
+	mymenu.addButton(20.0f,20.0f,al_load_bitmap("Images\\Menus\\Test\\btnup.png"),al_load_bitmap("Images\\Menus\\Test\\btndown.png"),"bla");
 	al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 	event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -137,11 +146,16 @@ int main(int argc, char **argv)
 			{
 				done = true;
 			}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
+			{
+				pos_x = ev.mouse.x;
+				pos_y = ev.mouse.y;
+			}
 		else if(ev.type = ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
 		}
-
+		
 		if(redraw == true && al_event_queue_is_empty(event_queue))
 		{
 			redraw = false;
@@ -151,6 +165,16 @@ int main(int argc, char **argv)
 			mymap.update(mymap);
 			mymap.draw();
 			mymap.drawLight(display);
+			string action = mymenu.hasScrolledOverOption(pos_x,pos_y);
+			if(action != "null")
+			{
+
+			}
+			else
+			{
+
+			}
+			mymenu.draw();
 			//draw gui
 			
 			al_flip_display();

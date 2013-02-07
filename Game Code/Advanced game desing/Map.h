@@ -4,10 +4,11 @@
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
+#include <allegro5\allegro_audio.h>
+#include <allegro5\allegro_acodec.h>
 #endif // !_allegro_h_
 #ifndef _Map_h_
 #define _Map_h_
-
 #include <vector>
 #include <cstdlib>
 #include <sstream>
@@ -16,6 +17,7 @@
 #include "Tile.h"
 #include "Entity.h"
 #include "Player.h"
+#include "Item.h"
 using namespace std;
 
 class Tile;
