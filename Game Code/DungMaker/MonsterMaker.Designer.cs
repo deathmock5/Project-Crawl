@@ -32,24 +32,25 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.monName = new System.Windows.Forms.TextBox();
-            this.monTileSize = new System.Windows.Forms.TextBox();
+            this.monTileSizeW = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.monHp = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.monDamage = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.monAtkStyle = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.monSfxH = new System.Windows.Forms.Button();
+            this.monSfxA = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.spritePictureBox = new System.Windows.Forms.PictureBox();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.openButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.monSfxA = new System.Windows.Forms.Button();
-            this.monSfxH = new System.Windows.Forms.Button();
+            this.monAtkStyle = new System.Windows.Forms.ComboBox();
+            this.monTileSizeH = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spritePictureBox)).BeginInit();
             this.SuspendLayout();
@@ -81,21 +82,21 @@
             this.monName.Size = new System.Drawing.Size(181, 20);
             this.monName.TabIndex = 1;
             // 
-            // monTileSize
+            // monTileSizeW
             // 
-            this.monTileSize.Location = new System.Drawing.Point(36, 36);
-            this.monTileSize.Name = "monTileSize";
-            this.monTileSize.Size = new System.Drawing.Size(189, 20);
-            this.monTileSize.TabIndex = 4;
+            this.monTileSizeW.Location = new System.Drawing.Point(66, 36);
+            this.monTileSizeW.Name = "monTileSizeW";
+            this.monTileSizeW.Size = new System.Drawing.Size(80, 20);
+            this.monTileSizeW.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(3, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(27, 13);
+            this.label2.Size = new System.Drawing.Size(57, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Size";
+            this.label2.Text = "Size(W/H)";
             // 
             // monHp
             // 
@@ -129,14 +130,6 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "DamageBace";
             // 
-            // monAtkStyle
-            // 
-            this.monAtkStyle.Location = new System.Drawing.Point(36, 114);
-            this.monAtkStyle.Name = "monAtkStyle";
-            this.monAtkStyle.Size = new System.Drawing.Size(189, 20);
-            this.monAtkStyle.TabIndex = 10;
-            this.monAtkStyle.Text = "Style";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -148,24 +141,63 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.monTileSizeH);
+            this.panel1.Controls.Add(this.monAtkStyle);
             this.panel1.Controls.Add(this.monSfxH);
             this.panel1.Controls.Add(this.monSfxA);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.monAtkStyle);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.monName);
             this.panel1.Controls.Add(this.monDamage);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.monTileSize);
+            this.panel1.Controls.Add(this.monTileSizeW);
             this.panel1.Controls.Add(this.monHp);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(314, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(230, 198);
+            this.panel1.Size = new System.Drawing.Size(230, 199);
             this.panel1.TabIndex = 11;
+            // 
+            // monSfxH
+            // 
+            this.monSfxH.Location = new System.Drawing.Point(44, 170);
+            this.monSfxH.Name = "monSfxH";
+            this.monSfxH.Size = new System.Drawing.Size(181, 23);
+            this.monSfxH.TabIndex = 15;
+            this.monSfxH.Text = "click2load";
+            this.monSfxH.UseVisualStyleBackColor = true;
+            this.monSfxH.Click += new System.EventHandler(this.monSfxH_Click);
+            // 
+            // monSfxA
+            // 
+            this.monSfxA.Location = new System.Drawing.Point(44, 141);
+            this.monSfxA.Name = "monSfxA";
+            this.monSfxA.Size = new System.Drawing.Size(181, 23);
+            this.monSfxA.TabIndex = 14;
+            this.monSfxA.Text = "Click2load";
+            this.monSfxA.UseVisualStyleBackColor = true;
+            this.monSfxA.Click += new System.EventHandler(this.monSfxA_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 175);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 13);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "SfxHit";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 146);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(38, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "SfxAtk";
             // 
             // spritePictureBox
             // 
@@ -205,43 +237,24 @@
             // 
             this.openFileDialog3.FileName = "openFileDialog3";
             // 
-            // label6
+            // monAtkStyle
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 143);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(38, 13);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "SfxAtk";
+            this.monAtkStyle.FormattingEnabled = true;
+            this.monAtkStyle.Items.AddRange(new object[] {
+            "Magic",
+            "Melee",
+            "Range"});
+            this.monAtkStyle.Location = new System.Drawing.Point(46, 114);
+            this.monAtkStyle.Name = "monAtkStyle";
+            this.monAtkStyle.Size = new System.Drawing.Size(179, 21);
+            this.monAtkStyle.TabIndex = 16;
             // 
-            // label7
+            // monTileSizeH
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 172);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 13);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "SfxHit";
-            // 
-            // monSfxA
-            // 
-            this.monSfxA.Location = new System.Drawing.Point(44, 138);
-            this.monSfxA.Name = "monSfxA";
-            this.monSfxA.Size = new System.Drawing.Size(181, 23);
-            this.monSfxA.TabIndex = 14;
-            this.monSfxA.Text = "Click2load";
-            this.monSfxA.UseVisualStyleBackColor = true;
-            this.monSfxA.Click += new System.EventHandler(this.monSfxA_Click);
-            // 
-            // monSfxH
-            // 
-            this.monSfxH.Location = new System.Drawing.Point(44, 167);
-            this.monSfxH.Name = "monSfxH";
-            this.monSfxH.Size = new System.Drawing.Size(181, 23);
-            this.monSfxH.TabIndex = 15;
-            this.monSfxH.Text = "click2load";
-            this.monSfxH.UseVisualStyleBackColor = true;
-            this.monSfxH.Click += new System.EventHandler(this.monSfxH_Click);
+            this.monTileSizeH.Location = new System.Drawing.Point(152, 36);
+            this.monTileSizeH.Name = "monTileSizeH";
+            this.monTileSizeH.Size = new System.Drawing.Size(73, 20);
+            this.monTileSizeH.TabIndex = 17;
             // 
             // MonsterMaker
             // 
@@ -269,13 +282,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox monName;
         private System.Windows.Forms.PictureBox spritePictureBox;
-        private System.Windows.Forms.TextBox monTileSize;
+        private System.Windows.Forms.TextBox monTileSizeW;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox monHp;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox monDamage;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox monAtkStyle;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
@@ -286,5 +298,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog3;
         private System.Windows.Forms.Button monSfxH;
         private System.Windows.Forms.Button monSfxA;
+        private System.Windows.Forms.ComboBox monAtkStyle;
+        private System.Windows.Forms.TextBox monTileSizeH;
     }
 }

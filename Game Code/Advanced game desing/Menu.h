@@ -38,7 +38,6 @@ private:
 	vector<ALLEGRO_BITMAP*> images;
 	vector<int> imagexpos;
 	vector<int> imageypos;
-	
 };
 #endif
 

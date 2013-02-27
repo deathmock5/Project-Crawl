@@ -50,7 +50,8 @@ namespace DungMaker
                 */
                 sw.WriteLine(monName.Text);
                 sw.WriteLine(monName.Text + ".png");
-                sw.WriteLine(monTileSize.Text);
+                sw.WriteLine(monTileSizeW.Text);
+                sw.WriteLine(monTileSizeH.Text);
                 sw.WriteLine(monSfxA.Text);
                 //copy audiofile to dir
                 sw.WriteLine(monSfxH.Text);
@@ -78,7 +79,8 @@ namespace DungMaker
                 */
                 monName.Text = sw.ReadLine();
                 spritePictureBox.Image = Bitmap.FromFile(openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.LastIndexOf("\\") + 1) + sw.ReadLine());
-                monTileSize.Text = sw.ReadLine();
+                monTileSizeW.Text = sw.ReadLine();
+                monTileSizeH.Text = sw.ReadLine();
                 monSfxA.Text = sw.ReadLine();
                 monSfxH.Text = sw.ReadLine();
                 monHp.Text = sw.ReadLine();

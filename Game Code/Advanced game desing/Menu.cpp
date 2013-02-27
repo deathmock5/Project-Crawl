@@ -18,8 +18,11 @@ void Menu::draw()
 {
 	for(int i = 0;i < (int)images.size();i++)
 	{
-		al_draw_bitmap(images[i],imagexpos[i],imageypos[i],0);
-		//cout << "Drawn at: " << imagexpos[i] << "," << imageypos[i] << endl;
+		cout << "Drawing " << images[i] << " at: " << imagexpos[i] << "," << imageypos[i] << endl;
+		if(images[i] != NULL)
+		{
+			al_draw_bitmap(images[i],imagexpos[i],imageypos[i],0);
+		}
 	}
 	for(int i = 0;i < buttons;i++)
 	{
