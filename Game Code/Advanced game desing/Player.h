@@ -47,6 +47,7 @@ public:
 	void drawLight(ALLEGRO_BITMAP*);
 	void update(vector<Entity>,Tile[25][19]);
 	void processInput(ACTIONS,DIRECTION);
+	DIRECTION getFaceingDir(int,int);
 	Entity playerHasBeenHit(vector<Entity>);
 private:
 	//animation and rendering

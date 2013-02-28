@@ -13,6 +13,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
 using namespace std;
 
 
@@ -34,6 +35,10 @@ void buttonHelper();
 enum gameGuiState{MAIN,OPTION,MULTIPLAYER,INGAME,SHOP,INVINTORY,SAVELOAD,WORLDMAP};
 
 Menu mainmenu;
+void mainMenuClickSingle();
+void mainMenuClickMulti();
+void mainMenuClickOption();
+void mainMenuClickExit();
 void gameGUIMain(ALLEGRO_EVENT);
 
 Menu menuoptions = Menu();
@@ -95,11 +100,11 @@ int main(int argc, char **argv)
 	timer = al_create_timer(1.0 / SystemVars::FPS);
 
 	al_reserve_samples(100);
-	bgs = al_load_sample("snd\\01.wav");
-	al_play_sample(bgs,0.5f,0,1,ALLEGRO_PLAYMODE_LOOP,NULL);
+	//bgs = al_load_sample("snd\\01.wav");
+	//al_play_sample(bgs,0.5f,0,1,ALLEGRO_PLAYMODE_LOOP,NULL);
 	mymap = Map("Lv1",1);
 	initMenus();
-	curentstate = INGAME;
+	curentstate = MAIN;
 	al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 	event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -139,7 +144,7 @@ int main(int argc, char **argv)
 			gameGUIWorldMap(ev);
 			break;
 		default:
-			cout << "Unrecignised gamestate" << endl;
+			cout << "Unrecignised gamestate:" << endl;
 			return 1;
 			break;
 		}
@@ -243,6 +248,7 @@ void buttonHelper()
 
 void gameGUIMain(ALLEGRO_EVENT ev)
 {
+	//TODO: Pass Information of mousecursor to menu
 	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
 			switch(ev.keyboard.keycode)
@@ -258,9 +264,14 @@ void gameGUIMain(ALLEGRO_EVENT ev)
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
 			{
-				pos_x = ev.mouse.x;
-				pos_y = ev.mouse.y;
+				mainmenu.mouseLocation(ev.mouse.x,ev.mouse.y);
+				//pos_x = ev.mouse.x;
+				//pos_y = ev.mouse.y;
 			}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		{
+			mainmenu.acitonClick();
+		}
 		else if(ev.type = ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
@@ -274,15 +285,35 @@ void gameGUIMain(ALLEGRO_EVENT ev)
 			mainmenu.draw();
 			al_flip_display();
 		}
+}	//Main menu
+void mainMenuClickSingle()
+{
+	//TODO: mainMenuClickSingle() goto loadGame
+	cout << "Gamestate set to single";
+	curentstate = INGAME;
 }
+void mainMenuClickMulti()
+{
+	//TODO: mainMenuClickMulti()
+}
+void mainMenuClickOption()
+{
+	//TODO: mainMenuClickOption()
+}
+void mainMenuClickExit()
+{
+	//TODO: mainMenuClickExit()
+}
+
 void gameGUIOption(ALLEGRO_EVENT ev)
 {
-
+	//TODO: Setup Option menu
 }
 void gameGUIMultiplayer(ALLEGRO_EVENT ev)
 {
-
+	//TODO: Setup multiplayer menu
 }
+
 void gameGUIIngame(ALLEGRO_EVENT ev)
 {
 	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -358,10 +389,19 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 				done = true;
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
-			{
-				pos_x = ev.mouse.x;
-				pos_y = ev.mouse.y;
-			}
+		{
+			pos_x = ev.mouse.x;
+			pos_y = ev.mouse.y;
+		}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		{
+			//TODO: Handle buttons on mouse clicked
+			mymap.players[0].processInput(ATACK,mymap.players[0].getFaceingDir(pos_x,pos_y));
+		}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+		{
+			//TODO: Handle buttons on mouse un clicked
+		}
 		else if(ev.type = ALLEGRO_EVENT_TIMER)
 		{
 			redraw = true;
@@ -393,23 +433,23 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 }
 void gameGUICutscene(ALLEGRO_EVENT ev)
 {
-
+	//TODO: Setup Gui for cutscenes
 }
 void gameGUIShop(ALLEGRO_EVENT ev)
 {
-
+	//TODO: Setup GUI shop
 }
 void gameGUIInvintry(ALLEGRO_EVENT ev)
 {
-
+	//TODO: GUI Invintory
 }
 void gameGUISaveLoad(ALLEGRO_EVENT ev)
 {
-
+	//TODO: Setup GUi for saveing and loading
 }
 void gameGUIWorldMap(ALLEGRO_EVENT ev)
 {
-
+	//TODO: Guiworld map menu
 }
 void initMenus()
 {
@@ -417,31 +457,46 @@ void initMenus()
 	//mymenu.addButton(20.0f,20.0f,al_load_bitmap("Images\\Menus\\Test\\btnup.png"),al_load_bitmap("Images\\Menus\\Test\\btndown.png"),"bla");
 	//mainmenu
 	mainmenu = Menu(); //mainmenu
-	ALLEGRO_BITMAP* mainmenubg = al_load_bitmap("Images\\Menus\\main\\bg.png");
-	ALLEGRO_BITMAP* mainmenutitle = al_load_bitmap("Images\\Menus\\main\\title.png");
-	ALLEGRO_BITMAP* mainmenusingle_UP = al_load_bitmap("Images\\Menus\\main\\single_up.png");
-	ALLEGRO_BITMAP* mainmenusingle_DOWN = al_load_bitmap("Images\\Menus\\main\\single_down.png");
-	ALLEGRO_BITMAP* mainmenumulti = al_load_bitmap("Images\\Menus\\main\\multi_up.png");
-	ALLEGRO_BITMAP* mainmenuoptions_UP = al_load_bitmap("Images\\Menus\\main\\options_up.png");
-	ALLEGRO_BITMAP* mainmenuoptions_DOWN = al_load_bitmap("Images\\Menus\\main\\options_down.png");
-	ALLEGRO_BITMAP* mainmenuexit_UP = al_load_bitmap("Images\\Menus\\main\\exit_up.png");
-	ALLEGRO_BITMAP* mainmenuexit_DOWN = al_load_bitmap("Images\\Menus\\main\\exit_down.png");
-	ALLEGRO_BITMAP* mainmenucopyright = al_load_bitmap("Images\\Menus\\main\\copywrite.png");
-	ALLEGRO_BITMAP* mainmenuversion = al_load_bitmap("Images\\Menus\\main\\version.png");
-	mainmenu.addImage(0,0,mainmenubg);
-	mainmenu.addImage(112,60,mainmenutitle);
-	mainmenu.addButton(266,350,mainmenusingle_UP,mainmenusingle_DOWN,"Single");
-	mainmenu.addImage(266,414,mainmenumulti);
-	mainmenu.addButton(266,480,mainmenuoptions_UP,mainmenuoptions_DOWN,"Options");
-	mainmenu.addButton(266,545,mainmenuexit_UP,mainmenuexit_DOWN,"Exit");
-	mainmenu.addImage(0,606,mainmenucopyright);
-	mainmenu.addImage(575,606,mainmenuversion);
+	//load images.
+		ALLEGRO_BITMAP* mainmenubg = al_load_bitmap("Images\\Menus\\main\\bg.png");
+		ALLEGRO_BITMAP* mainmenutitle = al_load_bitmap("Images\\Menus\\main\\title.png");
+		ALLEGRO_BITMAP* mainmenusingle_UP = al_load_bitmap("Images\\Menus\\main\\single_up.png");
+		ALLEGRO_BITMAP* mainmenusingle_DOWN = al_load_bitmap("Images\\Menus\\main\\single_down.png");
+		ALLEGRO_BITMAP* mainmenumulti = al_load_bitmap("Images\\Menus\\main\\multi_up.png");
+		ALLEGRO_BITMAP* mainmenuoptions_UP = al_load_bitmap("Images\\Menus\\main\\options_up.png");
+		ALLEGRO_BITMAP* mainmenuoptions_DOWN = al_load_bitmap("Images\\Menus\\main\\options_down.png");
+		ALLEGRO_BITMAP* mainmenuexit_UP = al_load_bitmap("Images\\Menus\\main\\exit_up.png");
+		ALLEGRO_BITMAP* mainmenuexit_DOWN = al_load_bitmap("Images\\Menus\\main\\exit_down.png");
+		ALLEGRO_BITMAP* mainmenucopyright = al_load_bitmap("Images\\Menus\\main\\copywrite.png");
+		ALLEGRO_BITMAP* mainmenuversion = al_load_bitmap("Images\\Menus\\main\\version.png");
+	//create button pointer functions
+		void(*mainmenusingleclick)() = &mainMenuClickSingle;
+		void(*mainmenumulticlick)() = &mainMenuClickMulti;
+		void(*mainmenuoptionclick)() = &mainMenuClickOption;
+		void(*mainmenuexitclick)() = &mainMenuClickExit;
+	//add buttons
+		mainmenu.addImage(0,0,mainmenubg);
+		mainmenu.addImage(112,60,mainmenutitle);
+		mainmenu.addButton(266,350,mainmenusingle_UP,mainmenusingle_DOWN,"Single",mainmenusingleclick);
+		mainmenu.addImage(266,414,mainmenumulti);
+		mainmenu.addButton(266,480,mainmenuoptions_UP,mainmenuoptions_DOWN,"Options",mainmenuoptionclick);
+		mainmenu.addButton(266,545,mainmenuexit_UP,mainmenuexit_DOWN,"Exit",mainmenuexitclick);
+		mainmenu.addImage(0,606,mainmenucopyright);
+		mainmenu.addImage(575,606,mainmenuversion);
 	menuoptions = Menu(); // options menu
+	//TODO: Load option gui elements
 	menumulti = Menu();
+	//TODO: Load multiplayer gui elements
 	menuingame = Menu();
+	//TODO: load ingamemenu gui elements
 	menucutscene = Menu();
+	//TODO: load cutscene gui elements
 	menushop = Menu();
+	//TODO: load menushot gui elements
 	menuinvintory = Menu();
+	//TODO: load menuinvintory gui elements
 	menusaveload = Menu();
+	//TODO: load saveload gui elements
 	menuworldmap = Menu();
+	//TODO: load menuworldmap gui elements
 }

@@ -8,7 +8,7 @@ Map::Map()
 Map::Map(string mystring,int player)
 {
 	lvtileset = al_load_bitmap(myconcat("Dungions/" ,mystring, "Sprites.png").c_str());
-	
+	//TODO: Update to new format
 	torchlight = al_load_bitmap(myconcat("Images/","LightCore", "Light.png").c_str());
 	//garbage blocks load1
 	//garbage blocks load2

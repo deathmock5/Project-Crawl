@@ -28,12 +28,16 @@ Player::Player(string username)
 }
 void Player::draw()
 {
-	al_draw_filled_rectangle(posx,posy,posx+1.0f,posy+1.0f,al_map_rgb(255,255,255));
+	//al_draw_filled_rectangle(posx,posy,posx+1.0f,posy+1.0f,al_map_rgb(255,255,255));
 	if(delay++ >= maxDelay)
 	{
 	if(framecount++ >= frameSet[animation][4] -1)
 	{
 		framecount = 0;
+		if(animation != WALKING && animation != STANDING)
+		{
+			animation = STANDING;
+		}
 	}
 	delay = 0;
 	}
@@ -87,6 +91,7 @@ void Player::update(vector<Entity> ents,Tile tiles[25][19])
 			}
 			break;
 		case SLASH:
+			//TODO: Hitbox stuff
 			break;
 		case BOW:
 			break;
@@ -119,6 +124,12 @@ void Player::processInput(ACTIONS action,DIRECTION dir)
 		animation = WALKING;
 		break;
 	case ATACK:
+		if(animation == SLASH)
+		{
+			return; //if were already atacking then dont atack again....
+		}
+		//TODO: Get charicter weapon and then run atack animation
+		animation = SLASH;
 		break;
 	default:
 		break;
@@ -126,6 +137,26 @@ void Player::processInput(ACTIONS action,DIRECTION dir)
 	stateChanged = true;
 	framecount = 0;
 	direction = dir;
+}
+DIRECTION Player::getFaceingDir(int x,int y)
+{
+	int dleft = posx + 16 - x;//negitive if right, positive when left
+	int dup = posy + 32 - y;//positive when up negitive when down
+	int dright = x - (posx + 16);
+	int ddown = y - (posy + 32);
+	if(dleft > dright && dleft > dup && dleft > ddown)
+	{
+		return LEFT;
+	}
+	if(dright > dup && dright > ddown)
+	{
+		return RIGHT;
+	}
+	if(dup > ddown)
+	{
+		return BACK;
+	}
+	return FORWARD;
 }
 Entity Player::playerHasBeenHit(vector<Entity> ents)
 {

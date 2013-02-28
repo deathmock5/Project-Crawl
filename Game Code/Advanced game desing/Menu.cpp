@@ -8,7 +8,6 @@ Menu::Menu(void)
 	
 }
 
-
 Menu::~Menu(void)
 {
 
@@ -18,7 +17,7 @@ void Menu::draw()
 {
 	for(int i = 0;i < (int)images.size();i++)
 	{
-		cout << "Drawing " << images[i] << " at: " << imagexpos[i] << "," << imageypos[i] << endl;
+		//cout << "Drawing " << images[i] << " at: " << imagexpos[i] << "," << imageypos[i] << endl;
 		if(images[i] != NULL)
 		{
 			al_draw_bitmap(images[i],imagexpos[i],imageypos[i],0);
@@ -60,21 +59,33 @@ string Menu::hasScrolledOverOption(float x,float y)
 	return "null";
 }
 
-void Menu::acitonClick(string action)
+void Menu::acitonClick()
 {
 	//determine which one is clicked
-	if(action != "null")
+	if(curenthoverdoption != "null")//if it issent null
 	{
-		if(action == "bla")
+		for(int i = 0;i < (int)btnactions.size();i++)//look pthrough our list of avalible actions
 		{
-
+			if(btnactions[i] == curenthoverdoption)//if we have a match... which we should. activate it
+			{
+				if(buttonactionpointers[i] != NULL)
+				{
+					(*buttonactionpointers[i])();//alright, now call the vector of function pointers to call the function
+					//then pray.
+				}
+				else
+				{
+					cout << "null";
+				}
+			}
 		}
 	}
 }
 
-void Menu::addButton(float x, float y, ALLEGRO_BITMAP *imageup,ALLEGRO_BITMAP *imagedown,string action)
+void Menu::addButton(float x, float y, ALLEGRO_BITMAP *imageup,ALLEGRO_BITMAP *imagedown,string action,void (*function)())
 {
 	btnactions.push_back(action);
+	buttonactionpointers.push_back(function);
 	btnimages.push_back(imageup);
 	btnimagesdown.push_back(imagedown);
 	btnxpos.push_back(x);
@@ -89,4 +100,13 @@ void Menu::addImage(float x, float y, ALLEGRO_BITMAP *image)
 	imageypos.push_back(y);
 	images.push_back(image);
 	//register.
+}
+
+void Menu::mouseLocation(int x,int y)
+{
+	curenthoverdoption = hasScrolledOverOption((int)x,(int)y);
+	if(curenthoverdoption != "null")
+	{
+
+	}
 }
