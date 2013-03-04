@@ -1,0 +1,4 @@
+Name: Bald Mage
+HP: 20
+Type: Magic
+Sprite sheets: Movement (baldricfrontwalksheet copy), Attack (baldricSpellSheet copy)

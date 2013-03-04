@@ -1,0 +1,4 @@
+Name: Blue slime
+HP: 45
+Type: Melee
+sprite sheet: Movment & attack (slime.bmp)

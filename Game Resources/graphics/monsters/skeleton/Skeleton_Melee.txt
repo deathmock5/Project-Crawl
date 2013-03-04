@@ -1,0 +1,4 @@
+Name: Sword Skeleton
+HP: 25
+Type: Melee
+Sprite Sheets: Movement (sword_skeleton_slash), Attack (sword_skeleton_walk)

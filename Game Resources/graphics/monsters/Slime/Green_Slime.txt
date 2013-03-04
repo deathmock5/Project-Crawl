@@ -1,0 +1,4 @@
+Name: Green slime
+HP: 25
+Type: Melee
+sprite sheet: Movment & attack (slime.bmp)
