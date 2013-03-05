@@ -248,7 +248,6 @@ void buttonHelper()
 
 void gameGUIMain(ALLEGRO_EVENT ev)
 {
-	//TODO: Pass Information of mousecursor to menu
 	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
 			switch(ev.keyboard.keycode)
@@ -265,8 +264,6 @@ void gameGUIMain(ALLEGRO_EVENT ev)
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
 			{
 				mainmenu.mouseLocation(ev.mouse.x,ev.mouse.y);
-				//pos_x = ev.mouse.x;
-				//pos_y = ev.mouse.y;
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
@@ -478,7 +475,7 @@ void initMenus()
 		mainmenu.addImage(0,0,mainmenubg);
 		mainmenu.addImage(112,60,mainmenutitle);
 		mainmenu.addButton(266,350,mainmenusingle_UP,mainmenusingle_DOWN,"Single",mainmenusingleclick);
-		mainmenu.addImage(266,414,mainmenumulti);
+		mainmenu.addImage(266,414,mainmenumulti);//TODO:multiplayer button
 		mainmenu.addButton(266,480,mainmenuoptions_UP,mainmenuoptions_DOWN,"Options",mainmenuoptionclick);
 		mainmenu.addButton(266,545,mainmenuexit_UP,mainmenuexit_DOWN,"Exit",mainmenuexitclick);
 		mainmenu.addImage(0,606,mainmenucopyright);
