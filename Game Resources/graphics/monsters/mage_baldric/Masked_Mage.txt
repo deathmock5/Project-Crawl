@@ -1,0 +1,4 @@
+Name: Masked Mage
+HP: 40
+Type: Magic
+Sprite sheets: Movement (mage walking poses sheet copy), Attack (Mage spell casting sheet copy)
