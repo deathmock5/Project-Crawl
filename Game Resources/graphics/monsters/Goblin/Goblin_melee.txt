@@ -1,6 +1,0 @@
-Name: Goblin
-HP: 35
-Type: Melee
-Sprite sheet: pubdlcnt.php
-
-//Side note ranged and melee animations need to be sperated in sprite sheet.
