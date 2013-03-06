@@ -615,9 +615,37 @@ void initMenus()
 			mainmenu.addImage(575,606,mainmenuversion);
 	//optionsmenu
 		menuoptions = Menu(); // options menu
-		//TODO: Load option gui elements
+		logHelperMessage(INFO,1,"Creating optionmenu");
+		//images
+			ALLEGRO_BITMAP* optionmenubg = load_image("Images\\Menus\\option\\bg.png");
+			ALLEGRO_BITMAP* optionmenutitle = load_image("Images\\Menus\\option\\options_title.png");
+			ALLEGRO_BITMAP* optionmenuresolution_UP = load_image("Images\\Menus\\option\\resolution_up.png");
+			ALLEGRO_BITMAP* optionmenuresolution_DOWN = load_image("Images\\Menus\\option\\resolution_down.png");
+			ALLEGRO_BITMAP* optionmenubrightness_UP = load_image("Images\\Menus\\option\\brightness_up.png");
+			ALLEGRO_BITMAP* optionmenubrightness_DOWN = load_image("Images\\Menus\\option\\brightness_down.png");
+			ALLEGRO_BITMAP* optionmenuconfig_UP = load_image("Images\\Menus\\option\\configuration_up.png");
+			ALLEGRO_BITMAP* optionmenuconfig_DOWN = load_image("Images\\Menus\\option\\configuration_down.png");
+			ALLEGRO_BITMAP* optionmenudifficulty_UP = load_image("Images\\Menus\\option\\dificulty_up.png");
+			ALLEGRO_BITMAP* optionmenudifficulty_DOWN = load_image("Images\\Menus\\option\\dificulty_down.png");
+			ALLEGRO_BITMAP* optionmenuback_UP = load_image("Images\\Menus\\option\\back_up.png");
+			ALLEGRO_BITMAP* optionmenuback_DOWN = load_image("Images\\Menus\\option\\back_down.png");
+		//function pointers
+			void(*optionmenuresolutionclick)() = &optionsMenuClickResolution;
+			void(*optionmenubrightnessclick)() = &optionsMenuClickBrightness;
+			void(*optionmenuconfigclick)() = &optionsMenuClickConfig;
+			void(*optionmenudificultyclick)() = &optionsMenuClickDificulty;
+			void(*optionmenubackclick)() = &optionsMenuClickBack;
+		//add information to menu
+			menuoptions.addImage(0,0,optionmenubg);
+			menuoptions.addImage(241,21,optionmenutitle);
+			menuoptions.addButton(125,156,optionmenuresolution_UP,optionmenuresolution_DOWN,"resolution",optionmenuresolutionclick);
+			menuoptions.addButton(125,254,optionmenubrightness_UP,optionmenubrightness_DOWN,"brightness",optionmenubrightnessclick);
+			menuoptions.addButton(125,351,optionmenuconfig_UP,optionmenuconfig_DOWN,"config",optionmenuconfigclick);
+			menuoptions.addButton(125,446,optionmenudifficulty_UP,optionmenudifficulty_DOWN,"difficulty",optionmenudificultyclick);
+			menuoptions.addButton(125,546,optionmenuback_UP,optionmenuback_DOWN,"back",optionmenubackclick);
 	//menuoverworld
 		menuoverworld = Menu();
+		logHelperMessage(INFO,1,"Creating overworldmenu");
 		//load images
 			ALLEGRO_BITMAP* overworldmenubg = load_image("Images\\Menus\\overworld\\bg.png");
 			ALLEGRO_BITMAP* overworlddung_UP = load_image("Images\\Menus\\overworld\\dng.png");
@@ -633,7 +661,6 @@ void initMenus()
 			menuoverworld.addButton(107,465,overworlddung_UP,overworlddung1_DOWN,"dung1",overworldMenuClickDung1);
 			menuoverworld.addButton(448,529,overworlddung_UP,overworlddung2_DOWN,"dung2",overworldMenuClickDung2);
 			menuoverworld.addButton(685,606,overworlddung_UP,overworlddung3_DOWN,"dung3",overworldMenuClickDung3);
-		//TODO: Load overworld menu gui elements
 	//menumulti
 		menumulti = Menu();
 		//TODO: Load multiplayer gui elements
