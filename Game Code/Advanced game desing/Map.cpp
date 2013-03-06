@@ -7,9 +7,12 @@ Map::Map()
 }
 Map::Map(string mystring,int player)
 {
-	lvtileset = al_load_bitmap(myconcat("Dungions/" ,mystring, "Sprites.png").c_str());
+
+	//lvtileset = al_load_bitmap(myconcat("Dungions/" ,mystring, "Sprites.png").c_str());
+	lvtileset = load_image(myconcat("Dungions/" ,mystring, "Sprites.png").c_str());
 	//TODO: Update to new format
-	torchlight = al_load_bitmap(myconcat("Images/","LightCore", "Light.png").c_str());
+	//torchlight = al_load_bitmap(myconcat("Images/","LightCore", "Light.png").c_str());
+	torchlight = load_image(myconcat("Images/","LightCore", "Light.png").c_str());
 	//garbage blocks load1
 	//garbage blocks load2
 	//garbage blocks load3
@@ -44,7 +47,7 @@ Map::Map(string mystring,int player)
 	originx = 0;
 	originy = 32.0;
 	curentplayers = player;
-	players.push_back(Player("Fuck"));
+	players.push_back(Player("Player"));
 }
 void Map::draw()
 {
@@ -130,6 +133,6 @@ string Map::myconcat(string folder,string innerfolder,string filename)
 	std::stringstream ss;
 	ss << folder << innerfolder << "/" << filename;
 	std::string s = ss.str();
-	cout << s << endl;
+	//cout << s << endl;
 	return s;
 }

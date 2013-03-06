@@ -11,6 +11,7 @@
 #ifndef _Tile_h_
 #define _Tile_h_
 const enum TILETYPE{FLOOR,WALL,DOOR,WATER};
+#include "SystemVars.h"
 class Tile
 {
 public:

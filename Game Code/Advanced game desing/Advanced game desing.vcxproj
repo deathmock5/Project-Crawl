@@ -66,6 +66,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -96,6 +97,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Strings.cpp" />
+    <ClCompile Include="SystemVars.cpp" />
     <ClCompile Include="SystemVars.h" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>

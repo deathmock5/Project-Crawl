@@ -12,6 +12,7 @@
 #define _Entity_h_
 #include "Player.h"
 #include "Map.h"
+#include "SystemVars.h"
 class Player;
 class Map;
 class Entity

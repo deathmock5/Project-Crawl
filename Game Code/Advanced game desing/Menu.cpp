@@ -93,6 +93,13 @@ void Menu::addButton(float x, float y, ALLEGRO_BITMAP *imageup,ALLEGRO_BITMAP *i
 	btnisdown.push_back(false);
 	buttons++;
 }
+void Menu::addText(float x,float y,string uniqueName,string* text)
+{
+	for(short i = 0;i < (short)textuniqueID.size();i++)
+	{
+
+	}
+}
 
 void Menu::addImage(float x, float y, ALLEGRO_BITMAP *image)
 {
@@ -102,6 +109,10 @@ void Menu::addImage(float x, float y, ALLEGRO_BITMAP *image)
 	//register.
 }
 
+void Menu::removeButton(string buttonaction)
+{
+	//TODO: Look through list of buttons till you find the right one, then delete all entries of its position.
+}
 void Menu::mouseLocation(int x,int y)
 {
 	curenthoverdoption = hasScrolledOverOption((int)x,(int)y);

@@ -1,5 +1,4 @@
 #include "Dungion.h"
-
 //methods
 //	Dungion(void);
 //	Dungion(string);//path to dungfile
@@ -55,6 +54,7 @@ void Dungion::Load(string myfile)
 	ifstream dungfile;
 	ifstream maptemplate;
 	dungfile.open(myfile);
+	
     if(dungfile.is_open())
     {
         char * filetileset;
@@ -93,7 +93,8 @@ void Dungion::Load(string myfile)
         }
     else
     {
-        cout << "Unable to open file:" << myfile << endl;
+		logHelperMessage(SEVERE,2,"Unable to open file:",myfile);
+        //cout << "Unable to open file:" << myfile << endl;
     }
     
 }

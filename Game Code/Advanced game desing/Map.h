@@ -18,6 +18,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Item.h"
+#include "SystemVars.h"
 using namespace std;
 
 class Tile;

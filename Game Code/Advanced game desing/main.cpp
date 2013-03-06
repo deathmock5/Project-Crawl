@@ -14,11 +14,13 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include <Windows.h>
 using namespace std;
 
 
 //refrenced classes and namespaces
 #include "SystemVars.h"
+#include "SystemVars.cpp"
 #include "Player.h"
 #include "Map.h"
 #include "Menu.h"
@@ -32,6 +34,9 @@ bool anyButtonIsPressed();
 bool noOtherButtonsArePressed(int);
 void buttonHelper();
 
+//void logHelperMessage(loglevel,int, ...);
+
+
 enum gameGuiState{MAIN,OPTION,MULTIPLAYER,INGAME,SHOP,INVINTORY,SAVELOAD,WORLDMAP};
 
 Menu mainmenu;
@@ -41,8 +46,19 @@ void mainMenuClickOption();
 void mainMenuClickExit();
 void gameGUIMain(ALLEGRO_EVENT);
 
-Menu menuoptions = Menu();
+Menu menuoptions;
+void optionsMenuClickResolution();
+void optionsMenuClickBrightness();
+void optionsMenuClickConfig();
+void optionsMenuClickDificulty();
+void optionsMenuClickBack();
 void gameGUIOption(ALLEGRO_EVENT);
+
+Menu menuoverworld;
+void overworldMenuClickDung1();
+void overworldMenuClickDung2();
+void overworldMenuClickDung3();
+void gameGUIOverworld(ALLEGRO_EVENT);
 
 Menu menumulti = Menu();
 void gameGUIMultiplayer(ALLEGRO_EVENT);
@@ -62,10 +78,8 @@ void gameGUIInvintry(ALLEGRO_EVENT);
 Menu menusaveload = Menu();
 void gameGUISaveLoad(ALLEGRO_EVENT);
 
-Menu menuworldmap = Menu();
-void gameGUIWorldMap(ALLEGRO_EVENT);
-
 void initMenus();
+
 //game variables
 Map mymap;
 gameGuiState curentstate;
@@ -81,22 +95,31 @@ int main(int argc, char **argv)
 {
 	ALLEGRO_SAMPLE *bgs;
 	
-	if(!al_init())
-		return -1; //Init
+	if(al_init())logHelperMessage(OK,1,"Initilised Allegro 5.0.8");
+	else{ logHelperMessage(SEVERE,1,"Failed to initilise Allegro 5.0.8"); return -1;}
+	
 	display = al_create_display(SystemVars::SCREEN_WIDTH, SystemVars::SCREEN_HEIGHT); //make display
 
-	if(!display)
-		return -1;
-
+	if(display)
+		logHelperMessage(OK,1,"Created Display");//return -1;
+	
 	//init
-	al_init_primitives_addon();									//init primitives
-	al_install_keyboard();										//init keyboard
-	al_install_mouse();											//init mouse
-	al_install_audio();											//init audio
-	al_init_font_addon();										//init font
-	al_init_ttf_addon();										//init ttf
-	al_init_acodec_addon();										//init codec
-	al_init_image_addon();
+	if(al_init_primitives_addon())
+		logHelperMessage(OK,1,"Initilized primitives addon");   //init primitives
+	if(al_install_keyboard())
+		logHelperMessage(OK,1,"Installed Keybaord"); //init keyboard
+	if(al_install_mouse())
+		logHelperMessage(OK,1,"Installed mouse"); //init mouse
+	if(al_install_audio())
+		logHelperMessage(OK,1,"Installed audio"); //init audio
+	al_init_font_addon();
+		logHelperMessage(OK,1,"Initilized font addon"); //init font
+	if(al_init_ttf_addon())
+		logHelperMessage(OK,1,"Initilized ttf addon"); //init ttf
+	if(al_init_acodec_addon())
+		logHelperMessage(OK,1,"Initilized acodec addon"); //init codec
+	if(al_init_image_addon())
+		logHelperMessage(OK,1,"Initilized images addon"); 
 	timer = al_create_timer(1.0 / SystemVars::FPS);
 
 	al_reserve_samples(100);
@@ -141,10 +164,10 @@ int main(int argc, char **argv)
 			gameGUISaveLoad(ev);
 			break;
 		case WORLDMAP:
-			gameGUIWorldMap(ev);
+			gameGUIOverworld(ev);
 			break;
 		default:
-			cout << "Unrecignised gamestate:" << endl;
+			logHelperMessage(SEVERE,1,"Unrecignised gamestate:");
 			return 1;
 			break;
 		}
@@ -245,7 +268,7 @@ void buttonHelper()
 		buttonPressed[STATECHANGED][LEFT] = false;
 	}
 }
-
+//main gui
 void gameGUIMain(ALLEGRO_EVENT ev)
 {
 	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -286,8 +309,8 @@ void gameGUIMain(ALLEGRO_EVENT ev)
 void mainMenuClickSingle()
 {
 	//TODO: mainMenuClickSingle() goto loadGame
-	cout << "Gamestate set to single";
-	curentstate = INGAME;
+	//logHelperMessage(INFO,1,"Gamestate set to single");
+	curentstate = WORLDMAP;
 }
 void mainMenuClickMulti()
 {
@@ -296,21 +319,128 @@ void mainMenuClickMulti()
 void mainMenuClickOption()
 {
 	//TODO: mainMenuClickOption()
+	curentstate = OPTION;
 }
 void mainMenuClickExit()
 {
 	//TODO: mainMenuClickExit()
 }
-
+//options
 void gameGUIOption(ALLEGRO_EVENT ev)
 {
 	//TODO: Setup Option menu
+	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		{
+			switch(ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_ESCAPE:
+				done = true;
+				break;
+				}
+		}
+		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+			{
+				done = true;
+			}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
+			{
+				menuoptions.mouseLocation(ev.mouse.x,ev.mouse.y);
+			}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		{
+			menuoptions.acitonClick();
+		}
+		else if(ev.type = ALLEGRO_EVENT_TIMER)
+		{
+			redraw = true;
+		}
+		
+		if(redraw == true && al_event_queue_is_empty(event_queue))
+		{
+			redraw = false;
+			al_clear_to_color(al_map_rgb(0,0,0));
+
+			menuoptions.draw();
+			al_flip_display();
+		}
 }
+void optionsMenuClickResolution()
+{
+	//TODO: optionsMenuClickResolution()
+}
+void optionsMenuClickBrightness()
+{
+	//TODO: optionsMenuClickBrightness()
+}
+void optionsMenuClickConfig()
+{
+	//TODO: optionsMenuClickConfig()
+}
+void optionsMenuClickDificulty()
+{
+	//TODO: optionsMenuClickDificulty()
+}
+void optionsMenuClickBack()
+{
+	//TODO: optionsMenuClickBack()
+}
+//Overworld
+void gameGUIOverworld(ALLEGRO_EVENT ev)
+{
+	//TODO: gameGUIOverworld();
+	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		{
+			switch(ev.keyboard.keycode)
+			{
+			case ALLEGRO_KEY_ESCAPE:
+				done = true;
+				break;
+				}
+		}
+		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+			{
+				done = true;
+			}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
+			{
+				menuoverworld.mouseLocation(ev.mouse.x,ev.mouse.y);
+			}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		{
+			menuoverworld.acitonClick();
+		}
+		else if(ev.type = ALLEGRO_EVENT_TIMER)
+		{
+			redraw = true;
+		}
+		
+		if(redraw == true && al_event_queue_is_empty(event_queue))
+		{
+			redraw = false;
+			al_clear_to_color(al_map_rgb(0,0,0));
+
+			menuoverworld.draw();
+			al_flip_display();
+		}
+}
+void overworldMenuClickDung1()
+{
+	//TODO: overworldMenuClickDung1()
+}
+void overworldMenuClickDung2()
+{
+	//TODO: overworldMenuClickDung2()
+}
+void overworldMenuClickDung3()
+{
+	//TODO: overworldMenuClickDung3()
+}
+//multiplayer
 void gameGUIMultiplayer(ALLEGRO_EVENT ev)
 {
 	//TODO: Setup multiplayer menu
 }
-
+//ingame
 void gameGUIIngame(ALLEGRO_EVENT ev)
 {
 	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -428,72 +558,98 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 			al_flip_display();
 		}
 }
+//cutscene
 void gameGUICutscene(ALLEGRO_EVENT ev)
 {
 	//TODO: Setup Gui for cutscenes
 }
+//shop
 void gameGUIShop(ALLEGRO_EVENT ev)
 {
 	//TODO: Setup GUI shop
 }
+//invintory
 void gameGUIInvintry(ALLEGRO_EVENT ev)
 {
 	//TODO: GUI Invintory
 }
+//saveload
 void gameGUISaveLoad(ALLEGRO_EVENT ev)
 {
 	//TODO: Setup GUi for saveing and loading
 }
-void gameGUIWorldMap(ALLEGRO_EVENT ev)
-{
-	//TODO: Guiworld map menu
-}
+
+//Other functions
 void initMenus()
 {
 	
 	//mymenu.addButton(20.0f,20.0f,al_load_bitmap("Images\\Menus\\Test\\btnup.png"),al_load_bitmap("Images\\Menus\\Test\\btndown.png"),"bla");
 	//mainmenu
-	mainmenu = Menu(); //mainmenu
-	//load images.
-		ALLEGRO_BITMAP* mainmenubg = al_load_bitmap("Images\\Menus\\main\\bg.png");
-		ALLEGRO_BITMAP* mainmenutitle = al_load_bitmap("Images\\Menus\\main\\title.png");
-		ALLEGRO_BITMAP* mainmenusingle_UP = al_load_bitmap("Images\\Menus\\main\\single_up.png");
-		ALLEGRO_BITMAP* mainmenusingle_DOWN = al_load_bitmap("Images\\Menus\\main\\single_down.png");
-		ALLEGRO_BITMAP* mainmenumulti = al_load_bitmap("Images\\Menus\\main\\multi_up.png");
-		ALLEGRO_BITMAP* mainmenuoptions_UP = al_load_bitmap("Images\\Menus\\main\\options_up.png");
-		ALLEGRO_BITMAP* mainmenuoptions_DOWN = al_load_bitmap("Images\\Menus\\main\\options_down.png");
-		ALLEGRO_BITMAP* mainmenuexit_UP = al_load_bitmap("Images\\Menus\\main\\exit_up.png");
-		ALLEGRO_BITMAP* mainmenuexit_DOWN = al_load_bitmap("Images\\Menus\\main\\exit_down.png");
-		ALLEGRO_BITMAP* mainmenucopyright = al_load_bitmap("Images\\Menus\\main\\copywrite.png");
-		ALLEGRO_BITMAP* mainmenuversion = al_load_bitmap("Images\\Menus\\main\\version.png");
-	//create button pointer functions
-		void(*mainmenusingleclick)() = &mainMenuClickSingle;
-		void(*mainmenumulticlick)() = &mainMenuClickMulti;
-		void(*mainmenuoptionclick)() = &mainMenuClickOption;
-		void(*mainmenuexitclick)() = &mainMenuClickExit;
-	//add buttons
-		mainmenu.addImage(0,0,mainmenubg);
-		mainmenu.addImage(112,60,mainmenutitle);
-		mainmenu.addButton(266,350,mainmenusingle_UP,mainmenusingle_DOWN,"Single",mainmenusingleclick);
-		mainmenu.addImage(266,414,mainmenumulti);//TODO:multiplayer button
-		mainmenu.addButton(266,480,mainmenuoptions_UP,mainmenuoptions_DOWN,"Options",mainmenuoptionclick);
-		mainmenu.addButton(266,545,mainmenuexit_UP,mainmenuexit_DOWN,"Exit",mainmenuexitclick);
-		mainmenu.addImage(0,606,mainmenucopyright);
-		mainmenu.addImage(575,606,mainmenuversion);
-	menuoptions = Menu(); // options menu
-	//TODO: Load option gui elements
-	menumulti = Menu();
-	//TODO: Load multiplayer gui elements
-	menuingame = Menu();
-	//TODO: load ingamemenu gui elements
-	menucutscene = Menu();
-	//TODO: load cutscene gui elements
-	menushop = Menu();
-	//TODO: load menushot gui elements
-	menuinvintory = Menu();
-	//TODO: load menuinvintory gui elements
-	menusaveload = Menu();
-	//TODO: load saveload gui elements
-	menuworldmap = Menu();
-	//TODO: load menuworldmap gui elements
+		mainmenu = Menu(); //mainmenu
+		logHelperMessage(INFO,1,"Creating mainmenu");
+		//load images.
+			ALLEGRO_BITMAP* mainmenubg = load_image("Images\\Menus\\main\\bg.png");
+			ALLEGRO_BITMAP* mainmenutitle = load_image("Images\\Menus\\main\\title.png");
+			ALLEGRO_BITMAP* mainmenusingle_UP = load_image("Images\\Menus\\main\\single_up.png");
+			ALLEGRO_BITMAP* mainmenusingle_DOWN = load_image("Images\\Menus\\main\\single_down.png");
+			ALLEGRO_BITMAP* mainmenumulti = load_image("Images\\Menus\\main\\multi_up.png");
+			ALLEGRO_BITMAP* mainmenuoptions_UP = load_image("Images\\Menus\\main\\options_up.png");
+			ALLEGRO_BITMAP* mainmenuoptions_DOWN = load_image("Images\\Menus\\main\\options_down.png");
+			ALLEGRO_BITMAP* mainmenuexit_UP = load_image("Images\\Menus\\main\\exit_up.png");
+			ALLEGRO_BITMAP* mainmenuexit_DOWN = load_image("Images\\Menus\\main\\exit_down.png");
+			ALLEGRO_BITMAP* mainmenucopyright = load_image("Images\\Menus\\main\\copywrite.png");
+			ALLEGRO_BITMAP* mainmenuversion = load_image("Images\\Menus\\main\\version.png");
+		//create button pointer functions
+			void(*mainmenusingleclick)() = &mainMenuClickSingle;
+			void(*mainmenumulticlick)() = &mainMenuClickMulti;
+			void(*mainmenuoptionclick)() = &mainMenuClickOption;
+			void(*mainmenuexitclick)() = &mainMenuClickExit;
+		//add buttons
+			mainmenu.addImage(0,0,mainmenubg);
+			mainmenu.addImage(112,60,mainmenutitle);
+			mainmenu.addButton(266,350,mainmenusingle_UP,mainmenusingle_DOWN,"Single",mainmenusingleclick);
+			mainmenu.addImage(266,414,mainmenumulti);//TODO:multiplayer button
+			mainmenu.addButton(266,480,mainmenuoptions_UP,mainmenuoptions_DOWN,"Options",mainmenuoptionclick);
+			mainmenu.addButton(266,545,mainmenuexit_UP,mainmenuexit_DOWN,"Exit",mainmenuexitclick);
+			mainmenu.addImage(0,606,mainmenucopyright);
+			mainmenu.addImage(575,606,mainmenuversion);
+	//optionsmenu
+		menuoptions = Menu(); // options menu
+		//TODO: Load option gui elements
+	//menuoverworld
+		menuoverworld = Menu();
+		//load images
+			ALLEGRO_BITMAP* overworldmenubg = load_image("Images\\Menus\\overworld\\bg.png");
+			ALLEGRO_BITMAP* overworlddung_UP = load_image("Images\\Menus\\overworld\\dng.png");
+			ALLEGRO_BITMAP* overworlddung1_DOWN = load_image("Images\\Menus\\overworld\\dng1.png");
+			ALLEGRO_BITMAP* overworlddung2_DOWN = load_image("Images\\Menus\\overworld\\dng2.png");
+			ALLEGRO_BITMAP* overworlddung3_DOWN = load_image("Images\\Menus\\overworld\\dng3.png");
+		//asign function pointers
+			void(*overworldmenuclickdung1)() = &overworldMenuClickDung1;
+			void(*overworldmenuclickdung2)() = &overworldMenuClickDung2;
+			void(*overworldmenuclickdung3)() = &overworldMenuClickDung3;
+		//add buttons
+			menuoverworld.addImage(0,0,overworldmenubg);
+			menuoverworld.addButton(107,465,overworlddung_UP,overworlddung1_DOWN,"dung1",overworldMenuClickDung1);
+			menuoverworld.addButton(448,529,overworlddung_UP,overworlddung2_DOWN,"dung2",overworldMenuClickDung2);
+			menuoverworld.addButton(685,606,overworlddung_UP,overworlddung3_DOWN,"dung3",overworldMenuClickDung3);
+		//TODO: Load overworld menu gui elements
+	//menumulti
+		menumulti = Menu();
+		//TODO: Load multiplayer gui elements
+	//menuingame
+		menuingame = Menu();
+		//TODO: load ingamemenu gui elements
+	//menucutscene
+		menucutscene = Menu();
+		//TODO: load cutscene gui elements
+	//menu shop
+		menushop = Menu();
+		//TODO: load menushot gui elements
+	//menu invintory
+		menuinvintory = Menu();
+		//TODO: load menuinvintory gui elements
+	//menusaveload
+		menusaveload = Menu();
+		//TODO: load saveload gui elements
 }

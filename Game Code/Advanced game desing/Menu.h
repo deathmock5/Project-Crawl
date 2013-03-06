@@ -28,21 +28,31 @@ public:
 	void acitonClick();
 	void addButton(float x, float y, ALLEGRO_BITMAP *imageup,ALLEGRO_BITMAP *imagedown,string action,void (*function)());
 	void addImage(float x, float y, ALLEGRO_BITMAP *image);
+	void addText(float,float,string,string*);
+	void removeButton(string);
 	void mouseLocation(int,int);
 private:
+	//button
 	int buttons;
 	vector<string> btnactions;
-	//std::vector<void (**)()> buttonactionpointers;
 	std::vector<void (*)()> buttonactionpointers;
 	vector<ALLEGRO_BITMAP*> btnimages;
 	vector<ALLEGRO_BITMAP*> btnimagesdown;
-	vector<int> btnxpos;
-	vector<int> btnypos;
+	vector<short> btnxpos;
+	vector<short> btnypos;
 	vector<bool> btnisdown;
-	vector<ALLEGRO_BITMAP*> images;
-	vector<int> imagexpos;
-	vector<int> imageypos;
 	string curenthoverdoption;
+
+	//image
+	vector<ALLEGRO_BITMAP*> images;
+	vector<short> imagexpos;
+	vector<short> imageypos;
+
+	//text
+	vector<string> textvars;
+	vector<string> textuniqueID;
+	vector<short> textxpos;
+	vector<short> textypos;
 };
 #endif
 
