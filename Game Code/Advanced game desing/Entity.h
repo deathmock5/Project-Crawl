@@ -10,11 +10,21 @@
 #endif // !_allegro_h_
 #ifndef _Entity_h_
 #define _Entity_h_
+#include <iostream>
+#include <cstring>
+#include <fstream>
+#include <cstdlib>
+#include <string>
+#include <vector>
+#include <sstream>
+
 #include "Player.h"
 #include "Map.h"
 #include "SystemVars.h"
 class Player;
 class Map;
+using namespace std;
+using std::ifstream;
 class Entity
 {
 public:
@@ -34,6 +44,7 @@ public:
 	bool exists();
 private:
 	void load(string);
+
 	bool hasbeeninited;
 	ALLEGRO_BITMAP* tileset;
 	int tilesizewidth;

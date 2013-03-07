@@ -28,7 +28,7 @@ class Map
 {
 public:
 	Map();
-	Map(string,int);
+	Map(string,string,int);
 	Map(ALLEGRO_BITMAP*,ALLEGRO_BITMAP*,ALLEGRO_SAMPLE*);
 	void draw();
 	void drawLight(ALLEGRO_DISPLAY*);
@@ -38,6 +38,7 @@ public:
 	void show();
 	void hide();
 	std::vector<Player> players;
+	void spawnEnttityInMap(Entity,int,int);
 private:
 	float originx;
 	float originy;
@@ -60,6 +61,5 @@ private:
 	int curentplayers;
 	//methods
 	//string myconcat(string,string,string);
-	void spawnEnttityInMap(string,int,int);
 };
 #endif // !_Map_h_

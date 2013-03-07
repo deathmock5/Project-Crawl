@@ -1,4 +1,6 @@
 #include "Entity.h"
+using namespace std;
+using std::ifstream;
 Entity::Entity()
 {
 	//TODO: make constants
@@ -11,6 +13,7 @@ Entity::Entity(float spawnx,float spawny)
 Entity::Entity(string file)
 {
 	load(file);
+	hasbeeninited = true;
 }
 Entity::Entity(string nam,ALLEGRO_BITMAP* ts,int w,int h,ALLEGRO_SAMPLE* atksnd,ALLEGRO_SAMPLE* dmgsnd,ATACKSTYLE sty,int hp,int dmg)
 {
@@ -149,5 +152,57 @@ bool Entity::exists()
 }
 void Entity::load(string file)
 {
-
+	ifstream monsterdata;
+	monsterdata.open(myconcat(2,"Monster\\",file.c_str()));
+	if(!monsterdata.fail())
+	{
+		logHelperMessage(OK,3,"File: '","Monster\\",file.c_str(),"' loaded.");
+		char next = '\n';
+        string filemonname;
+		string filemontileset;
+		string filemonwidth;
+		string filemonheight;
+		string filemonatksnd;
+		string filemonhitsnd;
+		string filemonatkstyle;
+		string filemonhpbace;
+		string filemondmgbace;
+		monsterdata.get(next);
+		monsterdata.get(next);
+		monsterdata.get(next);
+		monsterdata >> filemonname;
+		monsterdata >> filemontileset;
+		monsterdata >> filemonwidth;
+		monsterdata >> filemonheight;
+		monsterdata >> filemonatksnd;
+		monsterdata >> filemonhitsnd;
+		monsterdata >> filemonhpbace;
+		monsterdata >> filemondmgbace;
+		tileset = load_image(myconcat(2,"Monster\\",filemontileset.c_str()));
+		tilesizewidth = atoi(filemonwidth.c_str());
+		tilesizeheight = atoi(filemonheight.c_str());
+		monatacknoise = load_sound(myconcat(2,"Monster\\",filemonatksnd.c_str()));
+		mondamagesnd = load_sound(myconcat(2,"Monster\\",filemonhitsnd.c_str()));
+		//TODO: Get monster atack style
+		hpbace = atoi(filemonhpbace.c_str());
+		damagebace = atoi(filemondmgbace.c_str());
+		isliveingcreature = true;
+		alive = true;
+		framecount = 0;
+		animation = STANDING;
+		direction = FORWARD;
+		delay = 0;
+		maxDelay = 1;
+		statechanged = false;
+		posx = 50.0f;
+		posy = 50.0f;
+		speed = 2.0f;
+		velocityx = 1.0f;
+		velocityy = 1.0f;
+		monsterdata.close();
+	}
+	else
+	{
+		logHelperMessage(SEVERE,4,"File: '","Monster\\",file.c_str(),"' failed.");
+	}
 }

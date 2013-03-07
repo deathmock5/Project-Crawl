@@ -5,14 +5,13 @@ using namespace std;
 Map::Map()
 {
 }
-Map::Map(string mystring,int player)
+Map::Map(string mystring,string layout,int player)
 {
-
 	//lvtileset = al_load_bitmap(myconcat("Dungions/" ,mystring, "Sprites.png").c_str());
-	lvtileset = load_image(myconcat("Dungions/" ,mystring, "Sprites.png").c_str());
+	lvtileset = load_image(myconcat("Dungions/" ,mystring, "/Sprites.png").c_str());
 	//TODO: Update to new format
 	//torchlight = al_load_bitmap(myconcat("Images/","LightCore", "Light.png").c_str());
-	torchlight = load_image(myconcat("Images/","LightCore", "Light.png").c_str());
+	torchlight = load_image(myconcat("Images/","LightCore", "/Light.png").c_str());
 	//garbage blocks load1
 	//garbage blocks load2
 	//garbage blocks load3
@@ -46,8 +45,10 @@ Map::Map(string mystring,int player)
 	shadowlayer = al_create_bitmap(800,608);
 	originx = 0;
 	originy = 32.0;
-	curentplayers = player;
+	curentplayers = 1;
 	players.push_back(Player("Player"));
+	logHelperMessage(OK,3,"Map:",mystring.c_str()," Created");
+	hide();
 }
 Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg)
 {
@@ -60,7 +61,7 @@ Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg)
 }
 void Map::draw()
 {
-	//transition logic
+	//TODO: transition logic
 	if(isOnScreen())
 	{
 		for(int r = 0;r < 25;r++)
@@ -117,7 +118,7 @@ void Map::update()
 	{
 		for(int i = 0;i < (int)entitys.size();i++)
 		{
-			entitys[i].update(players,curentplayers,maptiles);
+			//entitys[i].update(players,curentplayers,maptiles);
 		}
 		for(int i = 0;i < curentplayers;i++)
 		{
@@ -136,6 +137,11 @@ void Map::show()
 void Map::hide()
 {
 	onscreen = false;
+}
+void Map::spawnEnttityInMap(Entity thing,int posx, int posy)
+{
+	//TODO: position the entity;
+	entitys.push_back(thing);
 }
 //string Map::myconcat(string folder,string innerfolder,string filename)
 //{

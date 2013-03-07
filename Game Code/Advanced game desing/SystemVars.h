@@ -27,6 +27,7 @@ ALLEGRO_BITMAP* load_image(string);
 ALLEGRO_SAMPLE* load_sound(string);
 void logHelperMessage(loglevel,int, ...);
 string myconcat(string,string,string);
+string myconcat(int,...);
 string getrandommaplayout(bool);
 class SystemVars
 {

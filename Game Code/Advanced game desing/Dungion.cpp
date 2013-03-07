@@ -28,6 +28,8 @@ Dungion::Dungion(void)
 Dungion::Dungion(string dungfile)
 {
 	Load(dungfile);
+	curentroom = 0;
+	maps[curentroom].show();
 }
 
 Dungion::Dungion(Player curentplayer)
@@ -43,25 +45,25 @@ Dungion::~Dungion(void)
 void Dungion::Draw()
 {
 	//TODO: Draw
+	maps[curentroom].draw();
 }
 
 void Dungion::Update()
 {
 	//TODO: Update
+	maps[curentroom].update();
 }
 
 void Dungion::Load(string myfile)
 {
 	//TODO: loadshit.
 	ifstream dungfile;
-	ifstream maptemplate;
-	ifstream monstertemplate;
-	dungfile.open(myfile.c_str());
+	dungfile.open(myconcat(5,"Dungions\\",myfile.c_str(),"\\",myfile.c_str(),".dung"));
 	//dungfile.open(myfile.c_str());
 	
     if(!dungfile.fail())
     {
-		logHelperMessage(OK,3,"File:'",myfile.c_str(),"' open.");
+		logHelperMessage(OK,3,"File:'",myconcat(5,"Dungions\\",myfile.c_str(),"\\",myfile.c_str(),".dung").c_str(),"' open.");
 		char next = '\n';
         string filetileset;
 		string filebgs;
@@ -75,7 +77,7 @@ void Dungion::Load(string myfile)
 		dungfile >> filetileset;
 		filetileset = myconcat("Images\\","TileSets\\",filetileset);
 		dungfile >> filebgs;
-		//filebgs = strcat("Sound\\BGS\\",filebgs.c_str());
+		//TODO: filebgs = strcat("Sound\\BGS\\",filebgs.c_str());
 		dungfile >> filenumrooms;
 		dungfile >> filemon1;
 		dungfile >> filemon2;
@@ -91,12 +93,18 @@ void Dungion::Load(string myfile)
 		bgs = load_sound(filebgs); //Load bgs
         //TODO: get difculty multiplier
         //TODO:		set darkness level bace
-		Entity monster1;
-		Entity monster2;
-			  //monsters.push_back(
-        //TODO:		load monster(s)
-        //TODO:     	load spritesheet
-        //TODO:			load bgs
+		Entity monster1 = Entity(filemon1);
+		Entity monster2 = Entity(filemon2);
+		monsters[0] = monster1;
+		monsters[1] = monster2;
+		for(int i = 0; i < atoi(filenumrooms.c_str());i++)
+		{
+			//get a random room layout
+			Map newmap = Map(myfile.c_str(),getrandommaplayout(false),0);
+			newmap.spawnEnttityInMap(monster1,0,0);
+			//TODO: fill it with monstershizzles.
+			maps.push_back(newmap);
+		}
         //TODO:	get a basic room
         //bool keyneeded = false;
         /*for(rooms)
@@ -105,7 +113,6 @@ void Dungion::Load(string myfile)
             {
                 request new locked door 
                 Map newmap = makenewroom(avalibleRooms,true);
-                
             }
             
         }*/

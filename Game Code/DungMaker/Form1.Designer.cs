@@ -182,7 +182,7 @@
             // FloorTool
             // 
             this.FloorTool.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.FloorTool.Image = global::DungMaker.Properties.Resources.floor;
+            this.FloorTool.Image = global::DungMaker.Properties.Resources.floor1;
             this.FloorTool.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FloorTool.Name = "FloorTool";
             this.FloorTool.Size = new System.Drawing.Size(29, 20);

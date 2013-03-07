@@ -77,4 +77,20 @@ string myconcat(string folder,string innerfolder,string filename)
 	//cout << s << endl;
 	return s;
 }
+string myconcat(int number,...)
+{
+	va_list messages;
+	va_start(messages,number);
+	std::stringstream ss;
+	for(int i = 0;i < number;i++)
+	{
+		ss << va_arg(messages,char *);
+	}
+	std::string s = ss.str();
+	return s;
+}
+string getrandommaplayout(bool)
+{
+	return "thegame";
+}
 #endif

@@ -428,7 +428,7 @@ void overworldMenuClickDung1()
 {
 	//TODO: overworldMenuClickDung1()
 	//mymap = Map("Lv1",1);
-	mydung = Dungion("Dungions\\Lv1\\Lv1.dung");
+	mydung = Dungion("Lv1");
 	curentstate = INGAME;
 }
 void overworldMenuClickDung2()
@@ -542,10 +542,10 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 		{
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
+			//Map* curmap = mydung.reftoCurrentMap();
 			
-			
-			mydung.reftoCurrentMap()->update();
-			mydung.reftoCurrentMap()->draw();
+			mydung.Update();
+			mydung.Draw();
 			mydung.reftoCurrentMap()->drawLight(display);
 			//string action = mymenu.hasScrolledOverOption(pos_x,pos_y);
 			/*if(action != "null")
