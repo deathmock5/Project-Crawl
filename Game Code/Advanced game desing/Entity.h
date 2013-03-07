@@ -20,16 +20,37 @@ class Entity
 public:
 	Entity();
 	Entity(float,float);
+	Entity(string);
+	Entity(string,ALLEGRO_BITMAP*,int,int,ALLEGRO_SAMPLE*,ALLEGRO_SAMPLE*,ATACKSTYLE,int,int);
 	~Entity();
+	void spawnAtLocation(int,int);
 	void draw(float,float);
 	void travelToPos(float tarx,float tary,float speed);
-	void update(std::vector<Player>,int,Map);
+	void update(std::vector<Player>,int,Tile[25][19]);
 	bool isLiveingCreature();
 	bool isAlive();
 	bool isSolid();
 	void drawLight();
 	bool exists();
 private:
+	void load(string);
+	bool hasbeeninited;
+	ALLEGRO_BITMAP* tileset;
+	int tilesizewidth;
+	int tilesizeheight;
+	ALLEGRO_SAMPLE* monatacknoise;
+	ALLEGRO_SAMPLE* mondamagesnd;
+	ATACKSTYLE style;
+	int hpbace;
+	int damagebace;
+	bool isliveingcreature;
+	bool alive;
+	int framecount;
+	FRAMESET animation;
+	DIRECTION direction;
+	int delay;
+	int maxDelay;
+	bool statechanged;
 	float posx;
 	float posy;
 	float speed;

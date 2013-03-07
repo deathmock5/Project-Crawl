@@ -49,6 +49,15 @@ Map::Map(string mystring,int player)
 	curentplayers = player;
 	players.push_back(Player("Player"));
 }
+Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg)
+{
+	originx = 0;
+	originy = 0;
+	onscreen = false;
+	lvtileset = tls;
+	torchlight = light;
+	bgs = bg;
+}
 void Map::draw()
 {
 	//transition logic
@@ -102,13 +111,13 @@ void Map::drawLight(ALLEGRO_DISPLAY* display)
 void Map::moveMapToPos(float posx,float posy,float speed)
 {
 }
-void Map::update(Map &thismap)
+void Map::update()
 {
 	if(isOnScreen())
 	{
 		for(int i = 0;i < (int)entitys.size();i++)
 		{
-			entitys[i].update(players,curentplayers,thismap);
+			entitys[i].update(players,curentplayers,maptiles);
 		}
 		for(int i = 0;i < curentplayers;i++)
 		{
@@ -128,11 +137,11 @@ void Map::hide()
 {
 	onscreen = false;
 }
-string Map::myconcat(string folder,string innerfolder,string filename)
-{
-	std::stringstream ss;
-	ss << folder << innerfolder << "/" << filename;
-	std::string s = ss.str();
-	//cout << s << endl;
-	return s;
-}
+//string Map::myconcat(string folder,string innerfolder,string filename)
+//{
+//	std::stringstream ss;
+//	ss << folder << innerfolder << "/" << filename;
+//	std::string s = ss.str();
+//	//cout << s << endl;
+//	return s;
+//}

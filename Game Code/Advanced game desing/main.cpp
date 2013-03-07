@@ -24,6 +24,7 @@ using namespace std;
 #include "Player.h"
 #include "Map.h"
 #include "Menu.h"
+#include "Dungion.h"
 enum keys{BUTTONCLICKED,STATECHANGED};
 bool buttonPressed[2][4] = {{false,false,false,false},
 							{false,false,false,false}};
@@ -81,7 +82,7 @@ void gameGUISaveLoad(ALLEGRO_EVENT);
 void initMenus();
 
 //game variables
-Map mymap;
+Dungion mydung;
 gameGuiState curentstate;
 bool done = false;
 bool redraw = false;
@@ -94,7 +95,7 @@ int pos_y = 0;
 int main(int argc, char **argv)
 {
 	ALLEGRO_SAMPLE *bgs;
-	
+	mydung = Dungion();
 	if(al_init())logHelperMessage(OK,1,"Initilised Allegro 5.0.8");
 	else{ logHelperMessage(SEVERE,1,"Failed to initilise Allegro 5.0.8"); return -1;}
 	
@@ -125,7 +126,7 @@ int main(int argc, char **argv)
 	al_reserve_samples(100);
 	//bgs = al_load_sample("snd\\01.wav");
 	//al_play_sample(bgs,0.5f,0,1,ALLEGRO_PLAYMODE_LOOP,NULL);
-	mymap = Map("Lv1",1);
+	
 	initMenus();
 	curentstate = MAIN;
 	al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
@@ -220,47 +221,47 @@ void buttonHelper()
 			{
 				if(buttonPressed[BUTTONCLICKED][BACK] && buttonPressed[STATECHANGED][BACK])
 				{
-					mymap.players[0].processInput(WALK,BACK);
+					mydung.reftoCurrentMap()->players[0].processInput(WALK,BACK);
 				}
 				else if(buttonPressed[BUTTONCLICKED][LEFT] && buttonPressed[STATECHANGED][LEFT])
 				{
-					mymap.players[0].processInput(WALK,LEFT);
+					mydung.reftoCurrentMap()->players[0].processInput(WALK,LEFT);
 				}
 				else if(buttonPressed[BUTTONCLICKED][RIGHT] && buttonPressed[STATECHANGED][RIGHT])
 				{
-					mymap.players[0].processInput(WALK,RIGHT);
+					mydung.reftoCurrentMap()->players[0].processInput(WALK,RIGHT);
 				}
 				else if(buttonPressed[BUTTONCLICKED][FORWARD] && buttonPressed[STATECHANGED][FORWARD])
 				{
-					mymap.players[0].processInput(WALK,FORWARD);
+					mydung.reftoCurrentMap()->players[0].processInput(WALK,FORWARD);
 				}
 				else if(noOtherButtonsArePressed(BACK))
 				{
-					mymap.players[0].processInput(WALK,BACK);
+					mydung.reftoCurrentMap()->players[0].processInput(WALK,BACK);
 				}
 				else if(noOtherButtonsArePressed(LEFT))
 				{
-					mymap.players[0].processInput(WALK,LEFT);
+					mydung.reftoCurrentMap()->players[0].processInput(WALK,LEFT);
 				}
 				else if(noOtherButtonsArePressed(RIGHT))
 				{
-					mymap.players[0].processInput(WALK,RIGHT);
+					mydung.reftoCurrentMap()->players[0].processInput(WALK,RIGHT);
 				}
 				else if(noOtherButtonsArePressed(FORWARD))
 				{
-					mymap.players[0].processInput(WALK,FORWARD);
+					mydung.reftoCurrentMap()->players[0].processInput(WALK,FORWARD);
 				}
 			}
 			else
 			{
 				if(buttonPressed[STATECHANGED][BACK])
-					mymap.players[0].processInput(STAND,BACK);
+					mydung.reftoCurrentMap()->players[0].processInput(STAND,BACK);
 				else if(buttonPressed[STATECHANGED][LEFT])
-					mymap.players[0].processInput(STAND,LEFT);
+					mydung.reftoCurrentMap()->players[0].processInput(STAND,LEFT);
 				else if(buttonPressed[STATECHANGED][RIGHT])
-					mymap.players[0].processInput(STAND,RIGHT);
+					mydung.reftoCurrentMap()->players[0].processInput(STAND,RIGHT);
 				else if(buttonPressed[STATECHANGED][FORWARD])
-					mymap.players[0].processInput(STAND,FORWARD);
+					mydung.reftoCurrentMap()->players[0].processInput(STAND,FORWARD);
 			}
 		buttonPressed[STATECHANGED][BACK] = false;
 		buttonPressed[STATECHANGED][RIGHT] = false;
@@ -426,6 +427,9 @@ void gameGUIOverworld(ALLEGRO_EVENT ev)
 void overworldMenuClickDung1()
 {
 	//TODO: overworldMenuClickDung1()
+	//mymap = Map("Lv1",1);
+	mydung = Dungion("Dungions\\Lv1\\Lv1.dung");
+	curentstate = INGAME;
 }
 void overworldMenuClickDung2()
 {
@@ -523,7 +527,7 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
 			//TODO: Handle buttons on mouse clicked
-			mymap.players[0].processInput(ATACK,mymap.players[0].getFaceingDir(pos_x,pos_y));
+			mydung.reftoCurrentMap()->players[0].processInput(ATACK,mydung.reftoCurrentMap()->players[0].getFaceingDir(pos_x,pos_y));
 		}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 		{
@@ -540,9 +544,9 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 			al_clear_to_color(al_map_rgb(0,0,0));
 			
 			
-			mymap.update(mymap);
-			mymap.draw();
-			mymap.drawLight(display);
+			mydung.reftoCurrentMap()->update();
+			mydung.reftoCurrentMap()->draw();
+			mydung.reftoCurrentMap()->drawLight(display);
 			//string action = mymenu.hasScrolledOverOption(pos_x,pos_y);
 			/*if(action != "null")
 			{

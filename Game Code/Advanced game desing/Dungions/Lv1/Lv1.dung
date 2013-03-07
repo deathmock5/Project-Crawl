@@ -1,6 +1,6 @@
 ﻿TileSet.png
-bgs
-num rooms
-monster1
-monster2
-boss
+music.wav
+4
+Slime.dngmon
+Skelly.dngmon
+Crag.gndbsm

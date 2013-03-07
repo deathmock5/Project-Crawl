@@ -29,10 +29,11 @@ class Map
 public:
 	Map();
 	Map(string,int);
+	Map(ALLEGRO_BITMAP*,ALLEGRO_BITMAP*,ALLEGRO_SAMPLE*);
 	void draw();
 	void drawLight(ALLEGRO_DISPLAY*);
 	void moveMapToPos(float posx,float posy,float speed);
-	void update(Map&);
+	void update();
 	bool isOnScreen();
 	void show();
 	void hide();
@@ -49,6 +50,7 @@ private:
 	ALLEGRO_BITMAP *gorelayer;
 
 	ALLEGRO_BITMAP *torchlight;
+	ALLEGRO_SAMPLE *bgs;
 	//tiles
 	Tile maptiles[25][19];
 	//enemys
@@ -57,7 +59,7 @@ private:
 	
 	int curentplayers;
 	//methods
-	string myconcat(string,string,string);
+	//string myconcat(string,string,string);
 	void spawnEnttityInMap(string,int,int);
 };
 #endif // !_Map_h_

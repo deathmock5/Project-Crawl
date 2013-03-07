@@ -13,13 +13,21 @@
 #define _systemvars_h_
 //includes
 #include <iostream>
+#include <cstdlib>
+#include <sstream>
+#include <iostream>
 using namespace std;
 //enums
 const enum loglevel{INFO,WARNING,OK,SEVERE};
-
-
+const enum ATACKSTYLE{MAGIC,MELEE,RANGED}; 
+const enum ACTIONS{STAND,WALK,ATACK};
+const enum FRAMESET{ULTI = 0,WAND = 1, WALKING = 2,SLASH = 3,BOW = 4,DEAD = 5,STANDING = 6};
+const enum DIRECTION{BACK,LEFT,FORWARD,RIGHT};
 ALLEGRO_BITMAP* load_image(string);
+ALLEGRO_SAMPLE* load_sound(string);
 void logHelperMessage(loglevel,int, ...);
+string myconcat(string,string,string);
+string getrandommaplayout(bool);
 class SystemVars
 {
 public:

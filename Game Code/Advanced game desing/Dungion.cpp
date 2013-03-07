@@ -1,4 +1,6 @@
 #include "Dungion.h"
+using namespace std;
+using std::ifstream;
 //methods
 //	Dungion(void);
 //	Dungion(string);//path to dungfile
@@ -53,28 +55,45 @@ void Dungion::Load(string myfile)
 	//TODO: loadshit.
 	ifstream dungfile;
 	ifstream maptemplate;
-	dungfile.open(myfile);
+	ifstream monstertemplate;
+	dungfile.open(myfile.c_str());
+	//dungfile.open(myfile.c_str());
 	
-    if(dungfile.is_open())
+    if(!dungfile.fail())
     {
-        char * filetileset;
-		char * filebgs;
-		char * filenumrooms;
-		char * filemon1;
-		char * filemon2;
-		char * fileboss;
+		logHelperMessage(OK,3,"File:'",myfile.c_str(),"' open.");
+		char next = '\n';
+        string filetileset;
+		string filebgs;
+		string filenumrooms;
+		string filemon1;
+		string filemon2;
+		string fileboss;
+		dungfile.get(next);
+		dungfile.get(next);
+		dungfile.get(next);
 		dungfile >> filetileset;
-		filetileset = strcat("Images\\TileSets\\",filetileset);
+		filetileset = myconcat("Images\\","TileSets\\",filetileset);
 		dungfile >> filebgs;
-		filebgs = strcat("Sound\\BGS\\",filebgs);
+		//filebgs = strcat("Sound\\BGS\\",filebgs.c_str());
 		dungfile >> filenumrooms;
 		dungfile >> filemon1;
 		dungfile >> filemon2;
 		dungfile >> fileboss;
-		tileset = al_load_bitmap(filetileset);	//load tileset
-        //TODO: Load bgs
+		logHelperMessage(INFO,1,filetileset.c_str());
+		logHelperMessage(INFO,1,filebgs.c_str());
+		logHelperMessage(INFO,1,filenumrooms.c_str());
+		logHelperMessage(INFO,1,filemon1.c_str());
+		logHelperMessage(INFO,1,filemon2.c_str());
+		logHelperMessage(INFO,1,fileboss.c_str());
+		dungfile.close();//close file
+		tileset = load_image(filetileset);//load tileset
+		bgs = load_sound(filebgs); //Load bgs
         //TODO: get difculty multiplier
         //TODO:		set darkness level bace
+		Entity monster1;
+		Entity monster2;
+			  //monsters.push_back(
         //TODO:		load monster(s)
         //TODO:     	load spritesheet
         //TODO:			load bgs
@@ -97,4 +116,9 @@ void Dungion::Load(string myfile)
         //cout << "Unable to open file:" << myfile << endl;
     }
     
+}
+
+Map* Dungion::reftoCurrentMap()
+{
+	return &maps[curentroom];
 }

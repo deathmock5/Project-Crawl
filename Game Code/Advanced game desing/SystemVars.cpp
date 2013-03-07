@@ -3,6 +3,40 @@
 #define _systemvars_cpp_
 
 
+
+ALLEGRO_BITMAP* load_image(string path)
+{
+	ALLEGRO_BITMAP* file;
+	try
+	{
+		file = al_load_bitmap(path.c_str());
+		//cout << "The file:'" << path.c_str() << "' loaded" << endl;
+		if(file == NULL)
+			throw 1;
+		logHelperMessage(OK,3,"The file:'",path.c_str(),"' loaded.");
+	}
+	catch(...)
+	{
+		logHelperMessage(SEVERE,3,"The file:'",path.c_str(),"' was not found.");
+	}
+	return file;
+}
+ALLEGRO_SAMPLE* load_sound(string path)
+{
+	ALLEGRO_SAMPLE* file;
+	try
+	{
+		file = al_load_sample(path.c_str());
+		if(file == NULL)
+			throw 1;
+		logHelperMessage(OK,3,"The file'",path.c_str(),"' loaded.");
+	}
+	catch(...)
+	{
+		logHelperMessage(SEVERE,3,"The file:'",path.c_str(),"' failed to load.");
+	}
+	return file;
+}
 void logHelperMessage(loglevel severity,int number, ...)
 {
 	va_list messages;
@@ -35,21 +69,12 @@ void logHelperMessage(loglevel severity,int number, ...)
 	}
 	cout << endl;
 }
-ALLEGRO_BITMAP* load_image(string path)
+string myconcat(string folder,string innerfolder,string filename)
 {
-	ALLEGRO_BITMAP* file;
-	try
-	{
-		file = al_load_bitmap(path.c_str());
-		//cout << "The file:'" << path.c_str() << "' loaded" << endl;
-		if(file == NULL)
-			throw 1;
-		logHelperMessage(OK,3,"The file:'",path.c_str(),"' loaded.");
-	}
-	catch(...)
-	{
-		logHelperMessage(SEVERE,3,"The file:'",path.c_str(),"' was not found.");
-	}
-	return file;
+	std::stringstream ss;
+	ss << folder << innerfolder << filename;
+	std::string s = ss.str();
+	//cout << s << endl;
+	return s;
 }
 #endif

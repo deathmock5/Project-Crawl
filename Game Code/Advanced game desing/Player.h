@@ -22,15 +22,14 @@
 #include "Entity.h"
 #include "Tile.h"
 #include "Item.h"
+#include "SystemVars.h"
 
 using namespace std;
 class Entity;
 class Tile;
 class Item;
 
-const enum ACTIONS{STAND,WALK,ATACK};
-const enum FRAMESET{ULTI = 0,MAGIC = 1, WALKING = 2,SLASH = 3,BOW = 4,DEAD = 5,STANDING = 6};
-const enum DIRECTION{BACK,LEFT,FORWARD,RIGHT};
+
 const int frameSet[7][5] = {{0,1,2,3,7},
 							{4,5,6,7,8},
 							{8,9,10,11,8},

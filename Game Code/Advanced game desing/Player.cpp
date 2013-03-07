@@ -11,6 +11,7 @@ using namespace std;
 							{20,20,20,20,5}};*/
 Player::Player()
 {
+
 }
 Player::Player(string username)
 {
@@ -20,7 +21,7 @@ Player::Player(string username)
 	posx = 60;
 	posy = 60;
 	tilesize = 64.0f;
-	tileset = al_load_bitmap("Images\\mainChar.png");
+	tileset = load_image("Images\\mainChar.png");
 	direction = FORWARD;
 	delay = 0;
 	maxDelay = 1;
@@ -57,7 +58,7 @@ void Player::update(vector<Entity> ents,Tile tiles[25][19])
 		case ULTI:
 
 			break;
-		case MAGIC:
+		case WAND:
 			break;
 		case WALKING:
 			switch (direction)
