@@ -1,7 +1,7 @@
 SchoolADVGDProject
 ==================
 
-<p>A 2D top down dungeion crawler, winwich you fight your way through darkening levels to find your family</a>
+<p>A 2D top down dungeion crawler, in which you fight your way through darkening levels to find your family</a>
 
 <p><b>Created by:</b></p>
 <p><a href="mailto:wjacobsiv@gmail.com">Wesley Jacobs</a> </p>
