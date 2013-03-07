@@ -35,18 +35,18 @@ namespace DungMaker
             InitializeComponent();
             try
             {
-                floortile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\floor.png", true);
-                walltile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\wall.png", true);
-                walltilebreakable = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\break.png", true);
-                treasuretile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\treasure.png", true);
-                pottile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\pot.png", true);
-                traptile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\trap.png", true);
-                torchtile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\torch.png", true);
-                lowlvenemytile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\low.png", true);
-                midlvenemytile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\mid.png", true);
-                highlvenemytile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\high.png", true);
-                watertile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\water.png", true);
-                bosstile = System.Drawing.Image.FromFile(Directory.GetCurrentDirectory() + "\\Place\\boss.png", true);
+                floortile = FloorTool.Image;
+                walltile = walltool.Image;
+                walltilebreakable = breakablewalltool.Image;
+                treasuretile = treasurechesttool.Image;
+                pottile = pottool.Image;
+                traptile = trapfloortool.Image;
+                torchtile = torchtool.Image;
+                lowlvenemytile = lowlvtool.Image;
+                midlvenemytile = midlvtool.Image;
+                highlvenemytile = highlvtool.Image;
+                watertile = watertool.Image;
+                bosstile = bosstool.Image;
             }
             catch (Exception e)
             {
