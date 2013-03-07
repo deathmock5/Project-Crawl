@@ -1,4 +1,0 @@
-Name: Skeleton archer
-HP: 20
-type: Ranged
-Sprite sheets: Movement (sword_skeleton_walk), Attack (bow_skeleton)

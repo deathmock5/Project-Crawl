@@ -1,6 +1,0 @@
-Name: Goblin archer
-HP: 40
-Type: Ranged
-Sprite sheet: pubdlcnt.php
-
-//side note animations need to be seperated in the file.
