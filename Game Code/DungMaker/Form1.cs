@@ -47,6 +47,7 @@ namespace DungMaker
                 highlvenemytile = highlvtool.Image;
                 watertile = watertool.Image;
                 bosstile = bosstool.Image;
+                
             }
             catch (Exception e)
             {
@@ -69,6 +70,46 @@ namespace DungMaker
             toolname.Text = "Floor";
         }
 
+        public Form1(string file)
+        {
+            InitializeComponent();
+            try
+            {
+                floortile = FloorTool.Image;
+                walltile = walltool.Image;
+                walltilebreakable = breakablewalltool.Image;
+                treasuretile = treasurechesttool.Image;
+                pottile = pottool.Image;
+                traptile = trapfloortool.Image;
+                torchtile = torchtool.Image;
+                lowlvenemytile = lowlvtool.Image;
+                midlvenemytile = midlvtool.Image;
+                highlvenemytile = highlvtool.Image;
+                watertile = watertool.Image;
+                bosstile = bosstool.Image;
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            for (int r = 0; r < 19; r++)
+            {
+                for (int c = 0; c < 25; c++)
+                {
+                    tiles[r, c] = new PictureBox();
+                    tiles[r, c].Size = new Size(itempannel.Size.Width / 25, itempannel.Size.Height / 19);
+                    tiles[r, c].Location = new Point((itempannel.Size.Width / 25) * c, (itempannel.Size.Height / 19) * r);
+                    tiles[r, c].SizeMode = PictureBoxSizeMode.StretchImage;
+                    tiles[r, c].Click += new System.EventHandler(this.tileClick);
+                    tiles[r, c].Tag = r + "," + c;
+                    itempannel.Controls.Add(tiles[r, c]);
+                }
+            }
+            filename.Text = "No File Selected";
+            toolname.Text = "Floor";
+            Openfile(file);
+        }
         private void setDungImages()
         {
             for (int r = 0; r < 19; r++)
@@ -202,21 +243,7 @@ namespace DungMaker
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string file = openFileDialog1.FileName;
-                System.IO.StreamReader sr = new
-                   System.IO.StreamReader(file);
-                for (int r = 0; r < 19; r++)
-                {
-                    string var = sr.ReadLine();
-                    for (int c = 0; c < 25; c++)
-                    {
-                        tilevars[r,c] = var[c];
-                    }
-                }
-                filename.Text = file;
-                filename.ToolTipText = file;
-                toolname.Text = "Floor";
-                sr.Close();
-                setDungImages();
+                Openfile(file);
             }
         }
 
@@ -321,5 +348,23 @@ namespace DungMaker
             curenttool = tool.BOSS;
         }
 
+        private void Openfile(string file)
+        {
+            System.IO.StreamReader sr = new
+               System.IO.StreamReader(file);
+            for (int r = 0; r < 19; r++)
+            {
+                string var = sr.ReadLine();
+                for (int c = 0; c < 25; c++)
+                {
+                    tilevars[r, c] = var[c];
+                }
+            }
+            filename.Text = file;
+            filename.ToolTipText = file;
+            toolname.Text = "Floor";
+            sr.Close();
+            setDungImages();
+        }
     }
 }

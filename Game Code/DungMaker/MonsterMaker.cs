@@ -17,16 +17,28 @@ namespace DungMaker
         {
             InitializeComponent();
             spritePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            spritePictureBox.Tag = null;
+            monSfxA.Tag = null;
+            monSfxH.Tag = null;
+        }
+
+        public MonsterMaker(string file)
+        {
+            InitializeComponent();
+            spritePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            spritePictureBox.Tag = null;
+            monSfxA.Tag = null;
+            monSfxH.Tag = null;
+            Openfile(file);
         }
 
         private void spritePictureBox_Click(object sender, EventArgs e)
         {
-            DialogResult result = openFileDialog2.ShowDialog();
-            string file = openFileDialog2.FileName;
+            DialogResult result = openSpriteFile.ShowDialog();
+            string file = openSpriteFile.FileName;
             if (result == DialogResult.OK)
             {
-                System.IO.StreamReader sr = new
-               System.IO.StreamReader(file);
+                System.IO.StreamReader sr = new System.IO.StreamReader(file);
                 spritePictureBox.Image = Bitmap.FromFile(file);
                 spritePictureBox.Tag = file;
                 sr.Close();
@@ -35,69 +47,117 @@ namespace DungMaker
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = saveFileDialog1.ShowDialog();
+            DialogResult result = saveDngmnFile.ShowDialog();
             if (result == DialogResult.OK)
             {
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(saveFileDialog1.FileName);
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(saveDngmnFile.FileName);
                 /*
-                Name:Slime
-                Tile:Slime.png
-                Size:32.0
-                SfxAtk:splat.ogg
-                SfxHit:splat.ogg
-                HpBace:25
-                DamageBace:15
+                    Name:Slime
+                    Tile:Slime.png
+                    SizeH:32.0
+                    SizeW:32.0
+                    SfxAtk:splat.wav
+                    SfxHit:whack.wav
+                    HpBace:25
+                    DamageBace:15
+                    AtackStyle:melee
                 */
                 sw.WriteLine(monName.Text);
                 sw.WriteLine(monName.Text + ".png");
                 sw.WriteLine(monTileSizeW.Text);
                 sw.WriteLine(monTileSizeH.Text);
-                sw.WriteLine(monSfxA.Text);
-                //copy audiofile to dir
-                sw.WriteLine(monSfxH.Text);
+                sw.WriteLine(monName.Text + "atk" + getFileExtension(monSfxA.Text));
+                sw.WriteLine(monName.Text + "hit" + getFileExtension(monSfxH.Text));
                 sw.WriteLine(monHp.Text);
                 sw.WriteLine(monDamage.Text);
-                System.IO.File.Copy(spritePictureBox.Tag.ToString(), saveFileDialog1.FileName.Substring(0, saveFileDialog1.FileName.LastIndexOf("\\") + 1) + monName.Text.Replace(".dngmn", "") + ".png");
+                sw.WriteLine(monAtkStyle.Text);
+                if (spritePictureBox.Tag != null)
+                {
+                    System.IO.File.Copy(spritePictureBox.Tag.ToString(), saveDngmnFile.FileName.Substring(0, saveDngmnFile.FileName.LastIndexOf("\\") + 1) + monName.Text.Replace(".dngmn", "") + ".png");
+                }
+                if (monSfxA != null)
+                {
+                    System.IO.File.Copy(monSfxA.Tag.ToString(), saveDngmnFile.FileName.Substring(0, saveDngmnFile.FileName.LastIndexOf("\\") + 1) + monName.Text.Replace(".dngmn", "") + "atk" + getFileExtension(monSfxA.Tag.ToString()));
+                }
+                if (monSfxH != null)
+                {
+                    System.IO.File.Copy(monSfxH.Tag.ToString(), saveDngmnFile.FileName.Substring(0, saveDngmnFile.FileName.LastIndexOf("\\") + 1) + monName.Text.Replace(".dngmn", "") + "hit" + getFileExtension(monSfxH.Tag.ToString()));
+                }
+               //TODO: update so resaveing dosent cause errors
                 sw.Close();
             }
         }
 
         private void openButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = openFileDialog1.ShowDialog();
+            DialogResult result = openDngmnFile.ShowDialog();
             if (result == DialogResult.OK)
             {
-                System.IO.StreamReader sw = new System.IO.StreamReader(openFileDialog1.FileName);
-                /*
-                Name:Slime
-                Tile:Slime.png
-                Size:32.0
-                SfxAtk:splat.ogg
-                SfxHit:splat.ogg
-                HpBace:25
-                DamageBace:15
-                */
-                monName.Text = sw.ReadLine();
-                spritePictureBox.Image = Bitmap.FromFile(openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.LastIndexOf("\\") + 1) + sw.ReadLine());
-                monTileSizeW.Text = sw.ReadLine();
-                monTileSizeH.Text = sw.ReadLine();
-                monSfxA.Text = sw.ReadLine();
-                monSfxH.Text = sw.ReadLine();
-                monHp.Text = sw.ReadLine();
-                monDamage.Text = sw.ReadLine();
-                sw.Close();
+                Openfile(openDngmnFile.FileName);
             }
         }
 
         private void monSfxA_Click(object sender, EventArgs e)
         {
-
+            DialogResult result = openSfxAtk.ShowDialog();
+           
+            if (result == DialogResult.OK)
+            {
+                string file = openSfxAtk.FileName;
+                monSfxA.Tag = file;
+                monSfxA.Text = file.Substring(file.LastIndexOf("/")+1);
+            }
         }
 
         private void monSfxH_Click(object sender, EventArgs e)
         {
-
+            DialogResult result = openSfxHit.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string file = openSfxHit.FileName;
+                monSfxH.Tag = file;
+                monSfxH.Text = file.Substring(file.LastIndexOf("/") + 1);
+            }
         }
 
+        private void Openfile(string file)
+        {
+            System.IO.StreamReader sw = new System.IO.StreamReader(file);
+            /*
+            Name:Slime
+            Tile:Slime.png
+            Size:32.0
+            SfxAtk:splat.ogg
+            SfxHit:splat.ogg
+            HpBace:25
+            DamageBace:15
+            */
+            monName.Text = sw.ReadLine();
+            spritePictureBox.Image = Bitmap.FromFile(file.Substring(0, file.LastIndexOf("\\") + 1) + sw.ReadLine());
+            monTileSizeW.Text = sw.ReadLine();
+            monTileSizeH.Text = sw.ReadLine();
+            monSfxA.Text = sw.ReadLine();
+            monSfxH.Text = sw.ReadLine();
+            monHp.Text = sw.ReadLine();
+            monDamage.Text = sw.ReadLine();
+            monAtkStyle.Text = sw.ReadLine();
+            sw.Close();
+        }
+        private string getFileName(string file)
+        {
+            string name = file.Substring(file.LastIndexOf("/") + 1);
+            name = file.Substring(0, file.LastIndexOf("."));
+            return name;
+        }
+        private string getFileNameWithExtension(string file)
+        {
+            string name = file.Substring(file.LastIndexOf("/") + 1);
+            return name;
+        }
+        private string getFileExtension(string file)
+        {
+            string name = "." + file.Substring(file.LastIndexOf(".") + 1);
+            return name;
+        }
     }
 }

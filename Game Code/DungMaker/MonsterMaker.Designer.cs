@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openDngmnFile = new System.Windows.Forms.OpenFileDialog();
+            this.saveDngmnFile = new System.Windows.Forms.SaveFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.monName = new System.Windows.Forms.TextBox();
             this.monTileSizeW = new System.Windows.Forms.TextBox();
@@ -40,31 +40,32 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.monTileSizeH = new System.Windows.Forms.TextBox();
+            this.monAtkStyle = new System.Windows.Forms.ComboBox();
             this.monSfxH = new System.Windows.Forms.Button();
             this.monSfxA = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.spritePictureBox = new System.Windows.Forms.PictureBox();
-            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.openSpriteFile = new System.Windows.Forms.OpenFileDialog();
             this.openButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
-            this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
-            this.monAtkStyle = new System.Windows.Forms.ComboBox();
-            this.monTileSizeH = new System.Windows.Forms.TextBox();
+            this.openSfxAtk = new System.Windows.Forms.OpenFileDialog();
+            this.openSfxHit = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spritePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // openFileDialog1
+            // openDngmnFile
             // 
-            this.openFileDialog1.DefaultExt = "dngmn";
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.Filter = "Dungeon Monster Files|*.dngmn";
+            this.openDngmnFile.DefaultExt = "dngmn";
+            this.openDngmnFile.FileName = "openFileDialog1";
+            this.openDngmnFile.Filter = "Dungeon Monster Files|*.dngmn";
             // 
-            // saveFileDialog1
+            // saveDngmnFile
             // 
-            this.saveFileDialog1.DefaultExt = "dngmn";
-            this.saveFileDialog1.Filter = "Dungeon Monster File|*.dngmn";
+            this.saveDngmnFile.DefaultExt = "dngmn";
+            this.saveDngmnFile.Filter = "Dungeon Monster File|*.dngmn";
             // 
             // label1
             // 
@@ -161,6 +162,25 @@
             this.panel1.Size = new System.Drawing.Size(230, 199);
             this.panel1.TabIndex = 11;
             // 
+            // monTileSizeH
+            // 
+            this.monTileSizeH.Location = new System.Drawing.Point(152, 36);
+            this.monTileSizeH.Name = "monTileSizeH";
+            this.monTileSizeH.Size = new System.Drawing.Size(73, 20);
+            this.monTileSizeH.TabIndex = 17;
+            // 
+            // monAtkStyle
+            // 
+            this.monAtkStyle.FormattingEnabled = true;
+            this.monAtkStyle.Items.AddRange(new object[] {
+            "Magic",
+            "Melee",
+            "Range"});
+            this.monAtkStyle.Location = new System.Drawing.Point(46, 114);
+            this.monAtkStyle.Name = "monAtkStyle";
+            this.monAtkStyle.Size = new System.Drawing.Size(179, 21);
+            this.monAtkStyle.TabIndex = 16;
+            // 
             // monSfxH
             // 
             this.monSfxH.Location = new System.Drawing.Point(44, 170);
@@ -208,10 +228,10 @@
             this.spritePictureBox.TabStop = false;
             this.spritePictureBox.Click += new System.EventHandler(this.spritePictureBox_Click);
             // 
-            // openFileDialog2
+            // openSpriteFile
             // 
-            this.openFileDialog2.FileName = "openFileDialog2";
-            this.openFileDialog2.Filter = "Images|*.png|*.bmp|*.jpg";
+            this.openSpriteFile.FileName = "openFileDialog2";
+            this.openSpriteFile.Filter = "Images|*.png|*.bmp|*.jpg";
             // 
             // openButton
             // 
@@ -233,28 +253,15 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // openFileDialog3
+            // openSfxAtk
             // 
-            this.openFileDialog3.FileName = "openFileDialog3";
+            this.openSfxAtk.FileName = "openFileDialog4";
+            this.openSfxAtk.Filter = "Sound Files (*.wav)|*.wav";
             // 
-            // monAtkStyle
+            // openSfxHit
             // 
-            this.monAtkStyle.FormattingEnabled = true;
-            this.monAtkStyle.Items.AddRange(new object[] {
-            "Magic",
-            "Melee",
-            "Range"});
-            this.monAtkStyle.Location = new System.Drawing.Point(46, 114);
-            this.monAtkStyle.Name = "monAtkStyle";
-            this.monAtkStyle.Size = new System.Drawing.Size(179, 21);
-            this.monAtkStyle.TabIndex = 16;
-            // 
-            // monTileSizeH
-            // 
-            this.monTileSizeH.Location = new System.Drawing.Point(152, 36);
-            this.monTileSizeH.Name = "monTileSizeH";
-            this.monTileSizeH.Size = new System.Drawing.Size(73, 20);
-            this.monTileSizeH.TabIndex = 17;
+            this.openSfxHit.FileName = "sfxhitdialog";
+            this.openSfxHit.Filter = "Sound Files (*.wav)|*.wav";
             // 
             // MonsterMaker
             // 
@@ -277,8 +284,8 @@
 
         #endregion
 
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openDngmnFile;
+        private System.Windows.Forms.SaveFileDialog saveDngmnFile;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox monName;
         private System.Windows.Forms.PictureBox spritePictureBox;
@@ -290,15 +297,16 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog2;
+        private System.Windows.Forms.OpenFileDialog openSpriteFile;
         private System.Windows.Forms.Button openButton;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.OpenFileDialog openFileDialog3;
         private System.Windows.Forms.Button monSfxH;
         private System.Windows.Forms.Button monSfxA;
         private System.Windows.Forms.ComboBox monAtkStyle;
         private System.Windows.Forms.TextBox monTileSizeH;
+        private System.Windows.Forms.OpenFileDialog openSfxAtk;
+        private System.Windows.Forms.OpenFileDialog openSfxHit;
     }
 }

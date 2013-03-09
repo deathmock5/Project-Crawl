@@ -25,7 +25,7 @@
     <TargetCulture>en</TargetCulture>
     <ProductName>DungEditer</ProductName>
     <PublisherName>Steven Venham</PublisherName>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>20</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -103,6 +103,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListMenu.Designer.cs">
+      <DependentUpon>ListMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="MonsterMaker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListMenu.resx">
+      <DependentUpon>ListMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MonsterMaker.resx">
       <DependentUpon>MonsterMaker.cs</DependentUpon>
@@ -185,6 +194,8 @@
     <None Include="bin\dungediter\Place\water.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dnglv.ico" />
+    <Content Include="dngmn.ico" />
     <Content Include="favicon.ico" />
     <Content Include="logo.ico" />
   </ItemGroup>
@@ -210,13 +221,13 @@
       <Visible>False</Visible>
       <Description>Dungeon Level File</Description>
       <Progid>Dnglv</Progid>
-      <DefaultIcon>favicon.ico</DefaultIcon>
+      <DefaultIcon>dnglv.ico</DefaultIcon>
     </FileAssociation>
     <FileAssociation Include=".dngmn">
       <Visible>False</Visible>
       <Description>Dungeon Monster File</Description>
-      <Progid>Dnglv</Progid>
-      <DefaultIcon>logo.ico</DefaultIcon>
+      <Progid>Dngmn</Progid>
+      <DefaultIcon>dngmn.ico</DefaultIcon>
     </FileAssociation>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
