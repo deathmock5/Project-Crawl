@@ -91,7 +91,6 @@ ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 ALLEGRO_TIMER *timer = NULL;
 int pos_x = 0;
 int pos_y = 0;
-
 int main(int argc, char **argv)
 {
 	ALLEGRO_SAMPLE *bgs;

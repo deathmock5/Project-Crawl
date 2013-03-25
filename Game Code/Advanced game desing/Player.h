@@ -44,10 +44,12 @@ public:
 	Player(string);
 	void draw();
 	void drawLight(ALLEGRO_BITMAP*);
-	void update(vector<Entity>,Tile[25][19]);
+	void update(vector<Entity>,Tile[19][25]);
 	void processInput(ACTIONS,DIRECTION);
 	DIRECTION getFaceingDir(int,int);
 	Entity playerHasBeenHit(vector<Entity>);
+	int asertedX();
+	int asertedY();
 private:
 	//animation and rendering
 	int delay;

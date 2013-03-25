@@ -23,8 +23,6 @@ Entity::Entity(string nam,ALLEGRO_BITMAP* ts,int w,int h,ALLEGRO_SAMPLE* atksnd,
 	monatacknoise = atksnd;
 	mondamagesnd = dmgsnd;
 	style = sty;
-	hpbace = hp;
-	damagebace = dmg;
 	isliveingcreature = true;
 	alive = false;
 	//frameinformation
@@ -34,13 +32,13 @@ Entity::Entity(string nam,ALLEGRO_BITMAP* ts,int w,int h,ALLEGRO_SAMPLE* atksnd,
 	delay = 0;
 	maxDelay = 1;
 	statechanged = false;
-
-	posx = 0;
-	posy = 0;
+	mypos = Point(0,0);
 	speed = 0;
 	velocityx = 0;
 	velocityy = 0;
 	hasbeeninited = true;
+	hpbace = hp;
+	damagebace = dmg;
 }
 Entity::~Entity()
 {
@@ -48,11 +46,24 @@ Entity::~Entity()
 	//delete monatacknoise;
 	//delete mondamagesnd;
 }
+
 void Entity::spawnAtLocation(int x,int y)
 {
-	posx = x;
-	posy = y;
+	mypos.setX(x);
+	mypos.setY(y);
 	alive = true;
+}
+void Entity::spawn(Point)
+{
+	//TODO: spawn
+}
+void Entity::spawn(Bounds)
+{
+	//TODO: spawn
+}
+void Entity::spawnWithVelocity(Bounds,float,float)
+{
+	//TODO:  spawn w velocity
 }
 void Entity::draw(float originposx,float originposy)
 {
@@ -71,10 +82,11 @@ void Entity::draw(float originposx,float originposy)
 		}
 		delay = 0;
 		}
-		al_draw_bitmap_region(tileset,(float)framecount * tilesizewidth,(float)frameSet[animation][direction] * tilesizeheight,tilesizewidth,tilesizeheight,posx,posy,0);
+		al_draw_bitmap_region(tileset,(float)framecount * tilesizewidth,(float)frameSet[animation][direction] * tilesizeheight,tilesizewidth,tilesizeheight,mypos.getX(),mypos.getY(),0);
 	}
 }
-void Entity::travelToPos(float tarx,float tary,float speed){}//TODO: traveltopos
+void Entity::travelToPos(float tarx,float tary,float speed)
+{}//TODO: traveltopos
 void Entity::update(std::vector<Player> players,int numplayers,Tile tiles[25][19])
 {
 	if(statechanged)
@@ -82,35 +94,36 @@ void Entity::update(std::vector<Player> players,int numplayers,Tile tiles[25][19
 		switch(animation)
 		{
 		case ULTI:
-
+			//TODO: ultimate code
 			break;
 		case WAND:
+			//TODO: Spawn fireball projectile
 			break;
 		case WALKING:
 			switch (direction)
 			{
 			case BACK:
-				if(tiles[(int)(posx + 32.0f)/32][((int)(posy + 32.0f)/32)-1].passable())
+				if(tiles[(int)(mypos.getX() + 32.0f)/32][((int)(mypos.getY() + 32.0f)/32)-1].passable())
 				{
-					posy -= 2.0f;
+					mypos.setY(mypos.getY() - 2.0f);
 				}
 				break;
 			case LEFT:
-				if(tiles[((int)(posx + 48.0f)/32)-1][((int)(posy + 14.0f)/32)].passable())
+				if(tiles[((int)(mypos.getX()  + 48.0f)/32)-1][((int)(mypos.getY()  + 14.0f)/32)].passable())
 				{
-					posx -= 2.0f;
+					mypos.setX(mypos.getX() - 2.0f);
 				}
 				break;
 			case FORWARD:
-				if(tiles[((int)(posx + 32.0f)/32)][((int)(posy + 0.0f)/32)+1].passable())
+				if(tiles[((int)(mypos.getX() + 32.0f)/32)][((int)(mypos.getY()  + 0.0f)/32)+1].passable())
 				{
-					posy += 2;
+					mypos.setY(mypos.getY() + 2.0f);
 				}
 				break;
 			case RIGHT:
-				if(tiles[((int)(posx + 16.0f)/32)+1][((int)(posy + 14.0f)/32)].passable())
+				if(tiles[((int)(mypos.getX()  + 16.0f)/32)+1][((int)(mypos.getY() + 14.0f)/32)].passable())
 				{
-					posx +=2;
+					mypos.setX(mypos.getX() + 2.0f);
 				}
 				break;
 			default:
@@ -121,10 +134,13 @@ void Entity::update(std::vector<Player> players,int numplayers,Tile tiles[25][19
 			//TODO: Hitbox stuff
 			break;
 		case BOW:
+			//TODO: create projectile and spawn it with velocity
 			break;
 		case DEAD:
+			//TODO: play death animation and stuff.
 			break;
 		case STANDING:
+			//TODO: idle animation?
 			break;
 		}
 		if(animation != WALKING)
@@ -194,8 +210,8 @@ void Entity::load(string file)
 		delay = 0;
 		maxDelay = 1;
 		statechanged = false;
-		posx = 50.0f;
-		posy = 50.0f;
+		mypos.setX(50.0f);
+		mypos.setX(50.0f);
 		speed = 2.0f;
 		velocityx = 1.0f;
 		velocityy = 1.0f;
@@ -205,4 +221,39 @@ void Entity::load(string file)
 	{
 		logHelperMessage(SEVERE,4,"File: '","Monster\\",file.c_str(),"' failed.");
 	}
+}
+void Entity::addTag(string)
+{
+	//TODO: add tag
+}
+void Entity::removeTag(string)
+{
+	//TODO: remove tags
+}
+bool Entity::hasTag(string)
+{
+	//TODO: hastag?
+	return false;
+}
+void Entity::addColider(string)
+{
+	//TODO: addcolider
+}
+void Entity::removeColider(string)
+{
+	//TODO: remove colider;
+}
+bool Entity::hasColidedWith(Entity ent)
+{
+	//TODO: has colided with ent
+	//check if it can colide with that entitys tag
+	//if it can preform boundscheckign
+	return false;
+}
+bool Entity::hasColidedWith(Player pla)
+{
+	//TODO: has colided with pla
+	//check if it can colide with that
+	//if it can preform boundscheckign
+	return false;
 }

@@ -10,7 +10,7 @@
 
 #ifndef _Tile_h_
 #define _Tile_h_
-const enum TILETYPE{FLOOR,WALL,DOOR,WATER};
+const enum TILETYPE{FLOOR,WALL,DOOR,WATER,POT,CHEST,TORCH};
 #include "SystemVars.h"
 class Tile
 {

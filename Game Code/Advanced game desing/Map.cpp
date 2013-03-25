@@ -5,24 +5,10 @@ using namespace std;
 Map::Map()
 {
 }
-Map::Map(string mystring,string layout,int player)
+Map::Map(string dungname,string layout,int player)
 {
-	//lvtileset = al_load_bitmap(myconcat("Dungions/" ,mystring, "Sprites.png").c_str());
-	lvtileset = load_image(myconcat("Dungions/" ,mystring, "/Sprites.png").c_str());
-	//TODO: Update to new format
-	//torchlight = al_load_bitmap(myconcat("Images/","LightCore", "Light.png").c_str());
+	lvtileset = load_image(myconcat("Dungions/" ,dungname, "/Sprites.png").c_str());
 	torchlight = load_image(myconcat("Images/","LightCore", "/Light.png").c_str());
-	//garbage blocks load1
-	//garbage blocks load2
-	//garbage blocks load3
-	//garbage blocks load4
-
-	//chest tile file load
-
-	//lightsource[] tile array load
-
-	//.dngent file for entitys.
-	//switch over to .dnglv file
 	for(int r = 0;r < 25;r++)
 	{
 		for(int c = 0;c < 19;c++)
@@ -47,28 +33,125 @@ Map::Map(string mystring,string layout,int player)
 	originy = 32.0;
 	curentplayers = 1;
 	players.push_back(Player("Player"));
-	logHelperMessage(OK,3,"Map:",mystring.c_str()," Created");
+	logHelperMessage(WARNING,3,"Map:",dungname.c_str()," Created-Depricated");
 	hide();
 }
-Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg)
+Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg,string mapfile,int roomnumber)
 {
+	//load the file
+	logHelperMessage(INFO,2,"Opening:",mapfile.c_str());
+	ifstream map_file;
+	map_file.open(myconcat(2,"FloorLayouts\\",mapfile.c_str()));
+	if(!map_file.fail())
+	{
+		char singlevalue;
+		for(int r = 0;r <= 18;r++)
+		{
+			for(int c = 0;c <= 24;c++)
+			{
+				if(r == 0 || r == 18 || c == 0 || c == 24)
+				{
+					//its an edge
+					maptiles[r][c] = Tile(WALL,tls,r,c,rand() % 3 + 0);
+					//TODO: add a "add door " method in dungion.cpp to ass a door and a dungion.
+				}
+				else
+				{
+					singlevalue = map_file.get();
+					if(singlevalue == '\n')
+					{
+						singlevalue = map_file.get();
+					}
+					switch (singlevalue)
+					{
+						case '#':
+							//floor;
+							maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+							break;
+						case '@':
+							//wall;
+							maptiles[r][c] = Tile(WALL,tls,r,c,rand() % 3 + 0);
+							break;
+						case '$':
+							//door;
+							maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+							break;
+						case '1':
+							//chest;
+							maptiles[r][c] = Tile(CHEST,tls,r,c,rand() % 3 + 0);
+							break;
+						case '2':
+							//pot;
+							maptiles[r][c] = Tile(POT,tls,r,c,rand() % 3 + 0);
+							break;
+						case '3':
+							//damagetile;
+							maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+							break;
+						case '4':
+							//torch;
+							maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+							//TODO: Spawn torch at this position
+							break;
+						case '5':
+							//mon1;
+							maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+							break;
+						case '6':
+							//mon2;
+							maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+							break;
+						case '7':
+							//mon3;
+							maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+							break;
+						case '8':
+							//water;
+							maptiles[r][c] = Tile(WATER,tls,r,c,rand() % 3 + 0);
+							break;
+						case '9':
+							//boss;
+							maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+							break;
+							
+					default:
+						logHelperMessage(WARNING,2,"Unknown map file token:",singlevalue);
+						maptiles[r][c] = Tile(FLOOR,tls,r,c,rand() % 3 + 0);
+						break;
+					}
+					
+				}
+			}
+		}
+	}
+	else
+	{
+		logHelperMessage(WARNING,2,"Failed to load data from:",mapfile.c_str());
+		
+	}
+	shadowlayer = al_create_bitmap(800,608);
+	curentplayers = 1;
+	players.push_back(Player("Player"));
+	logHelperMessage(OK,5,"Map:",mapfile.c_str(), " - ", std::to_string(roomnumber).c_str() ," Created");
 	originx = 0;
 	originy = 0;
 	onscreen = false;
 	lvtileset = tls;
 	torchlight = light;
 	bgs = bg;
+	map_file.close();
+	hide();
 }
 void Map::draw()
 {
 	//TODO: transition logic
 	if(isOnScreen())
 	{
-		for(int r = 0;r < 25;r++)
+		for(int r = 0;r < 19;r++)
 		{
-			for(int c = 0;c < 19;c++)
+			for(int c = 0;c < 25;c++)
 			{
-				maptiles[r][c].draw((32.0f * r) + originx,(32.0f * c) + originy);
+				maptiles[r][c].draw((32.0f * c) + originx,(32.0f * r) + originy + 32.0f);
 			}
 		}
 		for(int i = 0;i < (int)entitys.size();i++)

@@ -29,7 +29,7 @@ class Map
 public:
 	Map();
 	Map(string,string,int);
-	Map(ALLEGRO_BITMAP*,ALLEGRO_BITMAP*,ALLEGRO_SAMPLE*);
+	Map(ALLEGRO_BITMAP*,ALLEGRO_BITMAP*,ALLEGRO_SAMPLE*,string,int);
 	void draw();
 	void drawLight(ALLEGRO_DISPLAY*);
 	void moveMapToPos(float posx,float posy,float speed);
@@ -37,6 +37,7 @@ public:
 	bool isOnScreen();
 	void show();
 	void hide();
+	void addDoor(int,int);
 	std::vector<Player> players;
 	void spawnEnttityInMap(Entity,int,int);
 private:
@@ -53,7 +54,7 @@ private:
 	ALLEGRO_BITMAP *torchlight;
 	ALLEGRO_SAMPLE *bgs;
 	//tiles
-	Tile maptiles[25][19];
+	Tile maptiles[19][25];
 	//enemys
 	std::vector<Entity> entitys;
 	//players

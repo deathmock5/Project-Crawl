@@ -97,7 +97,7 @@ void Menu::addText(float x,float y,string uniqueName,string* text)
 {
 	for(short i = 0;i < (short)textuniqueID.size();i++)
 	{
-		
+		//TODO: addText
 	}
 }
 
@@ -118,6 +118,6 @@ void Menu::mouseLocation(int x,int y)
 	curenthoverdoption = hasScrolledOverOption((int)x,(int)y);
 	if(curenthoverdoption != "null")
 	{
-
+		
 	}
 }

@@ -84,6 +84,16 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'game|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\game\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -97,11 +107,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DungionEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DungionEdit.Designer.cs">
+      <DependentUpon>DungionEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemMaker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemMaker.Designer.cs">
+      <DependentUpon>ItemMaker.cs</DependentUpon>
     </Compile>
     <Compile Include="ListMenu.cs">
       <SubType>Form</SubType>
@@ -117,8 +139,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DungionEdit.resx">
+      <DependentUpon>DungionEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemMaker.resx">
+      <DependentUpon>ItemMaker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListMenu.resx">
       <DependentUpon>ListMenu.cs</DependentUpon>

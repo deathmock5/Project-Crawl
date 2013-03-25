@@ -51,13 +51,19 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\classdefs</Filter>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
+    <ClCompile Include="SystemVars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Dungion.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\classdefs</Filter>
     </ClCompile>
-    <ClCompile Include="SystemVars.cpp">
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\classdefs</Filter>
+    </ClCompile>
+    <ClCompile Include="Bounds.cpp">
+      <Filter>Source Files\classdefs</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,6 +87,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dungion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bounds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

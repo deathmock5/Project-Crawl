@@ -49,7 +49,7 @@ void Player::drawLight(ALLEGRO_BITMAP *torchlight)
 	int v2 = rand() % 4 + 1;     // v2 in the range 1 to 4
 	al_draw_tinted_scaled_bitmap(torchlight,al_map_rgba(1,1,1,255),0,0,64.0f,64.0f,posx - 32.0f + v2,posy - 64.0f,128.0f,128.0f + v2,0);
 }
-void Player::update(vector<Entity> ents,Tile tiles[25][19])
+void Player::update(vector<Entity> ents,Tile tiles[19][25])
 {
 	if(stateChanged)
 	{
@@ -64,27 +64,31 @@ void Player::update(vector<Entity> ents,Tile tiles[25][19])
 			switch (direction)
 			{
 			case BACK:
-				if(tiles[(int)(posx + 32.0f)/32][((int)(posy + 32.0f)/32)-1].passable())
+				if(tiles[((int)(posy + 32.0f)/32)-1][((int)(posx + 32.0f)/32)].passable())
 				{
 					posy -= 2.0f;
 				}
 				break;
 			case LEFT:
-				if(tiles[((int)(posx + 48.0f)/32)-1][((int)(posy + 14.0f)/32)].passable())
+				if(tiles[((int)(posy + 48.0f)/32)-1][((int)(posx + 14.0f)/32)].passable())
 				{
 					posx -= 2.0f;
 				}
 				break;
 			case FORWARD:
-				if(tiles[((int)(posx + 32.0f)/32)][((int)(posy + 0.0f)/32)+1].passable())
+				if(tiles[((int)(posy + 32.0f)/32)][((int)(posx + 0.0f)/32)+1].passable())
 				{
 					posy += 2;
 				}
 				break;
 			case RIGHT:
-				if(tiles[((int)(posx + 16.0f)/32)+1][((int)(posy + 14.0f)/32)].passable())
+				if(tiles[((int)(posy + 16.0f)/32)][((int)(posx + 14.0f)/32)+1].passable())
 				{
-					posx +=2;
+					posx += 2;
+				}
+				else
+				{
+					cout << posx << "," << posy << endl;
 				}
 				break;
 			default:
@@ -163,4 +167,8 @@ Entity Player::playerHasBeenHit(vector<Entity> ents)
 {
 	//boundschecking code
 	return Entity();
+}
+int getBounds()
+{
+	return 1;
 }

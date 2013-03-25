@@ -21,6 +21,9 @@
 #include "Player.h"
 #include "Map.h"
 #include "SystemVars.h"
+#include "Point.h"
+#include "Bounds.h"
+
 class Player;
 class Map;
 using namespace std;
@@ -34,6 +37,9 @@ public:
 	Entity(string,ALLEGRO_BITMAP*,int,int,ALLEGRO_SAMPLE*,ALLEGRO_SAMPLE*,ATACKSTYLE,int,int);
 	~Entity();
 	void spawnAtLocation(int,int);
+	void spawn(Point);
+	void spawn(Bounds);
+	void spawnWithVelocity(Bounds,float,float);
 	void draw(float,float);
 	void travelToPos(float tarx,float tary,float speed);
 	void update(std::vector<Player>,int,Tile[25][19]);
@@ -42,30 +48,39 @@ public:
 	bool isSolid();
 	void drawLight();
 	bool exists();
+	void addTag(string);
+	void removeTag(string);
+	bool hasTag(string);
+	void addColider(string);
+	void removeColider(string);
+	bool hasColidedWith(Entity);
+	bool hasColidedWith(Player);
 private:
 	void load(string);
-
 	bool hasbeeninited;
 	ALLEGRO_BITMAP* tileset;
-	int tilesizewidth;
-	int tilesizeheight;
 	ALLEGRO_SAMPLE* monatacknoise;
 	ALLEGRO_SAMPLE* mondamagesnd;
 	ATACKSTYLE style;
-	int hpbace;
-	int damagebace;
+	FRAMESET animation;
+	DIRECTION direction;
 	bool isliveingcreature;
 	bool alive;
 	int framecount;
-	FRAMESET animation;
-	DIRECTION direction;
 	int delay;
 	int maxDelay;
 	bool statechanged;
-	float posx;
-	float posy;
+	//dynamic variables
+	int tilesizewidth;
+	int tilesizeheight;
+	Point mypos;
 	float speed;
 	float velocityx;
 	float velocityy;
+	vector<string> tags;
+	vector<string> coliders;
+	//Const
+	int hpbace;
+	int damagebace;
 };
 #endif // !_Entity_h_

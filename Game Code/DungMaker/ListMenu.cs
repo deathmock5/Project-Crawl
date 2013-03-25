@@ -53,5 +53,17 @@ namespace DungMaker
             ext = file.Substring(file.LastIndexOf(".") + 1);
             return ext;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DungionEdit dialog = new DungionEdit();
+            dialog.ShowDialog();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ItemMaker dialog = new ItemMaker();
+            dialog.ShowDialog();
+        }
     }
 }

@@ -3,6 +3,7 @@
 
 Tile::Tile()
 {
+	myimg = NULL;
 }
 Tile::Tile(TILETYPE mytype,ALLEGRO_BITMAP* img,float x,float y)
 {
@@ -27,60 +28,60 @@ void Tile::draw(float posx,float posy)
 	switch (type)
 	{
 	case FLOOR:
-		al_draw_bitmap_region(myimg,mystate * 32.0f,0,32.0f,32.0f,posx,posy,0);
+			al_draw_bitmap_region(myimg,mystate * 32.0f, 0, 32.0f, 32.0f,posx,posy,0);
 		break;
 	case WALL:
 		al_draw_bitmap_region(myimg,mystate * 32.0f,32.0f,32.0f,32.0f,posx,posy,0);
-		if(gridx == 0)
-		{
-			if(gridy > 0 && gridy < 18)
-			{
-				//left wall
-				al_draw_filled_rectangle(posx + 16.0f, posy, posx + 32.0f, posy + 32.0f, color);
-			}
-			else if(gridy == 0)
-			{
-				//top left corner
-				al_draw_filled_rectangle(posx + 16.0f, posy + 16.0f, posx + 32.0f, posy + 32.0f, color);
-			}
-			else
-			{
-				//bottom left corner
-				al_draw_filled_rectangle(posx + 16.0f, posy, posx + 32.0f, posy + 16.0f, color);
-			}
-		}
-		else if(gridx == 24)
-		{
-			//right wall
-			if(gridy > 0 && gridy < 18)
-			{
-				//normal wall
-				al_draw_filled_rectangle(posx, posy, posx + 16.0f, posy + 32.0f, color);
-			}
-			else if(gridy == 0)
-			{
-				//top right corner
-				al_draw_filled_rectangle(posx, posy+ 16.0f, posx + 16.0f, posy + 32.0f, color);
-			}
-			else
-			{
-				//bottom right corner
-				al_draw_filled_rectangle(posx, posy, posx + 16.0f, posy + 16.0f, color);
-			}
-		}
-		else
-		{
-			if(gridy == 0)
-			{
-				//top wall
-				al_draw_filled_rectangle(posx, posy + 16.0f, posx + 32.0f, posy + 32.0f, color);
-			}
-			else
-			{
-				//bottom wall
-				al_draw_filled_rectangle(posx, posy, posx + 32.0f, posy + 16.0f, color);
-			}
-		}
+		//if(gridx == 0)
+		//{
+		//	if(gridy > 0 && gridy < 18)
+		//	{
+		//		//left wall
+		//		al_draw_filled_rectangle(posx + 16.0f, posy, posx + 32.0f, posy + 32.0f, color);
+		//	}
+		//	else if(gridy == 0)
+		//	{
+		//		//top left corner
+		//		al_draw_filled_rectangle(posx + 16.0f, posy + 16.0f, posx + 32.0f, posy + 32.0f, color);
+		//	}
+		//	else
+		//	{
+		//		//bottom left corner
+		//		al_draw_filled_rectangle(posx + 16.0f, posy, posx + 32.0f, posy + 16.0f, color);
+		//	}
+		//}
+		//else if(gridx == 24)
+		//{
+		//	//right wall
+		//	if(gridy > 0 && gridy < 18)
+		//	{
+		//		//normal wall
+		//		al_draw_filled_rectangle(posx, posy, posx + 16.0f, posy + 32.0f, color);
+		//	}
+		//	else if(gridy == 0)
+		//	{
+		//		//top right corner
+		//		al_draw_filled_rectangle(posx, posy+ 16.0f, posx + 16.0f, posy + 32.0f, color);
+		//	}
+		//	else
+		//	{
+		//		//bottom right corner
+		//		al_draw_filled_rectangle(posx, posy, posx + 16.0f, posy + 16.0f, color);
+		//	}
+		//}
+		//else
+		//{
+		//	if(gridy == 0)
+		//	{
+		//		//top wall
+		//		al_draw_filled_rectangle(posx, posy + 16.0f, posx + 32.0f, posy + 32.0f, color);
+		//	}
+		//	else
+		//	{
+		//		//bottom wall
+		//		al_draw_filled_rectangle(posx, posy, posx + 32.0f, posy + 16.0f, color);
+		//	}
+		//}
 		break;
 	case DOOR:
 		

@@ -16,6 +16,12 @@
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
+#include <windows.h>
+#include <ctime>
+#include <tchar.h>
+#include <stdio.h>
+#include <vector>
+#include <thread>
 using namespace std;
 //enums
 const enum loglevel{INFO,WARNING,OK,SEVERE};
@@ -23,12 +29,17 @@ const enum ATACKSTYLE{MAGIC,MELEE,RANGED};
 const enum ACTIONS{STAND,WALK,ATACK};
 const enum FRAMESET{ULTI = 0,WAND = 1, WALKING = 2,SLASH = 3,BOW = 4,DEAD = 5,STANDING = 6};
 const enum DIRECTION{BACK,LEFT,FORWARD,RIGHT};
+
+//vector<string> listOfDnglv; //files
+
 ALLEGRO_BITMAP* load_image(string);
 ALLEGRO_SAMPLE* load_sound(string);
 void logHelperMessage(loglevel,int, ...);
+void threadedloghelpermessage(loglevel,string);
 string myconcat(string,string,string);
 string myconcat(int,...);
 string getrandommaplayout(bool);
+
 class SystemVars
 {
 public:
@@ -36,7 +47,8 @@ public:
 	static const int SCREEN_HEIGHT = 640;
 	static const int FPS = 30;
 	static int bla;
-private:
 	
+private:
+
 };
 #endif

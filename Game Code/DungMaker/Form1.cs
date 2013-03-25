@@ -13,8 +13,10 @@ namespace DungMaker
 {
     public partial class Form1 : Form
     {
-        private PictureBox[,] tiles = new PictureBox[19,25];
-        private char[,] tilevars = new char[19,25];
+        const int rows = 17;
+        const int cols = 23;
+        private PictureBox[,] tiles = new PictureBox[rows,cols];
+        private char[,] tilevars = new char[rows,cols];
         public enum tool {FLOOR,WALL,BWALL,TREAS,POT,TRAP,TORCH,LOWLV,MIDLV,HIGLV,WATE,BOSS};
         public tool curenttool = tool.FLOOR;
         public Image floortile;
@@ -53,13 +55,13 @@ namespace DungMaker
             {
                 MessageBox.Show(e.ToString());
             }
-            for (int r = 0; r < 19; r++)
+            for (int r = 0; r < rows; r++)
             {
-                for (int c = 0; c < 25; c++)
+                for (int c = 0; c < cols; c++)
                 {
                     tiles[r, c] = new PictureBox();
-                    tiles[r, c].Size = new Size(itempannel.Size.Width / 25, itempannel.Size.Height / 19);
-                    tiles[r, c].Location = new Point((itempannel.Size.Width / 25) * c, (itempannel.Size.Height / 19) * r);
+                    tiles[r, c].Size = new Size(itempannel.Size.Width / cols, itempannel.Size.Height / rows);
+                    tiles[r, c].Location = new Point((itempannel.Size.Width / cols) * c, (itempannel.Size.Height / rows) * r);
                     tiles[r, c].SizeMode = PictureBoxSizeMode.StretchImage;
                     tiles[r, c].Click += new System.EventHandler(this.tileClick);
                     tiles[r, c].Tag = r + "," + c;
@@ -93,13 +95,13 @@ namespace DungMaker
             {
                 MessageBox.Show(e.ToString());
             }
-            for (int r = 0; r < 19; r++)
+            for (int r = 0; r < rows; r++)
             {
-                for (int c = 0; c < 25; c++)
+                for (int c = 0; c < cols; c++)
                 {
                     tiles[r, c] = new PictureBox();
-                    tiles[r, c].Size = new Size(itempannel.Size.Width / 25, itempannel.Size.Height / 19);
-                    tiles[r, c].Location = new Point((itempannel.Size.Width / 25) * c, (itempannel.Size.Height / 19) * r);
+                    tiles[r, c].Size = new Size(itempannel.Size.Width / cols, itempannel.Size.Height / rows);
+                    tiles[r, c].Location = new Point((itempannel.Size.Width / cols) * c, (itempannel.Size.Height / rows) * r);
                     tiles[r, c].SizeMode = PictureBoxSizeMode.StretchImage;
                     tiles[r, c].Click += new System.EventHandler(this.tileClick);
                     tiles[r, c].Tag = r + "," + c;
@@ -112,9 +114,9 @@ namespace DungMaker
         }
         private void setDungImages()
         {
-            for (int r = 0; r < 19; r++)
+            for (int r = 0; r < rows; r++)
             {
-                for (int c = 0; c < 25; c++)
+                for (int c = 0; c < cols; c++)
                 {
                     switch (tilevars[r, c])
                     {
@@ -253,9 +255,9 @@ namespace DungMaker
             {
                 System.IO.StreamWriter sw = new
                    System.IO.StreamWriter(saveFileDialog1.FileName);
-                for (int r = 0; r < 19; r++)
+                for (int r = 0; r < rows; r++)
                 {
-                    for (int c = 0; c < 25; c++)
+                    for (int c = 0; c < cols; c++)
                     {
                         sw.Write(tilevars[r, c]);
                     }
@@ -352,10 +354,10 @@ namespace DungMaker
         {
             System.IO.StreamReader sr = new
                System.IO.StreamReader(file);
-            for (int r = 0; r < 19; r++)
+            for (int r = 0; r < rows; r++)
             {
                 string var = sr.ReadLine();
-                for (int c = 0; c < 25; c++)
+                for (int c = 0; c < cols; c++)
                 {
                     tilevars[r, c] = var[c];
                 }

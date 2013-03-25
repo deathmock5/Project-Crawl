@@ -90,6 +90,8 @@ void Dungion::Load(string myfile)
 		logHelperMessage(INFO,1,fileboss.c_str());
 		dungfile.close();//close file
 		tileset = load_image(filetileset);//load tileset
+		ALLEGRO_BITMAP* torchlight = load_image(myconcat("Images/","LightCore", "/Light.png").c_str());
+		//ALLEGRO_BITMAP* playertls = load_image(myconcat(
 		bgs = load_sound(filebgs); //Load bgs
         //TODO: get difculty multiplier
         //TODO:		set darkness level bace
@@ -100,11 +102,16 @@ void Dungion::Load(string myfile)
 		for(int i = 0; i < atoi(filenumrooms.c_str());i++)
 		{
 			//get a random room layout
-			Map newmap = Map(myfile.c_str(),getrandommaplayout(false),0);
-			newmap.spawnEnttityInMap(monster1,0,0);
+			Map newmap = Map(tileset,torchlight,bgs,getrandommaplayout(false),i);
+			//Map newmap = Map(myfile.c_str(),getrandommaplayout(false),0);
+			//newmap.spawnEnttityInMap(monster1,0,0);
 			//TODO: fill it with monstershizzles.
 			maps.push_back(newmap);
-		}
+		}		
+			/*maptiles[12][0] = Tile(DOOR,lvtileset,12,0);
+			maptiles[12][18] = Tile(DOOR,lvtileset,12,18);
+			maptiles[0][9] = Tile(DOOR,lvtileset,0,9);
+			maptiles[24][9] = Tile(DOOR,lvtileset,24,9);*/
         //TODO:	get a basic room
         //bool keyneeded = false;
         /*for(rooms)
