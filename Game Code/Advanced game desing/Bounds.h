@@ -2,6 +2,7 @@
 #ifndef _Bounds_h_
 #define _Bounds_h_
 #include "Point.h"
+#include "SystemVars.h"
 class Bounds
 {
 public:

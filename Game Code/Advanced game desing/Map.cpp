@@ -4,9 +4,11 @@
 using namespace std;
 Map::Map()
 {
+	entitysonmap = 0;
 }
 Map::Map(string dungname,string layout,int player)
 {
+	entitysonmap = 0;
 	lvtileset = load_image(myconcat("Dungions/" ,dungname, "/Sprites.png").c_str());
 	torchlight = load_image(myconcat("Images/","LightCore", "/Light.png").c_str());
 	for(int r = 0;r < 25;r++)
@@ -31,13 +33,13 @@ Map::Map(string dungname,string layout,int player)
 	shadowlayer = al_create_bitmap(800,608);
 	originx = 0;
 	originy = 32.0;
-	curentplayers = 1;
-	players.push_back(Player("Player"));
+	
 	logHelperMessage(WARNING,3,"Map:",dungname.c_str()," Created-Depricated");
 	hide();
 }
 Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg,string mapfile,int roomnumber)
 {
+	entitysonmap = 0;
 	//load the file
 	logHelperMessage(INFO,2,"Opening:",mapfile.c_str());
 	ifstream map_file;
@@ -53,7 +55,6 @@ Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg,string map
 				{
 					//its an edge
 					maptiles[r][c] = Tile(WALL,tls,r,c,rand() % 3 + 0);
-					//TODO: add a "add door " method in dungion.cpp to ass a door and a dungion.
 				}
 				else
 				{
@@ -127,11 +128,8 @@ Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg,string map
 	else
 	{
 		logHelperMessage(WARNING,2,"Failed to load data from:",mapfile.c_str());
-		
 	}
 	shadowlayer = al_create_bitmap(800,608);
-	curentplayers = 1;
-	players.push_back(Player("Player"));
 	logHelperMessage(OK,5,"Map:",mapfile.c_str(), " - ", std::to_string(roomnumber).c_str() ," Created");
 	originx = 0;
 	originy = 0;
@@ -158,10 +156,7 @@ void Map::draw()
 		{
 			entitys[i].draw(originx,originy);
 		}
-		for(int i = 0;i < curentplayers;i++)
-		{
-			players[i].draw();
-		}
+		
 	}
 }
 void Map::drawLight(ALLEGRO_DISPLAY* display)
@@ -182,10 +177,7 @@ void Map::drawLight(ALLEGRO_DISPLAY* display)
 		{
 			entitys[i].drawLight();
 		}
-		for(int i = 0;i < curentplayers;i++)
-		{
-			players[i].drawLight(torchlight);
-		}
+		
 		//al_draw_tinted_bitmap(torchlight,al_map_rgba(1,1,1,255),60,60,0);
 		al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 		al_set_target_bitmap(al_get_backbuffer(display));//return to the display
@@ -194,18 +186,48 @@ void Map::drawLight(ALLEGRO_DISPLAY* display)
 }
 void Map::moveMapToPos(float posx,float posy,float speed)
 {
+
 }
-void Map::update()
+void Map::update(Dungion& dung)
 {
 	if(isOnScreen())
 	{
-		for(int i = 0;i < (int)entitys.size();i++)
+		for(int i = 0;i < (int)entitys.size(); i++)
 		{
-			//entitys[i].update(players,curentplayers,maptiles);
+			entitys[i].update(dung.players,entitys,maptiles);
+			for(int ii = 0; ii < (int)entitys.size();ii++)//alright lets look through all the entitys on screen.
+			{
+				if(entitys[i].getUniqueId() != entitys[ii].getUniqueId())//Am i hitting myself?
+				{
+					//No im not, im hitting somthing else.
+					if(entitys[i].hasColider(entitys[ii].getMyColider())) //determine if i can colide with it
+					{
+						//Ok this object Can colide with me.
+						if(entitys[i].getBounds().hasColidedWith(entitys[ii].getBounds())) //Check colisions
+						{
+							//Alright, i have colided with this object, apply damage.
+							//TODO: apply actual damage...
+							entitys[i].damageMe(5);
+						}
+					}
+				}
+			}
+			if(!entitys[i].isAlive())
+			{
+				entitys.erase(entitys.begin() + i);
+				cout << "dead";
+			}
 		}
-		for(int i = 0;i < curentplayers;i++)
+		for(int i = 0;i < dung.curentplayers;i++)
 		{
-			players[i].update(entitys,maptiles);
+			dung.players[i].update(entitys,maptiles,dung);
+			Bounds playerbounds = dung.players[i].getBounds();
+			int doortransfer = maptiles[((int)(playerbounds .getY() + 16.0f)/32)][((int)(playerbounds.getX() + 14.0f)/32)+1].isDoor();
+			if(doortransfer > -1)
+			{
+				dung.triggerPlayerTransferToNewMap(doortransfer,i);
+				cout << doortransfer;
+			}
 		}
 	}
 }
@@ -221,16 +243,34 @@ void Map::hide()
 {
 	onscreen = false;
 }
-void Map::spawnEnttityInMap(Entity thing,int posx, int posy)
+void Map::addDoor(DIRECTION dir,int tomapid,bool needskey)
 {
-	//TODO: position the entity;
+	//TODO: setup information for keys
+	switch (dir)
+	{
+	case BACK:
+		//down
+		maptiles[18][12] = Tile(DOOR,lvtileset,18,12,tomapid);
+		break;
+	case LEFT:
+		break;
+	case FORWARD:
+		maptiles[0][12] = Tile(DOOR,lvtileset,0,12,tomapid);
+		break;
+	case RIGHT:
+		break;
+	default:
+		break;
+	}
+}
+void Map::spawnEnttityInMap(Entity thing)
+{
+	//TODO: make cleener;
+	//TODO: uniqueid
+	thing.spawnAtLocation(entitysonmap++);
 	entitys.push_back(thing);
 }
-//string Map::myconcat(string folder,string innerfolder,string filename)
-//{
-//	std::stringstream ss;
-//	ss << folder << innerfolder << "/" << filename;
-//	std::string s = ss.str();
-//	//cout << s << endl;
-//	return s;
-//}
+void Map::bakeTilemap()
+{
+	//TODO: bake the tilemap into an image and just display the image.
+}

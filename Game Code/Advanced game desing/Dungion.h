@@ -1,8 +1,8 @@
 #pragma once
 
 //Allegro Imports
-#ifndef _dungion_h_
-#define _dungion_h_
+#ifndef _Dungion_h_
+#define _Dungion_h_
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_primitives.h>
@@ -25,7 +25,11 @@ using namespace std;
 using std::ifstream;
 #include "Player.h"
 #include "Map.h"
+#include "Entity.h"
 
+class Player;
+class Map;
+class Entity;
 
 class Dungion
 {
@@ -35,8 +39,14 @@ public:
 	Dungion(Player);//if loading from a player
 	~Dungion(void);
 	void Draw();
-	void Update();
+	void Update(Dungion&);
+	void triggerPlayerTransferToNewMap(int tomap,int playerid);
+	
 	Map* reftoCurrentMap();
+	Player* refToCurrentPlayer();
+		
+	int curentplayers;
+	std::vector<Player> players;
 private:
 	//methods.
 	void Load(string);
@@ -47,8 +57,10 @@ private:
 	ALLEGRO_SAMPLE* bgs;
 	int rooms;
 	int curentroom;
+	int dificulty;
 	std::vector<Map> maps;
-	Entity monsters[2];
-	Entity boss;
+	//
+	//players
+
 };
 #endif

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef _allegro_h_
 #define _allegro_h_
 #include <allegro5\allegro.h>
@@ -15,15 +16,14 @@
 #include <iostream>
 
 #include "Tile.h"
-#include "Entity.h"
-#include "Player.h"
 #include "Item.h"
+#include "Player.h"
+#include "Entity.h"
 #include "SystemVars.h"
 using namespace std;
 
-class Tile;
-class Entity;
 class Player;
+class Tile;
 class Map
 {
 public:
@@ -33,18 +33,19 @@ public:
 	void draw();
 	void drawLight(ALLEGRO_DISPLAY*);
 	void moveMapToPos(float posx,float posy,float speed);
-	void update();
+	void update(class Dungion&);
 	bool isOnScreen();
 	void show();
 	void hide();
-	void addDoor(int,int);
-	std::vector<Player> players;
-	void spawnEnttityInMap(Entity,int,int);
+	void addDoor(DIRECTION dir,int tomapid,bool needskey);
+
+	void spawnEnttityInMap(class Entity);
+	void bakeTilemap();
 private:
 	float originx;
 	float originy;
 	bool onscreen;
-
+	int entitysonmap;
 	//floor tiles
 	ALLEGRO_BITMAP *lvtileset;
 	
@@ -57,9 +58,7 @@ private:
 	Tile maptiles[19][25];
 	//enemys
 	std::vector<Entity> entitys;
-	//players
 	
-	int curentplayers;
 	//methods
 	//string myconcat(string,string,string);
 };

@@ -12,8 +12,6 @@
 //#ifndef _Player_h_
 //#define _Player_h_
 
-
-
 #include <vector>
 #include <cstdlib>
 #include <sstream>
@@ -23,12 +21,13 @@
 #include "Tile.h"
 #include "Item.h"
 #include "SystemVars.h"
-
+#include "Bounds.h"
+#include "Dungion.h"
 using namespace std;
 class Entity;
 class Tile;
 class Item;
-
+class Dungion;
 
 const int frameSet[7][5] = {{0,1,2,3,7},
 							{4,5,6,7,8},
@@ -44,20 +43,24 @@ public:
 	Player(string);
 	void draw();
 	void drawLight(ALLEGRO_BITMAP*);
-	void update(vector<Entity>,Tile[19][25]);
+	void update(vector<Entity>,Tile[19][25],Dungion&);
 	void processInput(ACTIONS,DIRECTION);
 	DIRECTION getFaceingDir(int,int);
-	Entity playerHasBeenHit(vector<Entity>);
-	int asertedX();
-	int asertedY();
+	Bounds getBounds();
+	void setBounds(Bounds);
+	int getHealth();
+	int getMana();
+	int getLives();
+	int getMoney();
+	void damageMe(int);
 private:
 	//animation and rendering
 	int delay;
 	int maxDelay;
 	bool stateChanged;
-	float posx,posy;
 	ALLEGRO_BITMAP* tileset;
 	DIRECTION direction;
+	Bounds mybounds;
 	int framecount;
 	int animation;
 	float tilesize;
@@ -66,6 +69,7 @@ private:
 	int health;
 	int mana;
 	int lives;
+	int money;
 	string playername;
 };
 //#endif // !_Player_h_

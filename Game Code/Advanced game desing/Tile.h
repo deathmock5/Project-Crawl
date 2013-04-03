@@ -1,3 +1,4 @@
+#pragma once
 #ifndef _allegro_h_
 #define _allegro_h_
 #include <allegro5\allegro.h>
@@ -21,6 +22,7 @@ public:
 	void draw(float posx,float posy);
 	void drawLight(float posx,float posy);
 	TILETYPE getTileType();
+	int isDoor();
 	bool passable();
 private:
 	TILETYPE type;

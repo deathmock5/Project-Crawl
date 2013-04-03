@@ -5,6 +5,8 @@
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
+#include <allegro5\allegro_font.h>
+#include <allegro5\allegro_ttf.h>
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
 #endif // !_allegro_h_
@@ -16,7 +18,8 @@
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
-
+#include "Bounds.h"
+#include "SystemVars.h"
 using namespace std;
 class Menu
 {
@@ -26,16 +29,30 @@ public:
 	void draw();
 	string hasScrolledOverOption(float x,float y);
 	void acitonClick();
+	//adds
 	void addButton(float x, float y, ALLEGRO_BITMAP *imageup,ALLEGRO_BITMAP *imagedown,string action,void (*function)());
 	void addImage(float x, float y, ALLEGRO_BITMAP *image);
-	void addText(float,float,string,string*);
+	void addText(Bounds,string,string);
+	void addNumber(Bounds,string,int);
+	void addGauge(ALLEGRO_BITMAP*,Bounds,GAUGETYPES,int,string);
+	void addDialog(ALLEGRO_BITMAP*,Bounds,string);
+	//removers
 	void removeButton(string);
+	//updaters
+	void showDialog();
+	void closeDialog();
+	void updateGaugeValue(string,int);
 	void mouseLocation(int,int);
+	void setClickSound(ALLEGRO_SAMPLE*);
+	void setBgs(ALLEGRO_SAMPLE*);
+	void playBgs();
+	void pauseBgs();
 private:
+	ALLEGRO_FONT *whiteArial24;
+	bool aDialogIsShown;
 	//button
-	int buttons;
 	vector<string> btnactions;
-	std::vector<void (*)()> buttonactionpointers;
+	vector<void (*)()> buttonactionpointers;
 	vector<ALLEGRO_BITMAP*> btnimages;
 	vector<ALLEGRO_BITMAP*> btnimagesdown;
 	vector<short> btnxpos;
@@ -51,8 +68,30 @@ private:
 	//text
 	vector<string> textvars;
 	vector<string> textuniqueID;
-	vector<short> textxpos;
-	vector<short> textypos;
+	vector<Bounds> textbounds;
+
+	//number
+	vector<int> numbervars;
+	vector<string> numberuniqueids;
+	vector<Bounds> numberbounds;
+
+	//dialog
+	vector<ALLEGRO_BITMAP*> dialogImages;
+	vector<Bounds> dialogbounds;
+	vector<string> dialogtexts;
+
+	//sound
+	ALLEGRO_SAMPLE* clicksound;
+	ALLEGRO_SAMPLE* bgs;
+	ALLEGRO_SAMPLE_ID bgs_id;
+
+	//gauge
+	vector<ALLEGRO_BITMAP*> gaugeimages;
+	vector<string> gaugenames;
+	vector<Bounds> gaugepositions;
+	vector<int> gaugevalues;
+	vector<int> gaugemaxes;
+	vector<GAUGETYPES> gaugetypes;
 };
 #endif
 

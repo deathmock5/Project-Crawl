@@ -3,9 +3,8 @@
 
 Menu::Menu(void)
 {
-	
-	buttons = 0;
-	
+	whiteArial24= al_load_font("arial.ttf", 24, 0);
+	aDialogIsShown = false;
 }
 
 Menu::~Menu(void)
@@ -15,15 +14,16 @@ Menu::~Menu(void)
 
 void Menu::draw()
 {
+	//Images
 	for(int i = 0;i < (int)images.size();i++)
 	{
-		//cout << "Drawing " << images[i] << " at: " << imagexpos[i] << "," << imageypos[i] << endl;
 		if(images[i] != NULL)
 		{
 			al_draw_bitmap(images[i],imagexpos[i],imageypos[i],0);
 		}
 	}
-	for(int i = 0;i < buttons;i++)
+	//Buttons
+	for(int i = 0;i < (int)btnactions.size();i++)
 	{
 		if(btnisdown[i])
 		{
@@ -33,14 +33,73 @@ void Menu::draw()
 		{
 			al_draw_bitmap(btnimages[i],btnxpos[i],btnypos[i],0);
 		}
-		//cout << "Drawn at: " << btnxpos[i] << "," << btnypos[i] << endl;
 	}
-	
+	//text
+	for(int i = 0;i < (int)textvars.size();i++)
+	{
+		//std::string s
+		char *a=new char[textvars[i].size()+1];
+		a[textvars[i].size()]=0;
+		memcpy(a,textvars[i].c_str(),textvars[i].size());
+		al_draw_text(whiteArial24,al_map_rgb(255,255,255),numberbounds[i].getX(),numberbounds[i].getY(),ALLEGRO_ALIGN_LEFT,a);
+	}
+	//number
+	for(int i = 0;i < (int)numberbounds.size();i++)
+	{
+		char str[20];
+		int val = numbervars[i];
+		itoa(val,str,20);
+		al_draw_text(whiteArial24,al_map_rgb(0,0,0),numberbounds[i].getX(),numberbounds[i].getY(),ALLEGRO_ALIGN_LEFT,str);
+	}
+	//dialogs
+	if(aDialogIsShown)
+	{
+		al_draw_bitmap(dialogImages[0],dialogbounds[0].getX(),dialogbounds[0].getY(),0);
+		char *a=new char[dialogtexts[0].size()+1];
+		a[dialogtexts[0].size()]=0;
+		memcpy(a,dialogtexts[0].c_str(),dialogtexts[0].size());
+		al_draw_text(whiteArial24,al_map_rgb(0,0,0),160,482,0,a);
+	}
+	//gauge
+	for(int i = 0;i < (int)gaugenames.size();i++)
+	{
+		//xpos ypos
+		//vector<ALLEGRO_BITMAP*> gaugeimages;
+		/*vector<string> gaugenames;
+		vector<Bounds> gaugepositions;
+		vector<int> gaugevalues;
+		vector<int> gaugemaxes;
+		vector<GAUGETYPES> gaugetypes;*/
+		if(gaugetypes[i] == GAUGE_FILL)
+			{
+				//fill bar
+				int amount = ((double)gaugevalues[i] * 0.01) * (double)gaugemaxes[i];
+				al_draw_scaled_bitmap(gaugeimages[i],0,0,
+					gaugepositions[i].getW(),
+					gaugepositions[i].getH(),
+					gaugepositions[i].getX(),
+					gaugepositions[i].getY(),
+					amount,
+					gaugepositions[i].getH(),
+					0);
+			}
+			else if(gaugetypes[i] == GAUGE_LAYER)
+			{
+				//overlay objects.
+				int precentage;
+				if(gaugevalues[i] > 0)
+				{precentage = gaugepositions[i].getW() / gaugevalues[i];}
+				for(int g = 0;g < gaugevalues[i];g++)
+				{
+					al_draw_bitmap(gaugeimages[i],gaugepositions[i].getX() + (precentage * g) ,gaugepositions[i].getY(),0);
+				}
+			}
+	}
 }
 
 string Menu::hasScrolledOverOption(float x,float y)
 {
-	for(int i = 0;i < buttons;i++)
+	for(int i = 0;i < (int)btnactions.size();i++)
 	{
 		if(x < btnxpos[i] + al_get_bitmap_width(btnimages[i]) &&
 		x > btnxpos[i] &&
@@ -91,16 +150,7 @@ void Menu::addButton(float x, float y, ALLEGRO_BITMAP *imageup,ALLEGRO_BITMAP *i
 	btnxpos.push_back(x);
 	btnypos.push_back(y);
 	btnisdown.push_back(false);
-	buttons++;
 }
-void Menu::addText(float x,float y,string uniqueName,string* text)
-{
-	for(short i = 0;i < (short)textuniqueID.size();i++)
-	{
-		//TODO: addText
-	}
-}
-
 void Menu::addImage(float x, float y, ALLEGRO_BITMAP *image)
 {
 	imagexpos.push_back(x);
@@ -108,10 +158,72 @@ void Menu::addImage(float x, float y, ALLEGRO_BITMAP *image)
 	images.push_back(image);
 	//register.
 }
+void Menu::addText(Bounds varbounds,string uniqueName,string text)
+{
+	
+		//TODO: make sure theres no duplicates
+		textvars.push_back(text);
+		textuniqueID.push_back(uniqueName);
+		textbounds.push_back(varbounds);
+}
+void Menu::addNumber(Bounds varpos,string varuniqueid,int varvaluepointer)
+{
+	//TODO: determine if its the same.
+	numberbounds.push_back(varpos);
+	numberuniqueids.push_back(varuniqueid);
+	numbervars.push_back(varvaluepointer);
+}
+void Menu::addGauge(ALLEGRO_BITMAP* image,Bounds pos,GAUGETYPES mytype,int max,string name)
+{
+	gaugeimages.push_back(image);
+	gaugepositions.push_back(pos);
+	gaugetypes.push_back(mytype);
+	gaugevalues.push_back(0);
+	gaugemaxes.push_back(max);
+	gaugenames.push_back(name);
+}
+void Menu::addDialog(ALLEGRO_BITMAP* bg,Bounds mybounds,string text)
+{
+	dialogImages.push_back(bg);
+	dialogbounds.push_back(mybounds);
+	dialogtexts.push_back(text);
+}
 
+void Menu::showDialog()
+{
+	aDialogIsShown = true;
+}
+void Menu::closeDialog()
+{
+	aDialogIsShown = false;
+	//TODO: del the dialog
+}
+void Menu::updateGaugeValue(string key,int newvalue)
+{
+	for(int i = 0;i < (int)gaugenames.size();i++)
+	{
+		if(gaugenames[i] == key)
+		{
+			gaugevalues[i] = newvalue;
+		}
+	}
+}
 void Menu::removeButton(string buttonaction)
 {
-	//TODO: Look through list of buttons till you find the right one, then delete all entries of its position.
+	for(int i = 0; i < (int)btnactions.size(); i++)
+	{
+		if(buttonaction == btnactions[i])
+		{
+			//Match. KILL!
+			btnactions.erase(btnactions.begin() + i);
+			buttonactionpointers.erase(buttonactionpointers.begin() + i);
+			btnimages.erase(btnimages.begin() + i);
+			btnimagesdown.erase(btnimagesdown.begin() + i);
+			btnxpos.erase(btnxpos.begin() + i);
+			btnypos.erase(btnypos.begin() + i);
+			btnisdown.erase(btnisdown.begin() + i);
+		}
+	}
 }
 void Menu::mouseLocation(int x,int y)
 {
@@ -120,4 +232,21 @@ void Menu::mouseLocation(int x,int y)
 	{
 		
 	}
+}
+
+void Menu::setClickSound(ALLEGRO_SAMPLE* sample)
+{
+	//TODO: clicksound
+}
+void Menu::setBgs(ALLEGRO_SAMPLE* sample)
+{
+	bgs = sample;
+}
+void Menu::playBgs()
+{
+	al_play_sample(bgs,0.5f,0,1,ALLEGRO_PLAYMODE_LOOP,&bgs_id);
+}
+void Menu::pauseBgs()
+{
+	al_stop_sample(&bgs_id);
 }

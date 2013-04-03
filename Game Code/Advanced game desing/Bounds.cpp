@@ -77,12 +77,14 @@ Point Bounds::getCenterPoint()
 }
 bool Bounds::hasColidedWith(Bounds otherobj)
 {
-	if(	getX() - getW() < otherobj.getX() + otherobj.getW() &&
-		getX() + getW() > otherobj.getX() - otherobj.getW() &&
-		getY() - getH() < otherobj.getY() + otherobj.getH() &&
-		getY() + getH() > otherobj.getY() - otherobj.getH())
+	//al_draw_filled_rectangle(getX(),getY(),getX() + getW(),getY() + getH(),al_map_rgb(255,255,255));
+	//al_draw_filled_rectangle(otherobj.getX(),otherobj.getY(),otherobj.getX() + otherobj.getW(),otherobj.getY() + otherobj.getH(),al_map_rgb(255,255,255));
+	if(	getX() < otherobj.getX() + otherobj.getW() &&
+		getX() + getW() > otherobj.getX() &&
+		getY() < otherobj.getY() + otherobj.getH() &&
+		getY() + getH() > otherobj.getY())
 	{
-		//cout << "hit!";
+		//cout << "HIT:{" << getX() << "|" << getY() << "|" << getW() << "|" << getH() << "},{" << otherobj.getX() << "|" << otherobj.getY() << "|" << otherobj.getW() << "|" << otherobj.getH()  << endl;
 		return true;
 	}
 	return false;

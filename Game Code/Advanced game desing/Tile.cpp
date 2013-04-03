@@ -32,6 +32,7 @@ void Tile::draw(float posx,float posy)
 		break;
 	case WALL:
 		al_draw_bitmap_region(myimg,mystate * 32.0f,32.0f,32.0f,32.0f,posx,posy,0);
+		//TODO: update
 		//if(gridx == 0)
 		//{
 		//	if(gridy > 0 && gridy < 18)
@@ -132,5 +133,16 @@ bool Tile::passable()
 	else
 	{
 		return true;
+	}
+}
+int Tile::isDoor()
+{
+	if(type == DOOR)
+	{
+		return mystate;
+	}
+	else
+	{
+		return -1;
 	}
 }

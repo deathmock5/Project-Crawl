@@ -4,6 +4,12 @@
 
 
 vector<string> dnglvs;
+
+vector<loglevel> levels;
+vector<string> messagess;
+thread t1;
+bool threaddone = true;
+bool threadjoinedmain = true;
 ALLEGRO_BITMAP* load_image(string path)
 {
 	ALLEGRO_BITMAP* file;
@@ -37,9 +43,12 @@ ALLEGRO_SAMPLE* load_sound(string path)
 	}
 	return file;
 }
+
 void logHelperMessage(loglevel severity,int number, ...)
 {
 	//TODO: multithread this shit!
+	//TODO: make it not need a number,
+	//TODO: make it understand what argument it impoting
 	va_list messages;
 	va_start(messages,number);
 	std::stringstream ss;
@@ -49,8 +58,29 @@ void logHelperMessage(loglevel severity,int number, ...)
 			ss << va_arg(messages,char*);
 	}
 	std::string s = ss.str();
-	thread t1(threadedloghelpermessage,severity,s);
-	t1.join();
+	levels.push_back(severity);
+	messagess.push_back(s);
+	threadedloghelpermessage(severity,s);
+}
+void updateThreadQue()
+{
+	if(false)
+	{
+		if(threadjoinedmain == false)
+		{
+			t1.join();
+			threadjoinedmain = true;
+		}
+		if(levels.size() > 0)
+		{
+			threaddone = false;
+			threadjoinedmain = false;
+			t1 = thread(threadedloghelpermessage,levels[0],messagess[0]);
+			levels.erase(levels.begin());
+			messagess.erase(messagess.begin());
+		}
+		
+	}
 }
 void threadedloghelpermessage(loglevel severity,string message)
 {
@@ -78,9 +108,10 @@ void threadedloghelpermessage(loglevel severity,string message)
 	}
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),0x08);
 	time_t t = time(0);
-	struct tm * now = localtime( & t );
+	struct tm now;
+	localtime_s(&now, &t );
 	cout << "[";
-	int hour = now->tm_hour;
+	int hour = now.tm_hour;
 	if(hour < 10)
 	{
 		cout << 0 << hour << ":";
@@ -89,7 +120,7 @@ void threadedloghelpermessage(loglevel severity,string message)
 	{
 		cout << hour << ":";
 	}
-	int minu = now->tm_min;
+	int minu = now.tm_min;
 	if(minu < 10)
 	{
 		cout << 0 << minu << ":";
@@ -98,7 +129,7 @@ void threadedloghelpermessage(loglevel severity,string message)
 	{
 		cout << minu << ":";
 	}
-	int sec = now->tm_sec;
+	int sec = now.tm_sec;
 	if(sec < 10)
 	{
 		cout << 0 << sec;
@@ -110,6 +141,7 @@ void threadedloghelpermessage(loglevel severity,string message)
 	cout << "] ";
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),0x07);
 	cout << message << endl;
+	threaddone = true;
 }
 string myconcat(string folder,string innerfolder,string filename)
 {
@@ -166,9 +198,8 @@ string getrandommaplayout(bool bls)
 	}
 	if(dnglvs.size() > 0)
 	{
-		int randomvar = rand() % dnglvs.size() -1;
+		int randomvar = rand() % (int)dnglvs.size();
 		return dnglvs[randomvar];
-		//TODO: randomize a number and return fileinthefolder[n]
 	}
 	return "null";
 }

@@ -15,6 +15,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <Windows.h>
+#include <memory>
 using namespace std;
 
 
@@ -24,7 +25,11 @@ using namespace std;
 #include "Player.h"
 #include "Map.h"
 #include "Menu.h"
-#include "Dungion.h"
+//#include "Tile.h"
+//#include "Entity.h"
+//#include "Dungion.h"
+//#include "Player.h"
+//#include "Item.h"
 enum keys{BUTTONCLICKED,STATECHANGED};
 bool buttonPressed[2][4] = {{false,false,false,false},
 							{false,false,false,false}};
@@ -33,9 +38,13 @@ bool buttonPressed[2][4] = {{false,false,false,false},
 bool anyButtonChangedStatus();
 bool anyButtonIsPressed();
 bool noOtherButtonsArePressed(int);
-void buttonHelper();
+void buttonHelper(int doButtonAction);
+int isAnyButtonHeldDown(int,bool);
+std::vector<int> buttonsHeldDown;
+DIRECTION lastdir;
 
-//void logHelperMessage(loglevel,int, ...);
+//TODO: add in music fadeins
+
 
 
 enum gameGuiState{MAIN,OPTION,MULTIPLAYER,INGAME,SHOP,INVINTORY,SAVELOAD,WORLDMAP};
@@ -75,11 +84,13 @@ void gameGUIShop(ALLEGRO_EVENT);
 
 Menu menuinvintory = Menu();
 void gameGUIInvintry(ALLEGRO_EVENT);
+void toggleInvintory();
 
 Menu menusaveload = Menu();
 void gameGUISaveLoad(ALLEGRO_EVENT);
 
 void initMenus();
+void changeGameState(gameGuiState);
 
 //game variables
 Dungion mydung;
@@ -93,7 +104,6 @@ int pos_x = 0;
 int pos_y = 0;
 int main(int argc, char **argv)
 {
-	ALLEGRO_SAMPLE *bgs;
 	mydung = Dungion();
 	if(al_init())logHelperMessage(OK,1,"Initilised Allegro 5.0.8");
 	else{ logHelperMessage(SEVERE,1,"Failed to initilise Allegro 5.0.8"); return -1;}
@@ -126,8 +136,15 @@ int main(int argc, char **argv)
 	//bgs = al_load_sample("snd\\01.wav");
 	//al_play_sample(bgs,0.5f,0,1,ALLEGRO_PLAYMODE_LOOP,NULL);
 	
+	al_clear_to_color(al_map_rgb(0,0,0));
+	//TODO: splash
+	al_flip_display();
+
 	initMenus();
 	curentstate = MAIN;
+	mainmenu.playBgs();
+
+
 	al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
 	event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -135,9 +152,14 @@ int main(int argc, char **argv)
 	al_register_event_source(event_queue, al_get_mouse_event_source());
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 
+	al_clear_to_color(al_map_rgb(0,0,0));
+	//TODO: splash
+	al_flip_display();
+
 	al_start_timer(timer);
 	while(!done)
 	{
+		updateThreadQue();
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 		switch (curentstate)
@@ -212,9 +234,50 @@ bool noOtherButtonsArePressed(int dir)
 	}
 	return true;
 }
-void buttonHelper()
+void buttonHelper(int doButtonAction)
 {
-	if(anyButtonChangedStatus())
+	//take the key and send to a function to return an actionenum
+	if(curentstate == INGAME)
+	{
+		switch (doButtonAction)
+		{
+		case ALLEGRO_KEY_W:
+			mydung.players[0].processInput(WALK,BACK);
+			lastdir = BACK;
+			break;
+		case ALLEGRO_KEY_A:
+			mydung.players[0].processInput(WALK,LEFT);
+			lastdir = LEFT;
+			break;
+		case ALLEGRO_KEY_S:
+			mydung.players[0].processInput(WALK,FORWARD);
+			lastdir = FORWARD;
+			break;
+		case ALLEGRO_KEY_D:
+			mydung.players[0].processInput(WALK,RIGHT);
+			lastdir = RIGHT;
+			break;
+		case ALLEGRO_KEY_E:
+			toggleInvintory();
+			break;
+		default:
+			mydung.players[0].processInput(STAND,lastdir);
+			break;
+		} 
+	}
+	else
+	{
+		if(doButtonAction == ALLEGRO_KEY_E)
+		{
+			toggleInvintory();
+		}
+	}
+	if(doButtonAction == ALLEGRO_KEY_ESCAPE)
+	{
+		done = true;
+	}
+	
+	/*if(anyButtonChangedStatus())
 	{
 			if(anyButtonIsPressed())
 			{
@@ -266,7 +329,7 @@ void buttonHelper()
 		buttonPressed[STATECHANGED][RIGHT] = false;
 		buttonPressed[STATECHANGED][FORWARD] = false;
 		buttonPressed[STATECHANGED][LEFT] = false;
-	}
+	}*/
 }
 //main gui
 void gameGUIMain(ALLEGRO_EVENT ev)
@@ -448,71 +511,13 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 {
 	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
-			switch(ev.keyboard.keycode)
-			{
-			case ALLEGRO_KEY_ESCAPE:
-				done = true;
-				break;
-			case ALLEGRO_KEY_W:
-				buttonPressed[BUTTONCLICKED][BACK] = true;
-				buttonPressed[STATECHANGED][BACK] = true;
-				break;
-			case ALLEGRO_KEY_A:
-				buttonPressed[BUTTONCLICKED][LEFT] = true;
-				buttonPressed[STATECHANGED][LEFT] = true;
-				break;
-			case ALLEGRO_KEY_S:
-				buttonPressed[BUTTONCLICKED][FORWARD] = true;
-				buttonPressed[STATECHANGED][FORWARD] = true;
-				break;
-			case ALLEGRO_KEY_D:
-				buttonPressed[BUTTONCLICKED][RIGHT] = true;
-				buttonPressed[STATECHANGED][RIGHT] = true;
-				break;
-			}
-			buttonHelper();
+			int processButton = isAnyButtonHeldDown(ev.keyboard.keycode,true);
+			buttonHelper(processButton);
 		}
 		else if(ev.type == ALLEGRO_EVENT_KEY_UP)
 		{
-			switch(ev.keyboard.keycode)
-			{
-			case ALLEGRO_KEY_ESCAPE:
-				done = true;
-				break;
-			case ALLEGRO_KEY_W:
-				if(buttonPressed[BUTTONCLICKED][BACK])
-				{
-					//if(noOtherButtonsArePressed(BACK))
-						buttonPressed[STATECHANGED][BACK] = true;
-					buttonPressed[BUTTONCLICKED][BACK] = false;
-				}
-				break;
-			case ALLEGRO_KEY_A:
-				if(buttonPressed[BUTTONCLICKED][LEFT])
-				{
-					//if(noOtherButtonsArePressed(LEFT))
-						buttonPressed[STATECHANGED][LEFT] = true;
-					buttonPressed[BUTTONCLICKED][LEFT] = false;
-				}
-				break;
-			case ALLEGRO_KEY_S:
-				if(buttonPressed[BUTTONCLICKED][FORWARD])
-				{
-					//if(noOtherButtonsArePressed(FORWARD))
-						buttonPressed[STATECHANGED][FORWARD] = true;
-					buttonPressed[BUTTONCLICKED][FORWARD] = false;
-				}
-				break;
-			case ALLEGRO_KEY_D:
-				if(buttonPressed[BUTTONCLICKED][RIGHT])
-				{
-					//if(noOtherButtonsArePressed(RIGHT))
-						buttonPressed[STATECHANGED][RIGHT] = true;
-					buttonPressed[BUTTONCLICKED][RIGHT] = false;
-				}
-				break;
-			}
-			buttonHelper();
+			int processButton = isAnyButtonHeldDown(ev.keyboard.keycode,false);
+			buttonHelper(processButton);
 		}
 		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			{
@@ -526,7 +531,7 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
 			//TODO: Handle buttons on mouse clicked
-			mydung.reftoCurrentMap()->players[0].processInput(ATACK,mydung.reftoCurrentMap()->players[0].getFaceingDir(pos_x,pos_y));
+			mydung.players[0].processInput(ATACK,mydung.players[0].getFaceingDir(pos_x,pos_y));
 		}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 		{
@@ -542,22 +547,14 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
 			//Map* curmap = mydung.reftoCurrentMap();
-			
-			mydung.Update();
+			mydung.Update(mydung);
 			mydung.Draw();
-			mydung.reftoCurrentMap()->drawLight(display);
-			//string action = mymenu.hasScrolledOverOption(pos_x,pos_y);
-			/*if(action != "null")
-			{
-
-			}
-			else
-			{
-
-			}
-			mymenu.draw();*/
-			//draw gui
-			
+			//mydung.reftoCurrentMap()->drawLight(display);
+			Player* curentplayer = mydung.refToCurrentPlayer();
+			menuingame.updateGaugeValue("PHP",curentplayer->getHealth());
+			menuingame.updateGaugeValue("PMP",curentplayer->getMana());
+			menuingame.updateGaugeValue("PLV",curentplayer->getLives());
+			menuingame.draw();
 			al_flip_display();
 		}
 }
@@ -574,7 +571,55 @@ void gameGUIShop(ALLEGRO_EVENT ev)
 //invintory
 void gameGUIInvintry(ALLEGRO_EVENT ev)
 {
-	//TODO: GUI Invintory
+	if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		{
+			int processButton = isAnyButtonHeldDown(ev.keyboard.keycode,true);
+			buttonHelper(processButton);
+		}
+		else if(ev.type == ALLEGRO_EVENT_KEY_UP)
+		{
+			int processButton = isAnyButtonHeldDown(ev.keyboard.keycode,false);
+			buttonHelper(processButton);
+		}
+		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+			{
+				done = true;
+			}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
+		{
+			pos_x = ev.mouse.x;
+			pos_y = ev.mouse.y;
+		}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		{
+			//TODO: Handle buttons on mouse clicked
+			mydung.players[0].processInput(ATACK,mydung.players[0].getFaceingDir(pos_x,pos_y));
+		}
+		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+		{
+			//TODO: Handle buttons on mouse un clicked
+		}
+		else if(ev.type = ALLEGRO_EVENT_TIMER)
+		{
+			redraw = true;
+		}
+		
+		if(redraw == true && al_event_queue_is_empty(event_queue))
+		{
+			redraw = false;
+			al_clear_to_color(al_map_rgb(0,0,0));
+			//Map* curmap = mydung.reftoCurrentMap();
+
+			mydung.Draw();
+			//mydung.reftoCurrentMap()->drawLight(display);
+			Player* curentplayer = mydung.refToCurrentPlayer();
+			menuingame.updateGaugeValue("PHP",curentplayer->getHealth());
+			menuingame.updateGaugeValue("PMP",curentplayer->getMana());
+			menuingame.updateGaugeValue("PLV",curentplayer->getLives());
+			menuingame.draw();
+			menuinvintory.draw();
+			al_flip_display();
+		}
 }
 //saveload
 void gameGUISaveLoad(ALLEGRO_EVENT ev)
@@ -602,6 +647,7 @@ void initMenus()
 			ALLEGRO_BITMAP* mainmenuexit_DOWN = load_image("Images\\Menus\\main\\exit_down.png");
 			ALLEGRO_BITMAP* mainmenucopyright = load_image("Images\\Menus\\main\\copywrite.png");
 			ALLEGRO_BITMAP* mainmenuversion = load_image("Images\\Menus\\main\\version.png");
+			ALLEGRO_SAMPLE* mainmenubgs = load_sound("Sound\\BGS\\Scene music 2.wav");
 		//create button pointer functions
 			void(*mainmenusingleclick)() = &mainMenuClickSingle;
 			void(*mainmenumulticlick)() = &mainMenuClickMulti;
@@ -616,6 +662,7 @@ void initMenus()
 			mainmenu.addButton(266,545,mainmenuexit_UP,mainmenuexit_DOWN,"Exit",mainmenuexitclick);
 			mainmenu.addImage(0,606,mainmenucopyright);
 			mainmenu.addImage(575,606,mainmenuversion);
+			mainmenu.setBgs(mainmenubgs);
 	//optionsmenu
 		menuoptions = Menu(); // options menu
 		logHelperMessage(INFO,1,"Creating optionmenu");
@@ -650,7 +697,7 @@ void initMenus()
 		menuoverworld = Menu();
 		logHelperMessage(INFO,1,"Creating overworldmenu");
 		//load images
-			ALLEGRO_BITMAP* overworldmenubg = load_image("Images\\Menus\\overworld\\bg.png");
+			ALLEGRO_BITMAP* overworldmenubg = load_image("Images\\Menus\\overworld\\bg.jpg");
 			ALLEGRO_BITMAP* overworlddung_UP = load_image("Images\\Menus\\overworld\\dng.png");
 			ALLEGRO_BITMAP* overworlddung1_DOWN = load_image("Images\\Menus\\overworld\\dng1.png");
 			ALLEGRO_BITMAP* overworlddung2_DOWN = load_image("Images\\Menus\\overworld\\dng2.png");
@@ -662,13 +709,22 @@ void initMenus()
 		//add buttons
 			menuoverworld.addImage(0,0,overworldmenubg);
 			menuoverworld.addButton(107,465,overworlddung_UP,overworlddung1_DOWN,"dung1",overworldMenuClickDung1);
-			menuoverworld.addButton(448,529,overworlddung_UP,overworlddung2_DOWN,"dung2",overworldMenuClickDung2);
-			menuoverworld.addButton(685,606,overworlddung_UP,overworlddung3_DOWN,"dung3",overworldMenuClickDung3);
+			menuoverworld.addButton(714,416,overworlddung_UP,overworlddung2_DOWN,"dung2",overworldMenuClickDung2);
+			menuoverworld.addButton(574,323,overworlddung_UP,overworlddung3_DOWN,"dung3",overworldMenuClickDung3);
 	//menumulti
 		menumulti = Menu();
 		//TODO: Load multiplayer gui elements
 	//menuingame
 		menuingame = Menu();
+		ALLEGRO_BITMAP* menuingamephpimg = load_image("Images\\Menus\\ingame\\health.png");
+		ALLEGRO_BITMAP* menuingamepmpimg = load_image("Images\\Menus\\ingame\\mana.png");
+		ALLEGRO_BITMAP* menuingameplvimg = load_image("Images\\Menus\\ingame\\life.png");
+		Bounds menuingamephpbounds = Bounds(608,0,192,32);
+		Bounds menuingamepmpbounds = Bounds(416,0,192,32);
+		Bounds menuingameplvbounds = Bounds(0,0,192,32);
+		menuingame.addGauge(menuingamephpimg,menuingamephpbounds,GAUGE_LAYER,10,"PHP");
+		menuingame.addGauge(menuingamepmpimg,menuingamepmpbounds,GAUGE_LAYER,10,"PMP");
+		menuingame.addGauge(menuingameplvimg,menuingameplvbounds,GAUGE_LAYER,10,"PLV");
 		//TODO: load ingamemenu gui elements
 	//menucutscene
 		menucutscene = Menu();
@@ -678,8 +734,56 @@ void initMenus()
 		//TODO: load menushot gui elements
 	//menu invintory
 		menuinvintory = Menu();
+		ALLEGRO_BITMAP* menuinvintoybg = load_image("Images\\Menus\\invintory\\bg.png");
+		Bounds menuinvintorybgbounds = Bounds(64,122,672,418);
+		Bounds menuinvintorymoneybounds = Bounds(560,145,0,0);
+		menuinvintory.addImage(menuinvintorybgbounds.getX(),menuinvintorybgbounds.getY(),menuinvintoybg);
+		menuinvintory.addNumber(menuinvintorymoneybounds,"INVMONEY",0);
 		//TODO: load menuinvintory gui elements
 	//menusaveload
 		menusaveload = Menu();
 		//TODO: load saveload gui elements
+}
+void changeGameState(gameGuiState newstate)
+{
+	//music fadeout
+	curentstate = newstate;
+}
+int isAnyButtonHeldDown(int key,bool down)
+{
+	if(down)
+	{
+		//a button has been held down
+		buttonsHeldDown.push_back(key);//order of buttonpresses
+	}
+	else
+	{
+		//a button has been let up
+		for(int i = 0; i < (int)buttonsHeldDown.size();i++)
+		{
+			if(key == buttonsHeldDown[i])
+			{
+				buttonsHeldDown.erase(buttonsHeldDown.begin() + i);
+			}
+		}
+	}
+	if(buttonsHeldDown.size() == 0)
+	{
+		return 0;
+	}
+	else
+	{
+		return buttonsHeldDown[buttonsHeldDown.size()-1];
+	}
+}
+void toggleInvintory()
+{
+	if(curentstate == INGAME)
+	{
+		curentstate = INVINTORY;
+	}
+	else
+	{
+		curentstate = INGAME;
+	}
 }

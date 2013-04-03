@@ -14,3 +14,27 @@ bool entity.hasColidedWith(entity);
 	entity.spawn(position);
 	entity.spawn(bounds);
 	entity.spawnWithValocity(bounds,vx,vy);
+	
+//threaded messages:
+	//systemvars
+	Thread t1;
+	vector<string> logstack;
+		Loghelper(level,number,...)
+			//buildmessage and push to Logstack
+			
+		publishbuffer()
+			//check to see if t1 is done processing
+				//YES:
+					//add message to a variable
+					//pop a new message off the stack
+				//NO:
+					//return
+	//main
+	
+	update
+	{
+		systemvars.publishbuffer();
+	}
+
+//Map drawing
+	//at map init, bake map includeing wall shadeing

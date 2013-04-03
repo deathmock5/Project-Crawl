@@ -1,3 +1,4 @@
+#pragma once
 #ifndef _allegro_h_
 #define _allegro_h_
 #include <allegro5\allegro.h>
@@ -14,7 +15,7 @@
 #include <cstdlib>
 #include <sstream>
 using namespace std;
-//#include "SystemVars.h"
+#include "SystemVars.h"
 class Item
 {
 public:

@@ -37,6 +37,7 @@ void Point::setY(float yp)
 {
 	y = yp;
 }
+
 const Point operator +(const Point num1,const Point& num2)
 {
 	float thex = num1.x + num2.x;

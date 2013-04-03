@@ -15,7 +15,7 @@ using std::ifstream;
 //	int rooms;
 //	int curentroom;
 //	std::vector<Map> maps;
-
+//TODO: move player into this file
 Dungion::Dungion(void)
 {
 	//tileset
@@ -46,12 +46,20 @@ void Dungion::Draw()
 {
 	//TODO: Draw
 	maps[curentroom].draw();
+	for(int i = 0;i < curentplayers;i++)
+		{
+			players[i].draw();
+		}
+	/*for(int i = 0;i < curentplayers;i++)
+		{
+			players[i].drawLight(torchlight);
+		}*/
 }
 
-void Dungion::Update()
+void Dungion::Update(Dungion& dung)
 {
 	//TODO: Update
-	maps[curentroom].update();
+	maps[curentroom].update(dung);
 }
 
 void Dungion::Load(string myfile)
@@ -94,45 +102,81 @@ void Dungion::Load(string myfile)
 		//ALLEGRO_BITMAP* playertls = load_image(myconcat(
 		bgs = load_sound(filebgs); //Load bgs
         //TODO: get difculty multiplier
-        //TODO:		set darkness level bace
+        //TODO:	set darkness level bace
 		Entity monster1 = Entity(filemon1);
 		Entity monster2 = Entity(filemon2);
-		monsters[0] = monster1;
-		monsters[1] = monster2;
+		dificulty = 1;
+		Map newmap;
+		int randx = 1;
+		int randy = 1;
+		srand(time(NULL));
+		bool firstroom = true;
 		for(int i = 0; i < atoi(filenumrooms.c_str());i++)
 		{
-			//get a random room layout
-			Map newmap = Map(tileset,torchlight,bgs,getrandommaplayout(false),i);
-			//Map newmap = Map(myfile.c_str(),getrandommaplayout(false),0);
-			//newmap.spawnEnttityInMap(monster1,0,0);
-			//TODO: fill it with monstershizzles.
+			//newmap = Map();
+			newmap = Map(tileset,torchlight,bgs,getrandommaplayout(false),i);
+			for(int nm = 0; nm < 4; nm++)
+			{
+				//srand(i+nm + randx + randy);
+				randx = rand() % 736 + 32;
+				randy = rand() % 568 + 64;
+				if(rand() % 2 + 1 == 1)
+				{
+					monster1.setBounds(Bounds(Point(randx,randy),64,64));
+					monster1.addColider("PLAYER");
+					monster1.addTag("ENEMY");
+					monster1.addColider("PLAYER_SLASH");
+					newmap.spawnEnttityInMap(monster1);
+				}
+				else
+				{
+					monster2.setBounds(Bounds(Point(randx,randy),64,64));
+					monster2.addColider("PLAYER");
+					monster2.addTag("ENEMY");
+					monster2.addColider("PLAYER_SLASH");
+					newmap.spawnEnttityInMap(monster2);
+				}
+			}
+			if(firstroom)
+			{
+				firstroom = false;
+			}
+			else
+			{
+				//TODO: make doors a bit more random? also
+				newmap.addDoor(BACK,i-1,false);
+				maps[i-1].addDoor(FORWARD,i,false);
+			}
 			maps.push_back(newmap);
 		}		
-			/*maptiles[12][0] = Tile(DOOR,lvtileset,12,0);
-			maptiles[12][18] = Tile(DOOR,lvtileset,12,18);
-			maptiles[0][9] = Tile(DOOR,lvtileset,0,9);
-			maptiles[24][9] = Tile(DOOR,lvtileset,24,9);*/
-        //TODO:	get a basic room
-        //bool keyneeded = false;
-        /*for(rooms)
-        {   
-            if(rooms % 4)
-            {
-                request new locked door 
-                Map newmap = makenewroom(avalibleRooms,true);
-            }
-            
-        }*/
+		curentroom = 0;
         }
     else
     {
 		logHelperMessage(SEVERE,2,"Unable to open file:",myfile);
         //cout << "Unable to open file:" << myfile << endl;
     }
-    
+    curentplayers = 1;
+	players.push_back(Player("Player"));
 }
 
 Map* Dungion::reftoCurrentMap()
 {
 	return &maps[curentroom];
+}
+
+Player* Dungion::refToCurrentPlayer()
+{
+	return &players[0];
+}
+
+void Dungion::triggerPlayerTransferToNewMap(int tomap,int playerid)
+{
+	curentroom = tomap;
+	maps[curentroom].hide();
+	maps[tomap].show();
+	Bounds curentpos = players[playerid].getBounds();
+	curentpos.setX(400);
+	curentpos.setY(500);
+	players[playerid].setBounds(curentpos);
 }

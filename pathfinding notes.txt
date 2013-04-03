@@ -1,0 +1,10 @@
+﻿bool madetonextnodeinchain = false;
+string pathstring;
+ent.Update()
+	if(madetonextnodeinchain)
+	{
+		//thread that.
+		pathstring = pathfind(myx,myy,playerx,playery);
+		madetonextnodeinchain = false;
+	}
+	

@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Advanced game desing", "Adv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungMaker", "DungMaker\DungMaker.csproj", "{79825588-1214-4364-9CA4-1B6E13CF8A43}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "astarTest", "astarTest\astarTest.vcxproj", "{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,26 @@ Global
 		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{79825588-1214-4364-9CA4-1B6E13CF8A43}.Release|Win32.ActiveCfg = Release|Any CPU
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Debug|Win32.Build.0 = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.dungediter|Any CPU.ActiveCfg = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.dungediter|Mixed Platforms.ActiveCfg = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.dungediter|Mixed Platforms.Build.0 = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.dungediter|Win32.ActiveCfg = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.dungediter|Win32.Build.0 = Debug|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.game|Any CPU.ActiveCfg = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.game|Mixed Platforms.ActiveCfg = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.game|Mixed Platforms.Build.0 = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.game|Win32.ActiveCfg = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.game|Win32.Build.0 = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Release|Any CPU.ActiveCfg = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Release|Win32.ActiveCfg = Release|Win32
+		{0710EDAB-440E-4734-91BA-2A4ECD1CD02D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

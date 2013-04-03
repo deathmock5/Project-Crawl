@@ -11,21 +11,29 @@ using namespace std;
 							{20,20,20,20,5}};*/
 Player::Player()
 {
-
+	//TODO: remove me
+	health = 1;
+	lives = 3;
+	mana = 4;
 }
 Player::Player(string username)
 {
 	
 	framecount = 0;
 	animation = STANDING;
-	posx = 60;
-	posy = 60;
+	mybounds.setX(60);
+	mybounds.setY(60);
+	mybounds.setW(32);
+	mybounds.setH(64);
 	tilesize = 64.0f;
 	tileset = load_image("Images\\mainChar.png");
 	direction = FORWARD;
 	delay = 0;
 	maxDelay = 1;
 	stateChanged = false;
+	health = 1;
+	lives = 3;
+	mana = 4;
 }
 void Player::draw()
 {
@@ -42,17 +50,19 @@ void Player::draw()
 	}
 	delay = 0;
 	}
-	al_draw_bitmap_region(tileset,(float)framecount * tilesize,(float)frameSet[animation][direction] * tilesize,tilesize,tilesize,posx,posy,0);
+	al_draw_bitmap_region(tileset,(float)framecount * tilesize,(float)frameSet[animation][direction] * tilesize,tilesize,tilesize,mybounds.getX(),mybounds.getY(),0);
 }
 void Player::drawLight(ALLEGRO_BITMAP *torchlight)
 {
 	int v2 = rand() % 4 + 1;     // v2 in the range 1 to 4
-	al_draw_tinted_scaled_bitmap(torchlight,al_map_rgba(1,1,1,255),0,0,64.0f,64.0f,posx - 32.0f + v2,posy - 64.0f,128.0f,128.0f + v2,0);
+	al_draw_tinted_scaled_bitmap(torchlight,al_map_rgba(1,1,1,255),0,0,64.0f,64.0f,mybounds.getX() - 32.0f + v2,mybounds.getY() - 64.0f,128.0f,128.0f + v2,0);
 }
-void Player::update(vector<Entity> ents,Tile tiles[19][25])
+void Player::update(vector<Entity> ents,Tile tiles[19][25],Dungion& dung)
 {
 	if(stateChanged)
 	{
+		Entity myatackhitbox;
+		Bounds slashhitbox;
 		switch(animation)
 		{
 		case ULTI:
@@ -64,31 +74,27 @@ void Player::update(vector<Entity> ents,Tile tiles[19][25])
 			switch (direction)
 			{
 			case BACK:
-				if(tiles[((int)(posy + 32.0f)/32)-1][((int)(posx + 32.0f)/32)].passable())
+				if(tiles[((int)(mybounds.getY() + 32.0f)/32)-1][((int)(mybounds.getX() + 32.0f)/32)].passable())
 				{
-					posy -= 2.0f;
+					mybounds.setY(mybounds.getY() - 2.0f);
 				}
 				break;
 			case LEFT:
-				if(tiles[((int)(posy + 48.0f)/32)-1][((int)(posx + 14.0f)/32)].passable())
+				if(tiles[((int)(mybounds.getY() + 48.0f)/32)-1][((int)(mybounds.getX() + 14.0f)/32)].passable())
 				{
-					posx -= 2.0f;
+					mybounds.setX(mybounds.getX() - 2.0f);
 				}
 				break;
 			case FORWARD:
-				if(tiles[((int)(posy + 32.0f)/32)][((int)(posx + 0.0f)/32)+1].passable())
+				if(tiles[((int)(mybounds.getY() + 32.0f)/32)][((int)(mybounds.getX() + 0.0f)/32)+1].passable())
 				{
-					posy += 2;
+					mybounds.setY(mybounds.getY() + 2.0f);
 				}
 				break;
 			case RIGHT:
-				if(tiles[((int)(posy + 16.0f)/32)][((int)(posx + 14.0f)/32)+1].passable())
+				if(tiles[((int)(mybounds.getY() + 16.0f)/32)][((int)(mybounds.getX() + 14.0f)/32)+1].passable())
 				{
-					posx += 2;
-				}
-				else
-				{
-					cout << posx << "," << posy << endl;
+					mybounds.setX(mybounds.getX() + 2.0f);
 				}
 				break;
 			default:
@@ -97,6 +103,34 @@ void Player::update(vector<Entity> ents,Tile tiles[19][25])
 			break;
 		case SLASH:
 			//TODO: Hitbox stuff
+			slashhitbox.setW(32);
+			slashhitbox.setH(32);
+			switch (direction)
+			{
+			case BACK:
+				slashhitbox.setX(mybounds.getX() + 16);
+				slashhitbox.setY(mybounds.getY() - 16);
+				break;
+			case LEFT:
+				slashhitbox.setX(mybounds.getX() - 16);
+				slashhitbox.setY(mybounds.getY() + 16);
+				break;
+			case FORWARD:
+				slashhitbox.setX(mybounds.getX() + 16);
+				slashhitbox.setY(mybounds.getY() + 48);
+				break;
+			case RIGHT:
+				slashhitbox.setX(mybounds.getX() + 48);
+				slashhitbox.setY(mybounds.getY() + 16);
+				break;
+			default:
+				break;
+			}
+			myatackhitbox = Entity(slashhitbox,true);
+			myatackhitbox.addTag("PLAYER_SLASH");
+			myatackhitbox.addColider("ENEMY");
+			myatackhitbox.setTimeout(3);
+			dung.reftoCurrentMap()->spawnEnttityInMap(myatackhitbox);
 			break;
 		case BOW:
 			break;
@@ -110,11 +144,16 @@ void Player::update(vector<Entity> ents,Tile tiles[19][25])
 			stateChanged = false;
 		}
 	}
-	Entity anyatackingmob = playerHasBeenHit(ents);
-	if(anyatackingmob.exists())
+	for(int i = 0;i < (int)ents.size();i++)//Lets look though all of the entitys.
 	{
-		//damage calculation code
-
+		if(ents[i].hasColider("PLAYER"))//Can it colide with the player?
+		{
+			if(mybounds.hasColidedWith(ents[i].getBounds()))
+			{
+				//ok, this entity has touched the player.
+				damageMe(1);
+			}
+		}
 	}
 }
 void Player::processInput(ACTIONS action,DIRECTION dir)
@@ -145,10 +184,10 @@ void Player::processInput(ACTIONS action,DIRECTION dir)
 }
 DIRECTION Player::getFaceingDir(int x,int y)
 {
-	int dleft = posx + 16 - x;//negitive if right, positive when left
-	int dup = posy + 32 - y;//positive when up negitive when down
-	int dright = x - (posx + 16);
-	int ddown = y - (posy + 32);
+	int dleft = mybounds.getX() + 16 - x;//negitive if right, positive when left
+	int dup = mybounds.getY() + 32 - y;//positive when up negitive when down
+	int dright = x - (mybounds.getX() + 16);
+	int ddown = y - (mybounds.getY() + 32);
 	if(dleft > dright && dleft > dup && dleft > ddown)
 	{
 		return LEFT;
@@ -163,12 +202,47 @@ DIRECTION Player::getFaceingDir(int x,int y)
 	}
 	return FORWARD;
 }
-Entity Player::playerHasBeenHit(vector<Entity> ents)
+Bounds Player::getBounds()
 {
-	//boundschecking code
-	return Entity();
+	return mybounds;
 }
-int getBounds()
+void Player::setBounds(Bounds newbounds)
 {
-	return 1;
+	mybounds = newbounds;
+}
+int Player::getHealth()
+{
+	return health;
+}
+int Player::getMana()
+{
+	return mana;
+}
+int Player::getLives()
+{
+	return lives;
+}
+void Player::damageMe(int amount)
+{
+	//ok im being damaged, lets apply it to my health.
+	health -= amount;
+	//am i still alive?
+	if(health <= 0)
+	{
+		//nope kill me.
+		if(lives > 0)//do i have any lives left?
+		{
+			lives -= 1;
+			//TODO:apply invincibility for a few seconds.
+		}
+		else
+		{
+			//im out of lives. im dead.
+			//TODO: apply game over menu and death ext.
+		}
+	}
+}
+int Player::getMoney()
+{
+	return money;
 }

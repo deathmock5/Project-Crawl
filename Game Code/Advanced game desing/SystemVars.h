@@ -24,11 +24,14 @@
 #include <thread>
 using namespace std;
 //enums
+//TODO: update all enums to ENUMNAME_TYPE
 const enum loglevel{INFO,WARNING,OK,SEVERE};
 const enum ATACKSTYLE{MAGIC,MELEE,RANGED}; 
 const enum ACTIONS{STAND,WALK,ATACK};
 const enum FRAMESET{ULTI = 0,WAND = 1, WALKING = 2,SLASH = 3,BOW = 4,DEAD = 5,STANDING = 6};
 const enum DIRECTION{BACK,LEFT,FORWARD,RIGHT};
+const enum TAGANDCOLIDERTYPES{TAGENEMY,TAGPLAYER,TAGTORCH};
+const enum GAUGETYPES{GAUGE_FILL,GAUGE_LAYER};
 
 //vector<string> listOfDnglv; //files
 
@@ -39,6 +42,7 @@ void threadedloghelpermessage(loglevel,string);
 string myconcat(string,string,string);
 string myconcat(int,...);
 string getrandommaplayout(bool);
+void updateThreadQue();
 
 class SystemVars
 {
