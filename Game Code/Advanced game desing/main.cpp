@@ -30,10 +30,6 @@ using namespace std;
 //#include "Dungion.h"
 //#include "Player.h"
 //#include "Item.h"
-enum keys{BUTTONCLICKED,STATECHANGED};
-bool buttonPressed[2][4] = {{false,false,false,false},
-							{false,false,false,false}};
-
 
 bool anyButtonChangedStatus();
 bool anyButtonIsPressed();
@@ -198,42 +194,8 @@ int main(int argc, char **argv)
 	al_destroy_display(display);
 	return 0;
 }
-bool anyButtonChangedStatus()
-{
-	for(int i = 0;i < 4;i++)
-	{
-		if(buttonPressed[1][i])
-		{
-			return true;
-		}
-	}
-	return false;
-}
-bool anyButtonIsPressed()
-{
-	for(int i = 0;i < 4;i++)
-	{
-		if(buttonPressed[0][i])
-		{
-			return true;
-		}
-	}
-	return false;
-}
-bool noOtherButtonsArePressed(int dir)
-{
-	for(int i = 0;i < 4;i++)
-	{
-		if(buttonPressed[0][i])
-		{
-			if(dir != i)
-			{
-				return false;
-			}
-		}
-	}
-	return true;
-}
+
+
 void buttonHelper(int doButtonAction)
 {
 	//take the key and send to a function to return an actionenum
@@ -277,59 +239,6 @@ void buttonHelper(int doButtonAction)
 		done = true;
 	}
 	
-	/*if(anyButtonChangedStatus())
-	{
-			if(anyButtonIsPressed())
-			{
-				if(buttonPressed[BUTTONCLICKED][BACK] && buttonPressed[STATECHANGED][BACK])
-				{
-					mydung.reftoCurrentMap()->players[0].processInput(WALK,BACK);
-				}
-				else if(buttonPressed[BUTTONCLICKED][LEFT] && buttonPressed[STATECHANGED][LEFT])
-				{
-					mydung.reftoCurrentMap()->players[0].processInput(WALK,LEFT);
-				}
-				else if(buttonPressed[BUTTONCLICKED][RIGHT] && buttonPressed[STATECHANGED][RIGHT])
-				{
-					mydung.reftoCurrentMap()->players[0].processInput(WALK,RIGHT);
-				}
-				else if(buttonPressed[BUTTONCLICKED][FORWARD] && buttonPressed[STATECHANGED][FORWARD])
-				{
-					mydung.reftoCurrentMap()->players[0].processInput(WALK,FORWARD);
-				}
-				else if(noOtherButtonsArePressed(BACK))
-				{
-					mydung.reftoCurrentMap()->players[0].processInput(WALK,BACK);
-				}
-				else if(noOtherButtonsArePressed(LEFT))
-				{
-					mydung.reftoCurrentMap()->players[0].processInput(WALK,LEFT);
-				}
-				else if(noOtherButtonsArePressed(RIGHT))
-				{
-					mydung.reftoCurrentMap()->players[0].processInput(WALK,RIGHT);
-				}
-				else if(noOtherButtonsArePressed(FORWARD))
-				{
-					mydung.reftoCurrentMap()->players[0].processInput(WALK,FORWARD);
-				}
-			}
-			else
-			{
-				if(buttonPressed[STATECHANGED][BACK])
-					mydung.reftoCurrentMap()->players[0].processInput(STAND,BACK);
-				else if(buttonPressed[STATECHANGED][LEFT])
-					mydung.reftoCurrentMap()->players[0].processInput(STAND,LEFT);
-				else if(buttonPressed[STATECHANGED][RIGHT])
-					mydung.reftoCurrentMap()->players[0].processInput(STAND,RIGHT);
-				else if(buttonPressed[STATECHANGED][FORWARD])
-					mydung.reftoCurrentMap()->players[0].processInput(STAND,FORWARD);
-			}
-		buttonPressed[STATECHANGED][BACK] = false;
-		buttonPressed[STATECHANGED][RIGHT] = false;
-		buttonPressed[STATECHANGED][FORWARD] = false;
-		buttonPressed[STATECHANGED][LEFT] = false;
-	}*/
 }
 //main gui
 void gameGUIMain(ALLEGRO_EVENT ev)

@@ -5,11 +5,13 @@ Entity::Entity()
 {
 	framecount = -1;
 	hasbeeninited = false;
+	mapHasBeenSet = false;
 }
 Entity::Entity(float spawnx,float spawny)
 {
 	hasbeeninited = false;
 	curenthealth = 1;
+	mapHasBeenSet = false;
 }
 Entity::Entity(Bounds hitboxSquare,bool ishitbox)
 {
@@ -17,12 +19,14 @@ Entity::Entity(Bounds hitboxSquare,bool ishitbox)
 	mybounds = hitboxSquare;
 	isliveingcreature = false;
 	curenthealth = 1;
+	mapHasBeenSet = false;
 }
 Entity::Entity(string file)
 {
 	frametimeout = -1;
 	load(file);
 	hasbeeninited = true;
+	mapHasBeenSet = false;
 }
 Entity::Entity(string nam,ALLEGRO_BITMAP* ts,int w,int h,ALLEGRO_SAMPLE* atksnd,ALLEGRO_SAMPLE* dmgsnd,ATACKSTYLE sty,int hp,int dmg)
 {
@@ -49,6 +53,7 @@ Entity::Entity(string nam,ALLEGRO_BITMAP* ts,int w,int h,ALLEGRO_SAMPLE* atksnd,
 	curenthealth = hp;
 	damagebace = dmg;
 	addTag("ENEMY");
+	mapHasBeenSet = false;
 }
 Entity::~Entity()
 {
@@ -130,6 +135,46 @@ void Entity::travelToPos(float tarx,float tary,float speed)
 }
 void Entity::update(vector<Player> &players,vector<Entity> &ents,Tile tiles[19][25])
 {
+	if(isAlive())
+	{
+		if(!mapHasBeenSet)
+		{
+			for(int h = 0;h < 19;h++)
+			{
+				for(int w = 0; w < 25;w++)
+				{
+					if(tiles[h][w].passable())
+					{
+						map[h][w] = 0;//passable
+					}
+					else
+					{
+						map[h][w] = 1;//notpassable
+					}
+				}
+			}
+			mapHasBeenSet = true;
+		}
+		else
+		{
+			//ok the map is all set up.
+			//Lets get a apath!
+			if(pathtoplayer == "")
+			{
+				//lets try to path;
+				pathtoplayer = pathFind(players[0].getBounds().getGridPos());//TODO: thread me.
+			}
+			else
+			{
+				//TODO: lets make this ent move!
+				/*
+				* -3-
+				* 2-0
+				* -1-
+				*/
+			}
+		}
+	}
 	if(statechanged)
 	{
 		switch(animation)
@@ -363,7 +408,7 @@ void Entity::setBounds(Bounds varbounds)
 {
 	mybounds = varbounds;
 }
-string Entity::pathFind(Point playerpos,Tile maptiles[19][25])
+string Entity::pathFind(Point playerpos)
 {
 	//TODO: move the statics.
 	//TODO: threading.

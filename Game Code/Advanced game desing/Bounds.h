@@ -22,6 +22,7 @@ public:
 	Point getUpperLeftPoint();
 	Point getLowerRightPoint();
 	Point getCenterPoint();
+	Point getGridPos();
 	bool hasColidedWith(Bounds);
 private:
 	Point position;

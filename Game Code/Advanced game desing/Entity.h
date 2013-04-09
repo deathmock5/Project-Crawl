@@ -75,7 +75,7 @@ public:
 	void setTimeout(int);
 private:
 		void load(string);
-		string pathFind(Point playerpos,Tile maptiles[19][25]);
+		string pathFind(Point playerpos);
 		bool hasbeeninited;
 		ALLEGRO_BITMAP* tileset;
 		ALLEGRO_SAMPLE* monatacknoise;
@@ -105,6 +105,7 @@ private:
 	//pathfinding
 	int n; // horizontal size of the map
 	int m; // vertical size size of the map
+	bool mapHasBeenSet;
 	int map[25][19];
 	int closed_Nodes_map[25][19]; // map of closed (tried-out) Nodes
 	int open_Nodes_map[25][19]; // map of open (not-yet-tried) Nodes
@@ -118,5 +119,6 @@ private:
     int pqi; // pq index
     Node* n0;
     Node* m0;
+	string pathtoplayer;
 };
 #endif // !_Entity_h_

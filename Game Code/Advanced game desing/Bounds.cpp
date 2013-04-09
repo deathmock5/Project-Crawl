@@ -75,6 +75,13 @@ Point Bounds::getCenterPoint()
 	center.setY(center.getY() + h / 2);
 	return center;
 }
+Point Bounds::getGridPos()
+{
+	Point returnpoint;
+	returnpoint.setX(position.getX() / 32);
+	returnpoint.setY(position.getY() / 32);
+	return returnpoint;
+}
 bool Bounds::hasColidedWith(Bounds otherobj)
 {
 	//al_draw_filled_rectangle(getX(),getY(),getX() + getW(),getY() + getH(),al_map_rgb(255,255,255));
