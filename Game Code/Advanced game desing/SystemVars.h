@@ -1,16 +1,15 @@
 #pragma once
-#ifndef _allegro_h_
-#define _allegro_h_
+
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
-#endif // !_allegro_h_
+#include <allegro5\allegro_font.h>
+#include <allegro5\allegro_ttf.h>
 
-#ifndef _systemvars_h_
-#define _systemvars_h_
+
 //includes
 #include <iostream>
 #include <cstdlib>
@@ -44,6 +43,8 @@ string myconcat(int,...);
 string getrandommaplayout(bool);
 void updateThreadQue();
 
+
+
 class SystemVars
 {
 public:
@@ -55,4 +56,3 @@ public:
 private:
 
 };
-#endif

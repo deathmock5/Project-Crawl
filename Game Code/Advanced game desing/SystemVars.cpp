@@ -1,7 +1,4 @@
 #include "SystemVars.h"
-#ifndef _systemvars_cpp_
-#define _systemvars_cpp_
-
 
 vector<string> dnglvs;
 
@@ -203,4 +200,3 @@ string getrandommaplayout(bool bls)
 	}
 	return "null";
 }
-#endif

@@ -1,26 +1,10 @@
 #pragma once
-#ifndef _allegro_h_
-#define _allegro_h_
-#include <allegro5\allegro.h>
-#include <allegro5\allegro_native_dialog.h>
-#include <allegro5\allegro_image.h>
-#include <allegro5\allegro_primitives.h>
-#include <allegro5\allegro_audio.h>
-#include <allegro5\allegro_acodec.h>
-#endif // !_allegro_h_
 
-//#ifndef _Player_h_
-//#define _Player_h_
-
-#include <vector>
-#include <cstdlib>
-#include <sstream>
-#include <iostream>
-
+#include "SystemVars.h"
 #include "Entity.h"
 #include "Tile.h"
 #include "Item.h"
-#include "SystemVars.h"
+
 #include "Bounds.h"
 #include "Dungion.h"
 using namespace std;
@@ -72,4 +56,3 @@ private:
 	int money;
 	string playername;
 };
-//#endif // !_Player_h_

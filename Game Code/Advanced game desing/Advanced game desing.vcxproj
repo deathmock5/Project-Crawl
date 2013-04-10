@@ -117,6 +117,7 @@
     <ClCompile Include="Dungion.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameVars.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Dungion.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="GameEvent.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />

@@ -1,13 +1,3 @@
-//Allegro Imports
-#include <allegro5\allegro.h>
-#include <allegro5\allegro_native_dialog.h>
-#include <allegro5\allegro_primitives.h>
-#include <allegro5\allegro_font.h>
-#include <allegro5\allegro_ttf.h>
-#include <allegro5\allegro_audio.h>
-#include <allegro5\allegro_acodec.h>
-#include <allegro5\allegro_image.h>
-
 
 //system imports
 #include <iostream>
@@ -20,7 +10,6 @@ using namespace std;
 
 
 //refrenced classes and namespaces
-#include "SystemVars.h"
 #include "SystemVars.cpp"
 #include "Player.h"
 #include "Map.h"
@@ -355,6 +344,7 @@ void optionsMenuClickDificulty()
 void optionsMenuClickBack()
 {
 	//TODO: optionsMenuClickBack()
+	curentstate = MAIN;
 }
 //Overworld
 void gameGUIOverworld(ALLEGRO_EVENT ev)

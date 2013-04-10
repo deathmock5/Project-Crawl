@@ -3,6 +3,7 @@
 #define  _EventManager_H_
 #include "Dungion.h"
 #include "Menu.h"
+const enum EVENTTYPES{EVENT_DIALOG,EVENT_ENTITYSPAWN,EVENT_LIGHTCHANGE,EVENT_SPAWNTORCH,EVENT_SPAWNGOLD,EVENT_PLAYSFX,EVENT_MOVEPLAYER,EVENT_ROOMENTER,EVENT_WARP};
 class EventManager
 {
 public:
@@ -31,5 +32,9 @@ private:
 	void addRoomEnterEvent(string roomid);
 	void addWarpToMapEvent(int time);
 	void addWarpToMapEvent(string uniqueid);
+	vector<string> eventtimes;
+	vector<EVENTTYPES> eventtypes;
+	vector<string> eventprams;
+	
 };
 #endif
