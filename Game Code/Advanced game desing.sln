@@ -40,11 +40,11 @@ Global
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.game|Mixed Platforms.ActiveCfg = game|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.game|Mixed Platforms.Build.0 = game|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.game|Win32.ActiveCfg = game|Win32
-		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Any CPU.ActiveCfg = Profile|Win32
-		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Mixed Platforms.ActiveCfg = Profile|Win32
-		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Mixed Platforms.Build.0 = Profile|Win32
-		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Win32.ActiveCfg = Profile|Win32
-		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Win32.Build.0 = Profile|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Any CPU.ActiveCfg = Release|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Mixed Platforms.ActiveCfg = Release|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Mixed Platforms.Build.0 = Release|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Win32.ActiveCfg = Release|Win32
+		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Profile|Win32.Build.0 = Release|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Release|Any CPU.ActiveCfg = Release|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{4F20BCA2-5B86-4FF9-B75F-E513C5D65787}.Release|Mixed Platforms.Build.0 = Release|Win32

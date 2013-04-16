@@ -129,3 +129,7 @@ void EventManager::addWarpToMapEvent(int time)
 {}
 void EventManager::addWarpToMapEvent(string uniqueid)
 {}
+LINETYPE EventManager::getLineType(string)
+{
+	return LINETYPE_CHANGELIGHTLEVEL;
+}

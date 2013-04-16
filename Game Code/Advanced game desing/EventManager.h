@@ -4,6 +4,7 @@
 #include "Dungion.h"
 #include "Menu.h"
 #include "GameEvent.h"
+#include "SystemVars.h"
 const enum LINETYPE{
 	LINETYPE_COMMENT,
 	LINETYPE_DIALOG,
@@ -46,5 +47,9 @@ private:
 	void addWarpToMapEvent(string uniqueid);
 	LINETYPE getLineType(string);
 	vector<GameEvent>gamevents;
+	vector<string> eventtimes;
+	vector<GAMEEVENTTYPE> eventtypes;
+	vector<string> eventprams;
+	
 };
 #endif

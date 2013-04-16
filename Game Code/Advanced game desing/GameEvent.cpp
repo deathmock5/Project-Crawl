@@ -11,12 +11,12 @@ GameEvent::~GameEvent(void)
 
 }
 
-void applyEvent(Dungion& dng,Menu& mnu)
+void GameEvent::applyEvent(Dungion& dng,Menu& mnu)
 {
 
 }
 
-void setEventPramiters(int,...)
+void GameEvent::setEventPramiters(int,...)
 {
 
 }

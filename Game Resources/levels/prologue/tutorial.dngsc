@@ -1,0 +1,134 @@
+//game start - tutorial script
+//level needs pre-placed father, main
+//father is already close to practice dummy spawn
+
+Dialog:0{
+	face:"father.png"
+	text:"Son, the world is a dangerous place full of monsters. It's time I trained you to defend yourself."
+	identifier:a2
+}
+
+Dialog:a2{
+	face:"father.png"
+	text:"Come over here."
+	identifier:a3
+}
+
+MovePlayer:a3{
+	//Move location will need to be modified after level creation. Assuming 10,10
+	X:2
+	Y:-2
+	identifier:a4
+}
+
+Dialog:a4{
+	face:"main.png"
+	text:"Dad, why should I train? We have you to protect us!"
+	identifier:a5
+}
+
+Dialog:a5{
+	face:"father.png"
+	text:"Son we must be prepared for anything and everything.  I hope that you will never have to use what I teach you here, but you must always be ready."
+	identifier:a6
+}
+
+Dialog:a6{
+	face:"father.png"
+	text:"I won't always be here to help you. Set up and STRIKE!"
+	identifier:a7
+}
+
+Dialog:a7{
+	face:"black.png"
+	text:"To attack, click the mouse in the direction you would like to attack."
+	identifier:a8
+}
+
+SpawnEntity:a8{
+	file:"dummy.dngmn"
+	x:13
+	y:8
+	identifier:m1
+}
+
+Dialog:m1{
+	face:"father.png"
+	text:"In battle, it does not bode well to stand still. Make sure to move!"
+	identifier:m2
+}
+
+Dialog:m2{
+	face:"black.png"
+	text:"Press the movement keys to move (default is wasd)."
+}
+
+SpawnEntity:m3{
+	file:"dummy.dngmn"
+	x:17
+	y:8
+	identifier:t1
+}
+
+ChangeLightLevel:t1{
+	amount:30
+	identifier:t2
+}
+
+Dialog:t2{
+	face:"main.png"
+	text:"It's getting dark, we should head inside."
+	identifier:t3
+}
+
+Dialog:t3{
+	face:"father.png"
+	text:"You can place a torch to light small areas. Make sure to keep enough torches in your inventory, and place them to see."
+	identifier:t4
+}
+
+Dialog:t4{
+	face:"black.png"
+	text:"Place torches with the torch key (default q)."
+	identifier:t5
+}
+
+Dialog:t5{
+	face:"father.png"
+	identifier:t6
+	text"Look out! a monster!"
+}
+
+SpawnEntity:t6{
+	file:"monster.dngmn"
+	identifier:fin
+}
+
+WarpToMap:fin{
+	identifier:s1
+}
+
+//can stick in different file if needed
+Dialog:s1{
+	face:"main.png"
+	text:"Where did everyone go? Sarah! Lilly! Player jr? Somebody!"
+	identifier:s2
+}
+
+Dialog:s2{
+	face:"main.png"
+	text:"What's this down the path?"
+	identifier:s3
+}
+
+Dialog:s3{
+	face:"main.png"
+	text:"It's a necklace my wife's grandmother gave to her before she reached her final resting place. She never has this more than an arm’s length away!"
+	identifier:s4
+}
+
+Dialog:s4{
+	face:"main.png"
+	text:"It looks like there are signs of a struggle leading in this direction. I'd better head to the shop to equip myself."
+	identifier:s4
+}

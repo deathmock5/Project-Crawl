@@ -13,10 +13,6 @@
       <Configuration>game</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Profile|Win32">
-      <Configuration>Profile</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -52,9 +48,6 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
-    <PlatformToolset>v110</PlatformToolset>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -77,12 +70,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
-      <AdditionalIncludeDirectories>C:\allegro-5.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>allegro-5.0.8-monolith-md-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\allegro-5.0.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='dungediter|Win32'">
@@ -121,31 +112,12 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>C:\allegro-5.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>C:\allegro-5.0.8\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>allegro-5.0.8-monolith-md-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bounds.cpp" />
     <ClCompile Include="Dungion.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameEvent.cpp" />
-    <ClCompile Include="GameEventChangeLightLevel.cpp" />
-    <ClCompile Include="GameEventDialog.cpp" />
-    <ClCompile Include="GameEventMovePlayer.cpp" />
-    <ClCompile Include="GameEventOnRoomEnter.cpp" />
-    <ClCompile Include="GameEventPlaySfx.cpp" />
-    <ClCompile Include="GameEventSpawnEntity.cpp" />
-    <ClCompile Include="GameEventSpawnGold.cpp" />
-    <ClCompile Include="GameEventSpawnTorch.cpp" />
-    <ClCompile Include="GameEventWarpToMap.cpp" />
-    <ClCompile Include="GameVars.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -165,15 +137,6 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameEvent.h" />
-    <ClInclude Include="GameEventChangeLightLevel.h" />
-    <ClInclude Include="GameEventDialog.h" />
-    <ClInclude Include="GameEventMovePlayer.h" />
-    <ClInclude Include="GameEventOnRoomEnter.h" />
-    <ClInclude Include="GameEventPlaySfx.h" />
-    <ClInclude Include="GameEventSpawnEntity.h" />
-    <ClInclude Include="GameEventSpawnGold.h" />
-    <ClInclude Include="GameEventSpawnTorch.h" />
-    <ClInclude Include="GameEventWarpToMap.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
