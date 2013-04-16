@@ -57,11 +57,11 @@ public:
 	bool exists();
 	void addTag(string);
 	void removeTag(string);
-	bool hasTag(string);
+	const bool hasTag(string);
 	void addColider(string);
 	void removeColider(string);
-	bool hasColider(string);
-	string getMyColider();
+	const bool hasColider(string);
+	const string getMyColider();
 	bool hasColidedWith(Entity);
 	bool hasColidedWith(Player);
 	Bounds getBounds();

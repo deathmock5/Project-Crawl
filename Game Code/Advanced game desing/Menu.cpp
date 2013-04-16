@@ -182,10 +182,9 @@ void Menu::addGauge(ALLEGRO_BITMAP* image,Bounds pos,GAUGETYPES mytype,int max,s
 	gaugemaxes.push_back(max);
 	gaugenames.push_back(name);
 }
-void Menu::addDialog(ALLEGRO_BITMAP* bg,Bounds mybounds,string text)
+void Menu::addDialog(ALLEGRO_BITMAP* bg,string text)
 {
 	dialogImages.push_back(bg);
-	dialogbounds.push_back(mybounds);
 	dialogtexts.push_back(text);
 }
 

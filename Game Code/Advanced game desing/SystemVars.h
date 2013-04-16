@@ -1,16 +1,15 @@
 #pragma once
-#ifndef _allegro_h_
-#define _allegro_h_
+
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
-#endif // !_allegro_h_
+#include <allegro5\allegro_font.h>
+#include <allegro5\allegro_ttf.h>
 
-#ifndef _systemvars_h_
-#define _systemvars_h_
+
 //includes
 #include <iostream>
 #include <cstdlib>
@@ -32,6 +31,7 @@ const enum FRAMESET{ULTI = 0,WAND = 1, WALKING = 2,SLASH = 3,BOW = 4,DEAD = 5,ST
 const enum DIRECTION{BACK,LEFT,FORWARD,RIGHT};
 const enum TAGANDCOLIDERTYPES{TAGENEMY,TAGPLAYER,TAGTORCH};
 const enum GAUGETYPES{GAUGE_FILL,GAUGE_LAYER};
+const enum GAMEEVENTTYPE{EVENT_DIALOG,EVENT_ENTITYSPAWN,EVENT_LIGHTCHANGE,EVENT_SPAWNTORCH,EVENT_SPAWNGOLD,EVENT_PLAYSFX,EVENT_MOVEPLAYER,EVENT_ROOMENTER,EVENT_WARP};
 
 //vector<string> listOfDnglv; //files
 
@@ -44,6 +44,8 @@ string myconcat(int,...);
 string getrandommaplayout(bool);
 void updateThreadQue();
 
+
+
 class SystemVars
 {
 public:
@@ -55,4 +57,3 @@ public:
 private:
 
 };
-#endif

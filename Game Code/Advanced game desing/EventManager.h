@@ -3,12 +3,25 @@
 #define  _EventManager_H_
 #include "Dungion.h"
 #include "Menu.h"
+#include "GameEvent.h"
+const enum LINETYPE{
+	LINETYPE_COMMENT,
+	LINETYPE_DIALOG,
+	LINETYPE_SPAWNENTITY,
+	LINETYPE_CHANGELIGHTLEVEL,
+	LINETYPE_SPAWNTORCH,
+	LINETYPE_SPAWNGOLD,
+	LINETYPE_PLAYSFX,
+	LINETYPE_MOVEPLAYER,
+	LINETYPE_ONROOMENTER,
+	LINETYPE_WARPTOMAP,
+	LINETYPE_UNKNOWN
+};
 class EventManager
 {
 public:
 	EventManager(void);
 	~EventManager(void);
-
 	bool tickUpdate();
 	void eventProcess(Dungion&,Menu&);//Process an event
 	bool isEventInProcess();//is an event already running and awanting to pass control back to user?
@@ -31,5 +44,7 @@ private:
 	void addRoomEnterEvent(string roomid);
 	void addWarpToMapEvent(int time);
 	void addWarpToMapEvent(string uniqueid);
+	LINETYPE getLineType(string);
+	vector<GameEvent>gamevents;
 };
 #endif

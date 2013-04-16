@@ -35,7 +35,7 @@ public:
 	void addText(Bounds,string,string);
 	void addNumber(Bounds,string,int);
 	void addGauge(ALLEGRO_BITMAP*,Bounds,GAUGETYPES,int,string);
-	void addDialog(ALLEGRO_BITMAP*,Bounds,string);
+	void addDialog(ALLEGRO_BITMAP*,string);
 	//removers
 	void removeButton(string);
 	//updaters

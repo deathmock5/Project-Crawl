@@ -82,7 +82,6 @@ void Entity::spawn(Point newpoint,string uniquetag)
 	mybounds.setX(newpoint.getX());
 	mybounds.setY(newpoint.getY());
 	curenthealth = hpbace;
-	cout << curenthealth;	
 	alive = true;
 }
 void Entity::spawn(Bounds varbounds,string uniquetag)
@@ -91,7 +90,6 @@ void Entity::spawn(Bounds varbounds,string uniquetag)
 	mybounds = varbounds;
 	alive = true;
 	curenthealth = hpbace;
-	cout << curenthealth;
 }
 void Entity::spawnWithVelocity(Bounds varbound,float vx,float vy,string uniquetag)
 {
@@ -162,7 +160,8 @@ void Entity::update(vector<Player> &players,vector<Entity> &ents,Tile tiles[19][
 			if(pathtoplayer == "")
 			{
 				//lets try to path;
-				pathtoplayer = pathFind(players[0].getBounds().getGridPos());//TODO: thread me.
+				//pathtoplayer = pathFind(players[0].getBounds().getGridPos());//TODO: thread me.
+				//TODO: a* causes pointer errors.
 			}
 			else
 			{
@@ -337,7 +336,7 @@ void Entity::removeTag(string val)
 		}
 	}
 }
-bool Entity::hasTag(string val)
+const bool Entity::hasTag(string val)
 {
 	for(int i = 0;i <= (int)tags.size();i++)
 	{
@@ -366,7 +365,7 @@ void Entity::removeColider(string val)
 		}
 	}
 }
-bool Entity::hasColider(string val)
+const bool Entity::hasColider(string val)
 {
 	for(int i = 0;i < (int)coliders.size();i++)
 	{
@@ -377,7 +376,7 @@ bool Entity::hasColider(string val)
 	}
 	return false;
 }
-string Entity::getMyColider()
+const string Entity::getMyColider()
 {
 	return tags[0];
 }

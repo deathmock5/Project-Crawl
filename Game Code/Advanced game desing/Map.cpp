@@ -195,6 +195,7 @@ void Map::update(Dungion& dung)
 		for(int i = 0;i < (int)entitys.size(); i++)
 		{
 			entitys[i].update(dung.players,entitys,maptiles);
+			
 			for(int ii = 0; ii < (int)entitys.size();ii++)//alright lets look through all the entitys on screen.
 			{
 				if(entitys[i].getUniqueId() != entitys[ii].getUniqueId())//Am i hitting myself?
@@ -215,14 +216,12 @@ void Map::update(Dungion& dung)
 			if(!entitys[i].isAlive())
 			{
 				entitys.erase(entitys.begin() + i);
-				cout << "dead";
 			}
 		}
 		for(int i = 0;i < dung.curentplayers;i++)
 		{
 			dung.players[i].update(entitys,maptiles,dung);
-			Bounds playerbounds = dung.players[i].getBounds();
-			int doortransfer = maptiles[((int)(playerbounds .getY() + 16.0f)/32)][((int)(playerbounds.getX() + 14.0f)/32)+1].isDoor();
+			int doortransfer = maptiles[((int)(dung.players[i].getBounds().getY() + 16.0f)/32)][((int)(dung.players[i].getBounds().getX() + 14.0f)/32)+1].isDoor();
 			if(doortransfer > -1)
 			{
 				dung.triggerPlayerTransferToNewMap(doortransfer,i);

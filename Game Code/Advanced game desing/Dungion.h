@@ -39,7 +39,7 @@ public:
 	Dungion(Player);//if loading from a player
 	~Dungion(void);
 	void Draw();
-	void Update(Dungion&);
+	void Update();
 	void triggerPlayerTransferToNewMap(int tomap,int playerid);
 	
 	Map* reftoCurrentMap();

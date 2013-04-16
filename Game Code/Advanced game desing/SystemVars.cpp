@@ -1,7 +1,4 @@
 #include "SystemVars.h"
-#ifndef _systemvars_cpp_
-#define _systemvars_cpp_
-
 
 vector<string> dnglvs;
 
@@ -60,7 +57,7 @@ void logHelperMessage(loglevel severity,int number, ...)
 	std::string s = ss.str();
 	levels.push_back(severity);
 	messagess.push_back(s);
-	threadedloghelpermessage(severity,s);
+	//threadedloghelpermessage(severity,s);
 }
 void updateThreadQue()
 {
@@ -203,4 +200,3 @@ string getrandommaplayout(bool bls)
 	}
 	return "null";
 }
-#endif

@@ -1,13 +1,3 @@
-//Allegro Imports
-#include <allegro5\allegro.h>
-#include <allegro5\allegro_native_dialog.h>
-#include <allegro5\allegro_primitives.h>
-#include <allegro5\allegro_font.h>
-#include <allegro5\allegro_ttf.h>
-#include <allegro5\allegro_audio.h>
-#include <allegro5\allegro_acodec.h>
-#include <allegro5\allegro_image.h>
-
 
 //system imports
 #include <iostream>
@@ -20,7 +10,6 @@ using namespace std;
 
 
 //refrenced classes and namespaces
-#include "SystemVars.h"
 #include "SystemVars.cpp"
 #include "Player.h"
 #include "Map.h"
@@ -155,7 +144,7 @@ int main(int argc, char **argv)
 	al_start_timer(timer);
 	while(!done)
 	{
-		updateThreadQue();
+		//updateThreadQue();
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 		switch (curentstate)
@@ -355,6 +344,7 @@ void optionsMenuClickDificulty()
 void optionsMenuClickBack()
 {
 	//TODO: optionsMenuClickBack()
+	curentstate = MAIN;
 }
 //Overworld
 void gameGUIOverworld(ALLEGRO_EVENT ev)
@@ -455,14 +445,13 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 		{
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
-			//Map* curmap = mydung.reftoCurrentMap();
-			mydung.Update(mydung);
+			mydung.Update();
 			mydung.Draw();
 			//mydung.reftoCurrentMap()->drawLight(display);
 			Player* curentplayer = mydung.refToCurrentPlayer();
-			menuingame.updateGaugeValue("PHP",curentplayer->getHealth());
-			menuingame.updateGaugeValue("PMP",curentplayer->getMana());
-			menuingame.updateGaugeValue("PLV",curentplayer->getLives());
+			menuingame.updateGaugeValue("PHP",mydung.players[0].getHealth());
+			menuingame.updateGaugeValue("PMP",mydung.players[0].getMana());
+			menuingame.updateGaugeValue("PLV",mydung.players[0].getLives());
 			menuingame.draw();
 			al_flip_display();
 		}

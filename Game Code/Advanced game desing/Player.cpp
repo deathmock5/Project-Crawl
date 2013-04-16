@@ -57,12 +57,10 @@ void Player::drawLight(ALLEGRO_BITMAP *torchlight)
 	int v2 = rand() % 4 + 1;     // v2 in the range 1 to 4
 	al_draw_tinted_scaled_bitmap(torchlight,al_map_rgba(1,1,1,255),0,0,64.0f,64.0f,mybounds.getX() - 32.0f + v2,mybounds.getY() - 64.0f,128.0f,128.0f + v2,0);
 }
-void Player::update(vector<Entity> ents,Tile tiles[19][25],Dungion& dung)
+void Player::update(vector<Entity> &ents,Tile (&tiles)[19][25],Dungion& dung)
 {
 	if(stateChanged)
 	{
-		Entity myatackhitbox;
-		Bounds slashhitbox;
 		switch(animation)
 		{
 		case ULTI:
@@ -102,35 +100,35 @@ void Player::update(vector<Entity> ents,Tile tiles[19][25],Dungion& dung)
 			}
 			break;
 		case SLASH:
-			//TODO: Hitbox stuff
-			slashhitbox.setW(32);
-			slashhitbox.setH(32);
-			switch (direction)
-			{
-			case BACK:
-				slashhitbox.setX(mybounds.getX() + 16);
-				slashhitbox.setY(mybounds.getY() - 16);
-				break;
-			case LEFT:
-				slashhitbox.setX(mybounds.getX() - 16);
-				slashhitbox.setY(mybounds.getY() + 16);
-				break;
-			case FORWARD:
-				slashhitbox.setX(mybounds.getX() + 16);
-				slashhitbox.setY(mybounds.getY() + 48);
-				break;
-			case RIGHT:
-				slashhitbox.setX(mybounds.getX() + 48);
-				slashhitbox.setY(mybounds.getY() + 16);
-				break;
-			default:
-				break;
-			}
-			myatackhitbox = Entity(slashhitbox,true);
-			myatackhitbox.addTag("PLAYER_SLASH");
-			myatackhitbox.addColider("ENEMY");
-			myatackhitbox.setTimeout(3);
-			dung.reftoCurrentMap()->spawnEnttityInMap(myatackhitbox);
+			////TODO: Hitbox stuff
+			////slashhitbox.setW(32);
+			////slashhitbox.setH(32);
+			//switch (direction)
+			//{
+			//case BACK:
+			//	slashhitbox.setX(mybounds.getX() + 16);
+			//	slashhitbox.setY(mybounds.getY() - 16);
+			//	break;
+			//case LEFT:
+			//	slashhitbox.setX(mybounds.getX() - 16);
+			//	slashhitbox.setY(mybounds.getY() + 16);
+			//	break;
+			//case FORWARD:
+			//	slashhitbox.setX(mybounds.getX() + 16);
+			//	slashhitbox.setY(mybounds.getY() + 48);
+			//	break;
+			//case RIGHT:
+			//	slashhitbox.setX(mybounds.getX() + 48);
+			//	slashhitbox.setY(mybounds.getY() + 16);
+			//	break;
+			//default:
+			//	break;
+			//}
+			//myatackhitbox = Entity(slashhitbox,true);
+			//myatackhitbox.addTag("PLAYER_SLASH");
+			//myatackhitbox.addColider("ENEMY");
+			//myatackhitbox.setTimeout(3);
+			//dung.reftoCurrentMap()->spawnEnttityInMap(myatackhitbox);
 			break;
 		case BOW:
 			break;

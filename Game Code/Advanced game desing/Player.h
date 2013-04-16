@@ -1,26 +1,10 @@
 #pragma once
-#ifndef _allegro_h_
-#define _allegro_h_
-#include <allegro5\allegro.h>
-#include <allegro5\allegro_native_dialog.h>
-#include <allegro5\allegro_image.h>
-#include <allegro5\allegro_primitives.h>
-#include <allegro5\allegro_audio.h>
-#include <allegro5\allegro_acodec.h>
-#endif // !_allegro_h_
 
-//#ifndef _Player_h_
-//#define _Player_h_
-
-#include <vector>
-#include <cstdlib>
-#include <sstream>
-#include <iostream>
-
+#include "SystemVars.h"
 #include "Entity.h"
 #include "Tile.h"
 #include "Item.h"
-#include "SystemVars.h"
+
 #include "Bounds.h"
 #include "Dungion.h"
 using namespace std;
@@ -43,7 +27,7 @@ public:
 	Player(string);
 	void draw();
 	void drawLight(ALLEGRO_BITMAP*);
-	void update(vector<Entity>,Tile[19][25],Dungion&);
+	void update(vector<Entity> &ents,Tile (&tiles)[19][25],Dungion& dung);
 	void processInput(ACTIONS,DIRECTION);
 	DIRECTION getFaceingDir(int,int);
 	Bounds getBounds();
@@ -72,4 +56,3 @@ private:
 	int money;
 	string playername;
 };
-//#endif // !_Player_h_

@@ -56,10 +56,10 @@ void Dungion::Draw()
 		}*/
 }
 
-void Dungion::Update(Dungion& dung)
+void Dungion::Update()
 {
 	//TODO: Update
-	maps[curentroom].update(dung);
+	maps[curentroom].update(*this);
 }
 
 void Dungion::Load(string myfile)

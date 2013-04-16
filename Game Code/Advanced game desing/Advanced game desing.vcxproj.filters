@@ -19,6 +19,12 @@
     <Filter Include="Source Files\classdefs">
       <UniqueIdentifier>{c89c5165-aae0-402b-a55f-ed0b7330abd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\events">
+      <UniqueIdentifier>{9a447fd7-ad77-4a5f-a887-a071a4c35575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\classdefs\events">
+      <UniqueIdentifier>{cff000d1-59ae-4b68-a250-f05d24757f53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -28,9 +34,6 @@
       <Filter>Source Files\lib</Filter>
     </ClCompile>
     <ClCompile Include="Sprites.cpp">
-      <Filter>Source Files\lib</Filter>
-    </ClCompile>
-    <ClCompile Include="GameVars.cpp">
       <Filter>Source Files\lib</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
@@ -60,17 +63,50 @@
     <ClCompile Include="Bounds.cpp">
       <Filter>Source Files\classdefs</Filter>
     </ClCompile>
-    <ClCompile Include="Point.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SystemVars.h">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\classdefs</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Source Files\classdefs</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEvent.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventDialog.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\classdefs</Filter>
+    </ClCompile>
+    <ClCompile Include="GameVars.cpp">
+      <Filter>Source Files\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnEntity.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventChangeLightLevel.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnTorch.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnGold.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventPlaySfx.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventMovePlayer.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventWarpToMap.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventOnRoomEnter.cpp">
+      <Filter>Source Files\classdefs\events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +142,36 @@
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventDialog.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnEntity.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventChangeLightLevel.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnTorch.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnGold.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventPlaySfx.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventMovePlayer.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventWarpToMap.h">
+      <Filter>Header Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventOnRoomEnter.h">
+      <Filter>Header Files\events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
