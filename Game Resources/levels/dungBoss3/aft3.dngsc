@@ -13,8 +13,8 @@ SpawnEntity:s0{
 }
 
 Dialog:s1{
-	face:"boss1.png"
-	text:"UUUGGGGHH!  This can’t be happening!"
+	face:"boss3.png"
+	text:"This can't be over! I'll be back, I swear it!"
 	identifier:s2
 }
 
@@ -25,38 +25,47 @@ Dialog:s2{
 }
 
 Dialog:s3{
-	face:"daughter.png"
-	text:"DAD!!!"
+	face:"wife.png"
+	text:"Thank you for saving US!!!"
 	identifier:s4
 }
 
 Dialog:s4{
 	face:"main.png"
-	text:"Lilly! you're safe!"
+	text:"It so good to see you again!! This time I won’t let anything happen to you ever again!"
 	identifier:s5
 }
 
-MovePlayer:s5{
-	x:5
-	y:0
+SpawnEntity:s5{
+	file:"daughter.dngmn"
+	x:0
+	y:8
 	identifier:s6
 }
 
-Dialog:s6{
-	face:"daughter.png"
-	text:"I overheard them talking. They took player jr to another mind shaft near here.  I can show you how to get there!"
+SpawnEntity:s6{
+	file:"son.dngmn"
+	x:0
+	y:7
 	identifier:s7
 }
 
 Dialog:s7{
-	face:"main.png"
-	text:"Okay sweetie, show me the way. After, run to our hideout so that you can remain safe!"
+	face:"daughter.png"
+	text:"Dad! Mom!"
 	identifier:s8
 }
 
-WarpToMap:s8{}
-
-Dialog:0.5{
+Dialog:s8{
 	face:"main.png"
-	text:"Maybe I should visit the store for some additional fire power."
+	text:"Didn't I tell you to... Oh, never mind. We're all together again!"
+	identifier:s9
 }
+
+Dialog:s9{
+	face:"black.png"
+	text:"And they lived happily ever after."
+	identifier:s8675309
+}
+
+WarpToMap:s8675309{}
