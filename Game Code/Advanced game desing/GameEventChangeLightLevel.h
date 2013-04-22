@@ -1,5 +1,5 @@
 #pragma once
-#include "gameevent.h"
+#include "GameEvent.h"
 class GameEventChangeLightLevel :
 	public GameEvent
 {

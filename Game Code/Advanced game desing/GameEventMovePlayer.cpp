@@ -20,11 +20,11 @@ void GameEventMovePlayer::setEventPramiters(int number,...)
 	va_list messages;
 	va_start(messages,number);
 
-	timedactivator = va_arg(messages,int);
+	mytimedactivator = va_arg(messages,int);
 	newpos.setX(va_arg(messages,int));
 	newpos.setY(va_arg(messages,int));
 	if(number > 3)
 	{
-		identactivator = va_arg(messages,string);
+		myidentactivator = va_arg(messages,string);
 	}
 }

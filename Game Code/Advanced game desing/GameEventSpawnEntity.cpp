@@ -21,7 +21,7 @@ void GameEventSpawnEntity::setEventPramiters(int number,...)
 	va_list messages;
 	va_start(messages,number);
 
-	timedactivator = va_arg(messages,int);
+	mytimedactivator = va_arg(messages,int);
 	monstertospawn = Entity(va_arg(messages,string));
 	monsterpos = monstertospawn.getBounds();
 	monsterpos.setX(va_arg(messages,int));
@@ -29,6 +29,6 @@ void GameEventSpawnEntity::setEventPramiters(int number,...)
 	monstertospawn.setBounds(monsterpos);
 	if(number > 3)
 	{
-		identactivator = va_arg(messages,string);
+		myidentactivator = va_arg(messages,string);
 	}
 }

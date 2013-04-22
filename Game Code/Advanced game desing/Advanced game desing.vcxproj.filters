@@ -1,37 +1,147 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Bounds.cpp" />
-    <ClCompile Include="Dungion.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="GameEvent.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Node.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Sprites.cpp" />
-    <ClCompile Include="Strings.cpp" />
-    <ClCompile Include="SystemVars.cpp" />
-    <ClCompile Include="SystemVars.h" />
-    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Bounds.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Dungion.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEvent.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Strings.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemVars.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemVars.h">
+      <Filter>Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventChangeLightLevel.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventDialog.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventMovePlayer.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventOnRoomEnter.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventPlaySfx.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnEntity.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnGold.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnTorch.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventWarpToMap.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bounds.h" />
-    <ClInclude Include="Dungion.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EventManager.h" />
-    <ClInclude Include="GameEvent.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="Tile.h" />
+    <ClInclude Include="Bounds.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Dungion.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventChangeLightLevel.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventDialog.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventMovePlayer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventOnRoomEnter.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventPlaySfx.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnEntity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnGold.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnTorch.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventWarpToMap.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

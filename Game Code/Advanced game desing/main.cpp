@@ -92,9 +92,52 @@ int main(int argc, char **argv)
 	mydung = Dungion();
 	if(al_init())logHelperMessage(OK,1,"Initilised Allegro 5.0.8");
 	else{ logHelperMessage(SEVERE,1,"Failed to initilise Allegro 5.0.8"); return -1;}
-	
+	//set_window_title("Foobar"); // windows title
+	//set_config_file("myapp.cfg");//set config
+	//allegro_message("Sorry, missing game data!\n");
+	//TODO: impliment comand line prams.
+	//int depth = -1; // color depth, by default -1 means to get the color depth from user's desktop
+   //int vid_m = GFX_AUTODETECT; // screen mode
+ 
+   //int vid_w = 640; // screen resolution width
+ 
+   //int vid_h = 480; // screen resolution height
+ 
+   //bool want_sound = true; // do you want sound?
+ 
+   //// check command line parameters
+   //for (int i = 1; i < argc; i++)
+   //{
+   //   if (!stricmp(argv[i], "-wn") ||
+   //      !stricmp(argv[i], "-w") ||
+   //      !stricmp(argv[i], "-win") ||
+   //      !stricmp(argv[i], "-windowed"))
+   //      vid_m = GFX_AUTODETECT_WINDOWED;
+ 
+ 
+   //   if (!stricmp(argv[i], "-nosound") ||
+   //      !stricmp(argv[i], "-silent") ||
+   //      !stricmp(argv[i], "-ns"))
+   //      want_sound = false;
+ 
+   //   if (!stricmp(argv[i], "-bpp16"))
+   //      depth = 16;
+ 
+   //   if (!stricmp(argv[i], "-bpp15"))
+   //      depth = 15;
+ 
+   //   if (!stricmp(argv[i], "-bpp32"))
+   //      depth = 32;
+ 
+   //   if (!stricmp(argv[i], "-bpp24"))
+   //      depth = 24;
+ 
+   //   if (!stricmp(argv[i], "-bpp8"))
+   //      raise_error("main() : Sorry, this program don't support 8 bpp displays.\nThis program needs a true color display at %3d x %3d resolution.\nTip: Try removing the -bpp8 switch from the command line invocation.", vid_w, vid_h);
+ 
+   //}
 	display = al_create_display(SystemVars::SCREEN_WIDTH, SystemVars::SCREEN_HEIGHT); //make display
-
+	
 	if(display)
 		logHelperMessage(OK,1,"Created Display");//return -1;
 	
@@ -144,7 +187,7 @@ int main(int argc, char **argv)
 	al_start_timer(timer);
 	while(!done)
 	{
-		//updateThreadQue();
+		updateThreadQue();
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
 		switch (curentstate)
@@ -285,6 +328,7 @@ void mainMenuClickOption()
 void mainMenuClickExit()
 {
 	//TODO: mainMenuClickExit()
+	done = true;
 }
 //options
 void gameGUIOption(ALLEGRO_EVENT ev)
@@ -395,10 +439,14 @@ void overworldMenuClickDung1()
 void overworldMenuClickDung2()
 {
 	//TODO: overworldMenuClickDung2()
+	mydung = Dungion("Lv2");
+	curentstate = INGAME;
 }
 void overworldMenuClickDung3()
 {
 	//TODO: overworldMenuClickDung3()
+	mydung = Dungion("Lv3");
+	curentstate = INGAME;
 }
 //multiplayer
 void gameGUIMultiplayer(ALLEGRO_EVENT ev)
@@ -614,6 +662,7 @@ void initMenus()
 		//TODO: Load multiplayer gui elements
 	//menuingame
 		menuingame = Menu();
+		logHelperMessage(INFO,1,"Creating menuingame ");
 		ALLEGRO_BITMAP* menuingamephpimg = load_image("Images\\Menus\\ingame\\health.png");
 		ALLEGRO_BITMAP* menuingamepmpimg = load_image("Images\\Menus\\ingame\\mana.png");
 		ALLEGRO_BITMAP* menuingameplvimg = load_image("Images\\Menus\\ingame\\life.png");

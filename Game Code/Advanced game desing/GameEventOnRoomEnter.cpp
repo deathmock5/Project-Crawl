@@ -20,5 +20,5 @@ void GameEventOnRoomEnter::setEventPramiters(int number,...)
 	va_list messages;
 	va_start(messages,number);
 
-	identactivator = va_arg(messages,string);
+	myidentactivator = va_arg(messages,string);
 }

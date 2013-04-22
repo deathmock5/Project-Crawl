@@ -2,11 +2,14 @@
 
 #include <string>
 #include <vector>
+//#ifndef _GAMEEVENT_H_
+//#define _GAMEEVENT_H_
 #include "SystemVars.h"
 #include "Dungion.h"
 #include "Menu.h"
 using namespace std;
-
+class Dungion;
+class Menu;
 class GameEvent
 {
 public:
@@ -16,7 +19,8 @@ public:
 	virtual void setEventPramiters(int,...);
 protected:
 	GAMEEVENTTYPE mytype;
-	int timedactivator;
-	string identactivator;
+	int mytimedactivator;
+	string myidentactivator;
+	string posibleidentiget;
 };
-
+//#endif

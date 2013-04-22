@@ -1,10 +1,19 @@
 #pragma once
 #ifndef _EventManager_H_
 #define  _EventManager_H_
-#include "Dungion.h"
-#include "Menu.h"
 #include "GameEvent.h"
+//#include "GameEventChangeLightLevel.h"
+#include "GameEventDialog.h"
+//#include "GameEventMovePlayer.h"
+//#include "GameEventOnRoomEnter.h"
+//#include "GameEventPlaySfx.h"
+//#include "GameEventSpawnEntity.h"
+//#include "GameEventSpawnGold.h"
+//#include "GameEventSpawnTorch.h"
+//#include "GameEventWarpToMap.h"
 #include "SystemVars.h"
+//#include "Dungion.h"
+//#include "Menu.h"
 const enum LINETYPE{
 	LINETYPE_COMMENT,
 	LINETYPE_DIALOG,
@@ -46,6 +55,7 @@ private:
 	void addWarpToMapEvent(int time);
 	void addWarpToMapEvent(string uniqueid);
 	LINETYPE getLineType(string);
+	string getLineValue(string data);
 	vector<GameEvent>gamevents;
 	vector<string> eventtimes;
 	vector<GAMEEVENTTYPE> eventtypes;

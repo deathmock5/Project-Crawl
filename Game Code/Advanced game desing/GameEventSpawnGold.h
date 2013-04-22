@@ -1,5 +1,7 @@
 #pragma once
-#include "gameevent.h"
+#include "GameEvent.h"
+#include "Entity.h"
+class Entity;
 class GameEventSpawnGold :
 	public GameEvent
 {

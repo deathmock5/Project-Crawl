@@ -21,7 +21,7 @@ void GameEventSpawnTorch::setEventPramiters(int number,...)
 	va_list messages;
 	va_start(messages,number);
 
-	timedactivator = va_arg(messages,int);
+	mytimedactivator = va_arg(messages,int);
 	torchent = Entity(myconcat(2,"Monster\\","torch.dngmn"));
 	Bounds newbounds = torchent.getBounds();
 	newbounds.setX(va_arg(messages,int));
@@ -29,7 +29,7 @@ void GameEventSpawnTorch::setEventPramiters(int number,...)
 	torchent.setBounds(newbounds);
 	if(number > 3)
 	{
-		identactivator = va_arg(messages,string);
+		myidentactivator = va_arg(messages,string);
 	}
 }
 

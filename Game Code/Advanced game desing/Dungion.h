@@ -26,7 +26,7 @@ using std::ifstream;
 #include "Player.h"
 #include "Map.h"
 #include "Entity.h"
-
+//#include "EventManager.h"
 class Player;
 class Map;
 class Entity;
@@ -52,6 +52,7 @@ private:
 	void Load(string);
 	Map getRandomRoomDesign();
 	Map getRandomRoomDesignWC();
+	//EventManager thisdungenventmanager;
 	//variables
 	ALLEGRO_BITMAP* tileset;
 	ALLEGRO_SAMPLE* bgs;

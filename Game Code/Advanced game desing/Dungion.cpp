@@ -9,7 +9,7 @@ using std::ifstream;
 //	void Draw();
 //	void Update();
 //	void Load();
-//variables
+//variables07/skill Potion
 //	ALLEGRO_BITMAP* tileset;
 //	ALLEGRO_SAMPLE* bgs;
 //	int rooms;
@@ -79,6 +79,7 @@ void Dungion::Load(string myfile)
 		string filemon1;
 		string filemon2;
 		string fileboss;
+		string dungionscript = "null";
 		dungfile.get(next);
 		dungfile.get(next);
 		dungfile.get(next);
@@ -90,12 +91,17 @@ void Dungion::Load(string myfile)
 		dungfile >> filemon1;
 		dungfile >> filemon2;
 		dungfile >> fileboss;
-		logHelperMessage(INFO,1,filetileset.c_str());
-		logHelperMessage(INFO,1,filebgs.c_str());
-		logHelperMessage(INFO,1,filenumrooms.c_str());
-		logHelperMessage(INFO,1,filemon1.c_str());
-		logHelperMessage(INFO,1,filemon2.c_str());
-		logHelperMessage(INFO,1,fileboss.c_str());
+		if(!dungfile.eof())
+		{
+			dungfile >> dungionscript;
+			//thisdungenventmanager.loadEvents(dungionscript);
+		}
+		//logHelperMessage(INFO,1,filetileset.c_str());
+		//logHelperMessage(INFO,1,filebgs.c_str());
+		//logHelperMessage(INFO,1,filenumrooms.c_str());
+		//logHelperMessage(INFO,1,filemon1.c_str());
+		//logHelperMessage(INFO,1,filemon2.c_str());
+		//logHelperMessage(INFO,1,fileboss.c_str());
 		dungfile.close();//close file
 		tileset = load_image(filetileset);//load tileset
 		ALLEGRO_BITMAP* torchlight = load_image(myconcat("Images/","LightCore", "/Light.png").c_str());
@@ -151,6 +157,7 @@ void Dungion::Load(string myfile)
 		}		
 		curentroom = 0;
         }
+		
     else
     {
 		logHelperMessage(SEVERE,2,"Unable to open file:",myfile);
@@ -158,6 +165,7 @@ void Dungion::Load(string myfile)
     }
     curentplayers = 1;
 	players.push_back(Player("Player"));
+	
 }
 
 Map* Dungion::reftoCurrentMap()
@@ -176,7 +184,25 @@ void Dungion::triggerPlayerTransferToNewMap(int tomap,int playerid)
 	maps[curentroom].hide();
 	maps[tomap].show();
 	Bounds curentpos = players[playerid].getBounds();
-	curentpos.setX(400);
-	curentpos.setY(500);
+	if(curentpos.getX() > 600)
+	{
+		//i exited right tp me left..
+		curentpos.setX(64);
+	}
+	else if(curentpos.getX() < 300)
+	{
+		//i exited left tp me right..
+		curentpos.setX(736);
+	}
+	else if(curentpos.getY() > 500)
+	{
+		//i exited down, tp me top.
+		curentpos.setY(48);
+	}
+	else
+	{
+		//i exited top, tpme botom.
+		curentpos.setY(536);
+	}
 	players[playerid].setBounds(curentpos);
 }

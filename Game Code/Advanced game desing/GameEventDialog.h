@@ -1,5 +1,8 @@
 #pragma once
+#ifndef _GAMEEVENTDIALOG_H_
+#define _GAMEEVENTDIALOG_H_
 #include "GameEvent.h"
+ 
 class GameEventDialog : public GameEvent
 {
 public:
@@ -11,4 +14,4 @@ private:
 	ALLEGRO_BITMAP* faceimg;
 	string text;
 };
-
+#endif

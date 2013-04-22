@@ -1,5 +1,5 @@
 #include "GameEventDialog.h"
-
+#include "GameEvent.h"
 
 GameEventDialog::GameEventDialog(void)
 {
@@ -22,11 +22,11 @@ void GameEventDialog::setEventPramiters(int number,...)
 	va_list messages;
 	va_start(messages,number);
 
-	timedactivator = va_arg(messages,int);
+	mytimedactivator = va_arg(messages,int);
 	faceimg = load_image(myconcat(2,"\\Images\\Faces\\",va_arg(messages,string)));
 	text = va_arg(messages,string);
 	if(number > 3)
 	{
-		identactivator = va_arg(messages,string);
+		myidentactivator = va_arg(messages,string);
 	}
 }

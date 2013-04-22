@@ -57,7 +57,7 @@ void logHelperMessage(loglevel severity,int number, ...)
 	std::string s = ss.str();
 	levels.push_back(severity);
 	messagess.push_back(s);
-	//threadedloghelpermessage(severity,s);
+	threadedloghelpermessage(severity,s);
 }
 void updateThreadQue()
 {

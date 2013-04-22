@@ -25,6 +25,7 @@ Tile::Tile(TILETYPE mytype,ALLEGRO_BITMAP* img,float x,float y,int state)
 }
 void Tile::draw(float posx,float posy)
 {
+	//const enum TILETYPE{FLOOR,WALL,DOOR,WATER,POT,CHEST,TORCH};
 	switch (type)
 	{
 	case FLOOR:
@@ -111,6 +112,21 @@ void Tile::draw(float posx,float posy)
 		
 		break;
 	case WATER:
+		if(mystate > 32)
+		{
+			mystate = 0;
+		}
+			al_draw_bitmap_region(myimg,mystate++, 160, 32.0f, 32.0f,posx,posy,0);
+		break;
+	case POT:
+			al_draw_bitmap_region(myimg,0, 0, 32.0f, 32.0f,posx,posy,0);
+			al_draw_bitmap_region(myimg,mystate * 32.0 + 64, 64, 32.0f, 32.0f,posx,posy,0);
+		break;
+	case CHEST:
+			al_draw_bitmap_region(myimg,0, 0, 32.0f, 32.0f,posx,posy,0);
+			al_draw_bitmap_region(myimg,mystate * 32.0 + 64, 96, 32.0f, 32.0f,posx,posy,0);
+		break;
+	case TORCH:
 		break;
 	default:
 		break;
@@ -126,7 +142,8 @@ TILETYPE Tile::getTileType()
 }
 bool Tile::passable()
 {
-	if(type == WALL || type == WATER)
+	//const enum TILETYPE{FLOOR,WALL,DOOR,WATER,POT,CHEST,TORCH};
+	if(type == WALL || type == WATER || type == POT || type == CHEST )
 	{
 		return false;
 	}

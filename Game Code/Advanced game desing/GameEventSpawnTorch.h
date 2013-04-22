@@ -1,7 +1,8 @@
 #pragma once
-#include "gameevent.h"
-class GameEventSpawnTorch :
-	public GameEvent
+#include "GameEvent.h"
+#include "Entity.h"
+class Entity;
+class GameEventSpawnTorch : public GameEvent
 {
 public:
 	GameEventSpawnTorch(void);

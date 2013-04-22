@@ -225,7 +225,7 @@ void Map::update(Dungion& dung)
 			if(doortransfer > -1)
 			{
 				dung.triggerPlayerTransferToNewMap(doortransfer,i);
-				cout << doortransfer;
+				//cout << doortransfer;
 			}
 		}
 	}
