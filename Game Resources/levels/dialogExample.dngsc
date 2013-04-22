@@ -4,40 +4,43 @@ Dialog:0
 	Face:"bacon.png"
 	Text:"Im a little teapot short and stout"
 }
+
+
 Dialog:1
 {
 	Face:"bacon.png"
 	Text:"Im another dialog that opens 1 second after the first"
-	Identifier:imaidentifier
+	Identifier:imAnIdentifier
 }
-Dialog:imaidentifier
+Dialog:imAnIdentifier
 {
 	Face:"Bacon.png"
 	Text:"Im a dialog that opens after you close dialog1"
 }
-SpawnEntity:10.0
-{
-	File:"Somemonster.dngmn"
-	X:314
-	Y:69
-}
+
+
 SpawnEntity:12.0
 {
 	File:"Somemonster.dngmn"
+	//in squares, not pixels
 	X:14
-	Y:444
-	Identifier:imanidentifieraswell
+	Y:4
+	//triggers on entity death
+	Identifier:i2
 }
-ChangeLightLevel:imanidentifieraswell
+ChangeLightLevel:i2
 {
-	//10precent light level
+	//10% light level
 	Amount:10
 }
+
 ChangeLightLevel:15
 {
 	//completely bright
 	Amount:100
 }
+
+
 SpawnTorch:15.1
 {
 	X:25
@@ -49,6 +52,8 @@ SpawnGold:15.7
 	Y:10
 	Amount:231321
 }
+
+
 PlaySfx:16
 {
 	File:"Somefile.wav"
@@ -60,12 +65,13 @@ MovePlayer:14
 	//move 5 squares up
 	Y:-5
 }
-OnRoomEnter:R3
+OnRoomEnter:BOSS
 {
-	//Apaun entering the third room
+	//Upon entering the boss room
+	//else capital 'R' followed by room #, i.e. R3
 	Identifier:eoifoew
 }
 WarpToMap:100
 {
-	//warp player to map
+	//warp player to world map, empty brackets
 }
