@@ -1,5 +1,4 @@
 //game start - tutorial script
-//need to find player spawn location
 //tileset needs trees as obstacle and grass/dirt as floor
 
 SpawnEntity:0{
@@ -21,9 +20,9 @@ Dialog:a2{
 }
 
 MovePlayer:a3{
-	//Move location will need to be modified after level creation. Assuming 7,7 for initial spawn
-	X:5
-	Y:0
+	//Move location will need to be modified after level creation. Assuming 13,10 for initial spawn
+	X:0
+	Y:-1
 	identifier:a4
 }
 
@@ -131,7 +130,7 @@ Dialog:s2{
 
 Dialog:s3{
 	face:"main.png"
-	text:"It's a necklace my wife's grandmother gave to her before she reached her final resting place. She never has this more than an arm’s length away!"
+	text:"It's a necklace my wife's grandmother gave to her before she reached her final resting place. She never has this more than an armï¿½s length away!"
 	identifier:s4
 }
 
