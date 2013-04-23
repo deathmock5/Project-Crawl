@@ -8,7 +8,7 @@ OnRoomEnter:BOSS{
 SpawnEntity:s0{
 	file:"boss2.dngmn"
 	x:13
-	y:8
+	y:10
 	identifier:s1
 }
 

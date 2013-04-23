@@ -1,6 +1,12 @@
 //game start - tutorial script
-//level needs pre-placed father, main
-//father is already close to practice dummy spawn
+//need to find player spawn location
+//tileset needs trees as obstacle and grass/dirt as floor
+
+SpawnEntity:0{
+	file:father.dngmn"
+	x:12
+	y:8
+}
 
 Dialog:0{
 	face:"father.png"
@@ -15,9 +21,9 @@ Dialog:a2{
 }
 
 MovePlayer:a3{
-	//Move location will need to be modified after level creation. Assuming 10,10
-	X:2
-	Y:-2
+	//Move location will need to be modified after level creation. Assuming 7,7 for initial spawn
+	X:5
+	Y:0
 	identifier:a4
 }
 
@@ -60,7 +66,7 @@ Dialog:m1{
 
 Dialog:m2{
 	face:"black.png"
-	text:"Press the movement keys to move (default is wasd)."
+	text:"Press the movement keys to move (default W-A-S-D)."
 }
 
 SpawnEntity:m3{
@@ -101,6 +107,8 @@ Dialog:t5{
 
 SpawnEntity:t6{
 	file:"monster.dngmn"
+	x:20
+	y:15
 	identifier:fin
 }
 
@@ -108,7 +116,7 @@ WarpToMap:fin{
 	identifier:s1
 }
 
-//can stick in different file if needed
+//can stick the rest in a different file if needed
 Dialog:s1{
 	face:"main.png"
 	text:"Where did everyone go? Sarah! Lilly! Player jr? Somebody!"
