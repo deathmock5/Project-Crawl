@@ -48,7 +48,7 @@ void Menu::draw()
 	{
 		char str[20];
 		int val = numbervars[i];
-		itoa(val,str,20);
+		_itoa_s(val,str,20);
 		al_draw_text(whiteArial24,al_map_rgb(0,0,0),numberbounds[i].getX(),numberbounds[i].getY(),ALLEGRO_ALIGN_LEFT,str);
 	}
 	//dialogs

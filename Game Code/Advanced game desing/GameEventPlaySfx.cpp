@@ -1,10 +1,9 @@
 #include "GameEventPlaySfx.h"
 
 
-GameEventPlaySfx::GameEventPlaySfx(void)
+GameEventPlaySfx::GameEventPlaySfx(void): GameEvent()
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+
 }
 
 

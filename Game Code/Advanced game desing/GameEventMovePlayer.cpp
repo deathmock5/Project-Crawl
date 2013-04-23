@@ -1,10 +1,9 @@
 #include "GameEventMovePlayer.h"
 
 
-GameEventMovePlayer::GameEventMovePlayer(void)
+GameEventMovePlayer::GameEventMovePlayer(void): GameEvent()
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+
 }
 
 

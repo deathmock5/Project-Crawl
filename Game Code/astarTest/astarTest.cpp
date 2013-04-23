@@ -206,7 +206,7 @@ string pathFind( const int & xStart, const int & yStart, const int & xFinish, co
 
 int main()
 {
-    srand(time(NULL));
+    srand((int)time(NULL));
 
     // create empty map
     for(int y=0;y<m;y++)
@@ -258,7 +258,7 @@ int main()
         int x=xA;
         int y=yA;
         map[x][y]=2;
-        for(int i=0;i<route.length();i++)
+        for(int i=0;i<(int)route.length();i++)
         {
             c =route.at(i);
             j=atoi(&c); 

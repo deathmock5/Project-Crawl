@@ -1,10 +1,9 @@
 #include "GameEventDialog.h"
 #include "GameEvent.h"
 
-GameEventDialog::GameEventDialog(void)
+GameEventDialog::GameEventDialog(void): GameEvent()
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+
 }
 
 GameEventDialog::~GameEventDialog(void)

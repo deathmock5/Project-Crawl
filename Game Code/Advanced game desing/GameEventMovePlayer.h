@@ -1,8 +1,11 @@
 #pragma once
+#ifndef _GameEventMovePlayer_H_
+#define _GameEventMovePlayer_H_
+class Player; //in dung file, so all good
 #include "GameEvent.h"
-class Player;
-class GameEventMovePlayer :
-	public GameEvent
+#include "Bounds.h"
+
+class GameEventMovePlayer : public GameEvent
 {
 public:
 	GameEventMovePlayer(void);
@@ -12,4 +15,4 @@ public:
 private:
 	Bounds newpos;
 };
-
+#endif

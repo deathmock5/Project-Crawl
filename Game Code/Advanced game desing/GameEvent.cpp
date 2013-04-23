@@ -1,8 +1,10 @@
 #include "GameEvent.h"
 
 
-GameEvent::GameEvent(void)
+GameEvent::GameEvent()
 {
+	int timedactivator = -1;
+	string identactivator = "null";
 }
 
 

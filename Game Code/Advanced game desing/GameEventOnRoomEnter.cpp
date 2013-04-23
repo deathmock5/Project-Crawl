@@ -1,10 +1,9 @@
 #include "GameEventOnRoomEnter.h"
 
 
-GameEventOnRoomEnter::GameEventOnRoomEnter(void)
+GameEventOnRoomEnter::GameEventOnRoomEnter(void): GameEvent()
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+
 }
 
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "GameEvent.h"
+#include "Menu.h"
 #include "Entity.h"
-class Entity;
 class GameEventSpawnTorch : public GameEvent
 {
 public:
@@ -10,6 +10,6 @@ public:
 	void applyEvent(Dungion&,Menu&);
 	void setEventPramiters(int,...);
 private:
-	Entity torchent;
+	class Entity torchent;
 };
 

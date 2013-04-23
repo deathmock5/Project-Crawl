@@ -1,19 +1,28 @@
 #pragma once
+//=================================
+// include guard
 #ifndef _EventManager_H_
-#define  _EventManager_H_
+#define _EventManager_H_
+
+//=================================
+// forward declared dependencies
+class Dungion;
+class Menu;
+
+//=================================
+// included dependencies
+
+#include <vector>
 #include "GameEvent.h"
-//#include "GameEventChangeLightLevel.h"
-#include "GameEventDialog.h"
-//#include "GameEventMovePlayer.h"
-//#include "GameEventOnRoomEnter.h"
-//#include "GameEventPlaySfx.h"
-//#include "GameEventSpawnEntity.h"
-//#include "GameEventSpawnGold.h"
-//#include "GameEventSpawnTorch.h"
-//#include "GameEventWarpToMap.h"
 #include "SystemVars.h"
-//#include "Dungion.h"
-//#include "Menu.h"
+#include <locale>
+#include <iostream>
+using namespace std;
+//#include "Dungion.h" - forward included
+//#include "Menu.h" - forward included
+
+//=================================
+// the actual class
 const enum LINETYPE{
 	LINETYPE_COMMENT,
 	LINETYPE_DIALOG,
@@ -33,7 +42,7 @@ public:
 	EventManager(void);
 	~EventManager(void);
 	bool tickUpdate();
-	void eventProcess(Dungion&,Menu&);//Process an event
+	void eventProcess(class Dungion&,Menu&);//Process an event
 	bool isEventInProcess();//is an event already running and awanting to pass control back to user?
 	void loadEvents(string file);
 private:
@@ -56,6 +65,7 @@ private:
 	void addWarpToMapEvent(string uniqueid);
 	LINETYPE getLineType(string);
 	string getLineValue(string data);
+	bool is_number(const std::string& s);
 	vector<GameEvent>gamevents;
 	vector<string> eventtimes;
 	vector<GAMEEVENTTYPE> eventtypes;

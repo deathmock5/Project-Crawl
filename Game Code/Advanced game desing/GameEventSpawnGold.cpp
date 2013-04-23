@@ -1,10 +1,9 @@
 #include "GameEventSpawnGold.h"
 
 
-GameEventSpawnGold::GameEventSpawnGold(void)
+GameEventSpawnGold::GameEventSpawnGold(void): GameEvent()
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+
 }
 
 

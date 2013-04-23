@@ -1,19 +1,20 @@
 #pragma once
-
-#include <string>
-#include <vector>
-//#ifndef _GAMEEVENT_H_
-//#define _GAMEEVENT_H_
-#include "SystemVars.h"
-#include "Dungion.h"
-#include "Menu.h"
-using namespace std;
+//guards
+#ifndef _GAMEEVENT_H_
+#define _GAMEEVENT_H_
+//forwards
 class Dungion;
 class Menu;
+//dependencys
+#include <string>
+#include <vector>
+#include "SystemVars.h"
+using namespace std;
+
 class GameEvent
 {
 public:
-	GameEvent(void);
+	GameEvent();
 	~GameEvent(void);
 	virtual void applyEvent(Dungion&,Menu&);
 	virtual void setEventPramiters(int,...);
@@ -23,4 +24,4 @@ protected:
 	string myidentactivator;
 	string posibleidentiget;
 };
-//#endif
+#endif

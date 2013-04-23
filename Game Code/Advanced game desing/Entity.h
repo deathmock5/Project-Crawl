@@ -1,15 +1,21 @@
 #pragma once
-#ifndef _allegro_h_
-#define _allegro_h_
+//=================================
+// include guard
+#ifndef _Entity_h_
+#define _Entity_h_
+//=================================
+// forward declared dependencies
+class Player;
+class Map;
+class Tile;
+//=================================
+// included dependencies
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
-#endif // !_allegro_h_
-#ifndef _Entity_h_
-#define _Entity_h_
 #include <iostream>
 #include <cstring>
 #include <fstream>
@@ -18,7 +24,6 @@
 #include <vector>
 #include <sstream>
 #include <queue>
-
 #include "Player.h"
 #include "Map.h"
 #include "SystemVars.h"
@@ -26,9 +31,7 @@
 #include "Bounds.h"
 #include "Node.h"
 
-class Player;
-class Map;
-class Tile;
+
 using namespace std;
 using std::ifstream;
 
@@ -63,7 +66,7 @@ public:
 	const bool hasColider(string);
 	const string getMyColider();
 	bool hasColidedWith(Entity);
-	bool hasColidedWith(Player);
+	bool hasColidedWith(Player&);
 	Bounds getBounds();
 	void setBounds(Bounds);
 	void setUniqueId(int);

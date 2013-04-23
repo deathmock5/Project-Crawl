@@ -1,16 +1,16 @@
 #include "GameEventChangeLightLevel.h"
 
 
-GameEventChangeLightLevel::GameEventChangeLightLevel(void)
+GameEventChangeLightLevel::GameEventChangeLightLevel(void): GameEvent()
 {
-
+	int timedactivator = -1;
+	string identactivator = "null";
 }
 
 
 GameEventChangeLightLevel::~GameEventChangeLightLevel(void)
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+	
 }
 
 void GameEventChangeLightLevel::applyEvent(Dungion& dung,Menu& menu)

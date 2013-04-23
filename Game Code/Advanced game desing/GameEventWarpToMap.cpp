@@ -1,15 +1,15 @@
 #include "GameEventWarpToMap.h"
 
 
-GameEventWarpToMap::GameEventWarpToMap(void)
+GameEventWarpToMap::GameEventWarpToMap(void): GameEvent()
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+
 }
 
 
 GameEventWarpToMap::~GameEventWarpToMap(void)
 {
+
 }
 
 void GameEventWarpToMap::applyEvent(Dungion& dung,Menu& menu)

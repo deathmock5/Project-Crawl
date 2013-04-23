@@ -1,4 +1,4 @@
-
+#pragma once
 //system imports
 #include <iostream>
 #include <stdlib.h>
@@ -14,11 +14,6 @@ using namespace std;
 #include "Player.h"
 #include "Map.h"
 #include "Menu.h"
-//#include "Tile.h"
-//#include "Entity.h"
-//#include "Dungion.h"
-//#include "Player.h"
-//#include "Item.h"
 
 bool anyButtonChangedStatus();
 bool anyButtonIsPressed();
@@ -136,7 +131,7 @@ int main(int argc, char **argv)
    //      raise_error("main() : Sorry, this program don't support 8 bpp displays.\nThis program needs a true color display at %3d x %3d resolution.\nTip: Try removing the -bpp8 switch from the command line invocation.", vid_w, vid_h);
  
    //}
-	display = al_create_display(SystemVars::SCREEN_WIDTH, SystemVars::SCREEN_HEIGHT); //make display
+	display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT); //make display
 	
 	if(display)
 		logHelperMessage(OK,1,"Created Display");//return -1;
@@ -158,7 +153,7 @@ int main(int argc, char **argv)
 		logHelperMessage(OK,1,"Initilized acodec addon"); //init codec
 	if(al_init_image_addon())
 		logHelperMessage(OK,1,"Initilized images addon"); 
-	timer = al_create_timer(1.0 / SystemVars::FPS);
+	timer = al_create_timer(1.0 / GAMEFPS);
 
 	al_reserve_samples(100);
 	//bgs = al_load_sample("snd\\01.wav");

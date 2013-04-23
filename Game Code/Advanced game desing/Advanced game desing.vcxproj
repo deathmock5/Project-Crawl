@@ -127,6 +127,7 @@
     <ClCompile Include="GameEventSpawnGold.cpp" />
     <ClCompile Include="GameEventSpawnTorch.cpp" />
     <ClCompile Include="GameEventWarpToMap.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="GameEventSpawnGold.h" />
     <ClInclude Include="GameEventSpawnTorch.h" />
     <ClInclude Include="GameEventWarpToMap.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />

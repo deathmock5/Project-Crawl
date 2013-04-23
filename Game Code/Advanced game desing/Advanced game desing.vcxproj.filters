@@ -77,6 +77,9 @@
     <ClCompile Include="GameEventWarpToMap.cpp">
       <Filter>Definitions</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bounds.h">
@@ -140,6 +143,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GameEventWarpToMap.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

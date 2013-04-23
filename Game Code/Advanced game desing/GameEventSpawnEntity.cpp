@@ -1,10 +1,9 @@
 #include "GameEventSpawnEntity.h"
 
 
-GameEventSpawnEntity::GameEventSpawnEntity(void)
+GameEventSpawnEntity::GameEventSpawnEntity(void): GameEvent()
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+
 }
 
 GameEventSpawnEntity::~GameEventSpawnEntity(void)

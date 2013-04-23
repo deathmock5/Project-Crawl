@@ -392,7 +392,7 @@ bool Entity::hasColidedWith(Entity ent)
 	}
 	return false;
 }
-bool Entity::hasColidedWith(Player pla)
+bool Entity::hasColidedWith(Player& pla)
 {
 	//TODO: has colided with pla
 	//check if it can colide with that

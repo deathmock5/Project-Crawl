@@ -1,10 +1,9 @@
 #include "GameEventSpawnTorch.h"
 
 
-GameEventSpawnTorch::GameEventSpawnTorch(void)
+GameEventSpawnTorch::GameEventSpawnTorch(void): GameEvent()
 {
-	int timedactivator = -1;
-	string identactivator = "null";
+
 }
 
 

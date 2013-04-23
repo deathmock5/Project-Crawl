@@ -1,29 +1,34 @@
 #pragma once
-#ifndef _allegro_h_
-#define _allegro_h_
+//=================================
+// include guard
+#ifndef _Map_h_
+#define _Map_h_
+
+//=================================
+// forward declared dependencies
+class Player;
+class Tile;
+
+//=================================
+// included dependencies
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
-#endif // !_allegro_h_
-#ifndef _Map_h_
-#define _Map_h_
 #include <vector>
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
-
 #include "Tile.h"
 #include "Item.h"
 #include "Player.h"
 #include "Entity.h"
 #include "SystemVars.h"
+
 using namespace std;
 
-class Player;
-class Tile;
 class Map
 {
 public:

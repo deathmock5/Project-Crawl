@@ -4,6 +4,8 @@ vector<string> dnglvs;
 
 vector<loglevel> levels;
 vector<string> messagess;
+
+GameObject* gameobjects[10000];
 thread t1;
 bool threaddone = true;
 bool threadjoinedmain = true;
@@ -140,6 +142,12 @@ void threadedloghelpermessage(loglevel severity,string message)
 	cout << message << endl;
 	threaddone = true;
 }
+void registerGameobject(class GameObject& mygameobj)
+{
+	
+	gameobjects[0] = &mygameobj;
+}
+
 string myconcat(string folder,string innerfolder,string filename)
 {
 	std::stringstream ss;

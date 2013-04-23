@@ -1,8 +1,18 @@
 #pragma once
 
-//Allegro Imports
+//=================================
+// include guard
 #ifndef _Dungion_h_
 #define _Dungion_h_
+
+//=================================
+// forward declared dependencies
+class Player;
+class Map;
+class Entity;
+
+//=================================
+// included dependencies
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_primitives.h>
@@ -11,8 +21,6 @@
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
 #include <allegro5\allegro_image.h>
-
-
 #include <iostream>
 #include <cstring>
 #include <fstream>
@@ -20,24 +28,23 @@
 #include <string>
 #include <vector>
 #include <sstream>
-
-using namespace std;
-using std::ifstream;
 #include "Player.h"
 #include "Map.h"
 #include "Entity.h"
-//#include "EventManager.h"
-class Player;
-class Map;
-class Entity;
+#include "GameObject.h"
+#include "EventManager.h"
+using namespace std;
+using std::ifstream;
 
-class Dungion
+class Dungion : public GameObject
 {
 public:
 	Dungion(void);
 	Dungion(string);//path to dungfile
 	Dungion(Player);//if loading from a player
 	~Dungion(void);
+	//operators
+	Dungion & operator =(const Dungion &rhs);
 	void Draw();
 	void Update();
 	void triggerPlayerTransferToNewMap(int tomap,int playerid);
@@ -52,7 +59,7 @@ private:
 	void Load(string);
 	Map getRandomRoomDesign();
 	Map getRandomRoomDesignWC();
-	//EventManager thisdungenventmanager;
+	EventManager thisdungenventmanager;
 	//variables
 	ALLEGRO_BITMAP* tileset;
 	ALLEGRO_SAMPLE* bgs;

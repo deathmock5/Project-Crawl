@@ -1,5 +1,15 @@
 #pragma once
+//=================================
+// include guard
+#ifndef _SYSTEMVARS_H_
+#define _SYSTEMVARS_H_
 
+//=================================
+// forward declared dependencies
+class GameObject;
+
+//=================================
+// included dependencies
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
@@ -8,9 +18,6 @@
 #include <allegro5\allegro_acodec.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
-
-
-//includes
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
@@ -21,9 +28,13 @@
 #include <stdio.h>
 #include <vector>
 #include <thread>
+
 using namespace std;
-//enums
+//=================================
+// the actual class
 //TODO: update all enums to ENUMNAME_TYPE
+#ifndef _GAMEENUMS_
+#define _GAMEENUMS_
 const enum loglevel{INFO,WARNING,OK,SEVERE};
 const enum ATACKSTYLE{MAGIC,MELEE,RANGED}; 
 const enum ACTIONS{STAND,WALK,ATACK};
@@ -32,28 +43,23 @@ const enum DIRECTION{BACK,LEFT,FORWARD,RIGHT};
 const enum TAGANDCOLIDERTYPES{TAGENEMY,TAGPLAYER,TAGTORCH};
 const enum GAUGETYPES{GAUGE_FILL,GAUGE_LAYER};
 const enum GAMEEVENTTYPE{EVENT_DIALOG,EVENT_ENTITYSPAWN,EVENT_LIGHTCHANGE,EVENT_SPAWNTORCH,EVENT_SPAWNGOLD,EVENT_PLAYSFX,EVENT_MOVEPLAYER,EVENT_ROOMENTER,EVENT_WARP};
-
+#endif
 //vector<string> listOfDnglv; //files
 
 ALLEGRO_BITMAP* load_image(string);
 ALLEGRO_SAMPLE* load_sound(string);
 void logHelperMessage(loglevel,int, ...);
 void threadedloghelpermessage(loglevel,string);
+void updateThreadQue();
+void registerGameobject(GameObject& gameobj);
+
 string myconcat(string,string,string);
 string myconcat(int,...);
 string getrandommaplayout(bool);
-void updateThreadQue();
-
-
-
-class SystemVars
-{
-public:
-	static const int SCREEN_WIDTH = 800;
-	static const int SCREEN_HEIGHT = 640;
-	static const int FPS = 30;
-	static int bla;
-	
-private:
-
-};
+#ifndef _GAMECONSTS_
+#define _GAMECONSTS_
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 640;
+const int GAMEFPS = 30;
+#endif
+#endif

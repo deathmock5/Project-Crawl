@@ -16,7 +16,7 @@ using std::ifstream;
 //	int curentroom;
 //	std::vector<Map> maps;
 //TODO: move player into this file
-Dungion::Dungion(void)
+Dungion::Dungion(void) : GameObject(CLASSTYPE_DUNGION)
 {
 	//tileset
 	//bgs
@@ -25,14 +25,14 @@ Dungion::Dungion(void)
 	//load
 }
 
-Dungion::Dungion(string dungfile)
+Dungion::Dungion(string dungfile): GameObject(CLASSTYPE_DUNGION)
 {
 	Load(dungfile);
 	curentroom = 0;
 	maps[curentroom].show();
 }
 
-Dungion::Dungion(Player curentplayer)
+Dungion::Dungion(Player curentplayer): GameObject(CLASSTYPE_DUNGION)
 {
 	//TODO: Load from player.
 }
@@ -41,6 +41,26 @@ Dungion::~Dungion(void)
 {
 	//TODO: Unload information
 }
+
+Dungion& Dungion::operator=(const Dungion &rhs) {
+    // Do the assignment operation!
+	//variables
+	//ALLEGRO_BITMAP* tileset;
+	//ALLEGRO_SAMPLE* bgs;
+	///int rooms;
+	//int curentroom;
+	//int dificulty;
+	//std::vector<Map> maps;
+	curentplayers = rhs.curentplayers;
+	players = rhs.players;
+	tileset = rhs.tileset;
+	bgs = rhs.bgs;
+	rooms = rhs.rooms;
+	curentroom = rhs.curentroom;
+	dificulty = rhs.dificulty;
+	maps = rhs.maps;
+    return *this;  // Return a reference to myself.
+ }
 
 void Dungion::Draw()
 {
@@ -94,7 +114,7 @@ void Dungion::Load(string myfile)
 		if(!dungfile.eof())
 		{
 			dungfile >> dungionscript;
-			//thisdungenventmanager.loadEvents(dungionscript);
+			thisdungenventmanager.loadEvents(dungionscript);
 		}
 		//logHelperMessage(INFO,1,filetileset.c_str());
 		//logHelperMessage(INFO,1,filebgs.c_str());

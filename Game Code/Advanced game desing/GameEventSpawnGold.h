@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEvent.h"
+#include "Menu.h"
 #include "Entity.h"
 class Entity;
 class GameEventSpawnGold :
