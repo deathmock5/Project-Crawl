@@ -137,7 +137,7 @@ void EventManager::loadEvents(string file)
 	}
     else
     {
-		logHelperMessage(SEVERE,3,"File:'",myconcat(3,"Scripts\\",file.c_str(),".dngsc").c_str(),"' FAILED.");
+		logHelperMessage(SEVERE,3,"File:'",myconcat(2,"Scripts\\",file.c_str()).c_str(),"' FAILED.");
         //cout << "Unable to open file:" << myfile << endl;
     }
 }

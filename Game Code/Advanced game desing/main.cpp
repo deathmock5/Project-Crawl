@@ -222,7 +222,6 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-
 void buttonHelper(int doButtonAction)
 {
 	//take the key and send to a function to return an actionenum
@@ -588,7 +587,7 @@ void initMenus()
 			ALLEGRO_BITMAP* mainmenuexit_DOWN = load_image("Images\\Menus\\main\\exit_down.png");
 			ALLEGRO_BITMAP* mainmenucopyright = load_image("Images\\Menus\\main\\copywrite.png");
 			ALLEGRO_BITMAP* mainmenuversion = load_image("Images\\Menus\\main\\version.png");
-			ALLEGRO_SAMPLE* mainmenubgs = load_sound("Sound\\BGS\\Scene music 2.wav");
+			ALLEGRO_SAMPLE* mainmenubgs = load_sound("Sound\\BGS\\PCC Title.wav");
 		//create button pointer functions
 			void(*mainmenusingleclick)() = &mainMenuClickSingle;
 			void(*mainmenumulticlick)() = &mainMenuClickMulti;

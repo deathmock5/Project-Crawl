@@ -7,7 +7,6 @@
 //=================================
 // forward declared dependencies
 class Player;
-class Tile;
 
 //=================================
 // included dependencies

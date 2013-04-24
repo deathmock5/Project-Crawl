@@ -100,11 +100,8 @@ void Dungion::Load(string myfile)
 		string filemon2;
 		string fileboss;
 		string dungionscript = "null";
-		dungfile.get(next);
-		dungfile.get(next);
-		dungfile.get(next);
 		dungfile >> filetileset;
-		filetileset = myconcat("Images\\","TileSets\\",filetileset);
+		filetileset = myconcat(3,"Images\\","TileSets\\",filetileset.c_str());
 		dungfile >> filebgs;
 		//TODO: filebgs = strcat("Sound\\BGS\\",filebgs.c_str());
 		dungfile >> filenumrooms;

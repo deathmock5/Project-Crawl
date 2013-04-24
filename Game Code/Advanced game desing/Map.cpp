@@ -154,7 +154,7 @@ void Map::draw()
 		}
 		for(int i = 0;i < (int)entitys.size();i++)
 		{
-			entitys[i].draw(originx,originy);
+			//entitys[i].draw(originx,originy);
 		}
 		
 	}

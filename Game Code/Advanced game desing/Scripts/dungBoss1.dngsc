@@ -1,0 +1,62 @@
+//after defeating first dungeon
+//will need char spawning locations
+
+OnRoomEnter:BOSS{
+	identifier:s0
+}
+
+SpawnEntity:s0{
+	file:"boss1.dngmn"
+	x:13
+	y:10
+	identifier:s1
+}
+
+Dialog:s1{
+	face:"boss1.png"
+	text:"UUUGGGGHH!  This can’t be happening!"
+	identifier:s2
+}
+
+Dialog:s2{
+	face:"boss1.png"
+	text:"hrrrgrrrk"
+	identifier:s3
+}
+
+Dialog:s3{
+	face:"daughter.png"
+	text:"DAD!!!"
+	identifier:s4
+}
+
+Dialog:s4{
+	face:"main.png"
+	text:"Lilly! you're safe!"
+	identifier:s5
+}
+
+MovePlayer:s5{
+	x:5
+	y:0
+	identifier:s6
+}
+
+Dialog:s6{
+	face:"daughter.png"
+	text:"I overheard them talking. They took player jr to another mind shaft near here.  I can show you how to get there!"
+	identifier:s7
+}
+
+Dialog:s7{
+	face:"main.png"
+	text:"Okay sweetie, show me the way. After, run to our hideout so that you can remain safe!"
+	identifier:s8
+}
+
+WarpToMap:s8{}
+
+Dialog:0.5{
+	face:"main.png"
+	text:"Maybe I should visit the store for some additional fire power."
+}

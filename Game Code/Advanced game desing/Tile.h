@@ -1,18 +1,18 @@
 #pragma once
-#ifndef _allegro_h_
-#define _allegro_h_
+#ifndef _Tile_h_
+#define _Tile_h_
+
+
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
-#endif // !_allegro_h_
-
-#ifndef _Tile_h_
-#define _Tile_h_
-const enum TILETYPE{FLOOR,WALL,DOOR,WATER,POT,CHEST,TORCH};
 #include "SystemVars.h"
+
+const enum TILETYPE{FLOOR,WALL,DOOR,WATER,POT,CHEST,TORCH};
+
 class Tile
 {
 public:
