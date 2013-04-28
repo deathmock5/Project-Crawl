@@ -154,7 +154,7 @@ void Map::draw()
 		}
 		for(int i = 0;i < (int)entitys.size();i++)
 		{
-			//entitys[i].draw(originx,originy);
+			entitys[i].draw(originx,originy);
 		}
 		
 	}
@@ -264,8 +264,27 @@ void Map::addDoor(DIRECTION dir,int tomapid,bool needskey)
 }
 void Map::spawnEnttityInMap(Entity thing)
 {
+	vector<vector<float>> validspawnlocations;
+	for(int h = 0;h < SCREEN_TILE_HEIGHT;h++)
+	{
+		for(int w = 0; w < SCREEN_TILE_WIDTH;w++)
+		{
+			if(maptiles[h][w].passable())
+			{
+				vector<float> loc;
+				loc.push_back(h*32.0f);
+				loc.push_back(w*32.0f);
+				validspawnlocations.push_back(loc);
+			}
+		}
+	}
+	int randone = rand() % validspawnlocations.size();
 	//TODO: make cleener;
 	//TODO: uniqueid
+	Bounds entspawnloc = thing.getBounds();
+	entspawnloc.setY(validspawnlocations[randone][0]);
+	entspawnloc.setX(validspawnlocations[randone][1]);
+	thing.setBounds(entspawnloc);
 	thing.spawnAtLocation(entitysonmap++);
 	entitys.push_back(thing);
 }

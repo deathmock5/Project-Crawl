@@ -17,25 +17,16 @@ class Menu;
 #include "SystemVars.h"
 #include <locale>
 #include <iostream>
+#include <fstream>
+#include <istream>
+#include "GameScriptFileDataset.h"
 using namespace std;
 //#include "Dungion.h" - forward included
 //#include "Menu.h" - forward included
 
 //=================================
 // the actual class
-const enum LINETYPE{
-	LINETYPE_COMMENT,
-	LINETYPE_DIALOG,
-	LINETYPE_SPAWNENTITY,
-	LINETYPE_CHANGELIGHTLEVEL,
-	LINETYPE_SPAWNTORCH,
-	LINETYPE_SPAWNGOLD,
-	LINETYPE_PLAYSFX,
-	LINETYPE_MOVEPLAYER,
-	LINETYPE_ONROOMENTER,
-	LINETYPE_WARPTOMAP,
-	LINETYPE_UNKNOWN
-};
+
 class EventManager
 {
 public:
@@ -64,12 +55,10 @@ private:
 	void addWarpToMapEvent(int time);
 	void addWarpToMapEvent(string uniqueid);
 	LINETYPE getLineType(string);
-	string getLineValue(string data);
 	bool is_number(const std::string& s);
 	vector<GameEvent>gamevents;
 	vector<string> eventtimes;
 	vector<GAMEEVENTTYPE> eventtypes;
 	vector<string> eventprams;
-	
 };
 #endif

@@ -43,6 +43,19 @@ const enum DIRECTION{BACK,LEFT,FORWARD,RIGHT};
 const enum TAGANDCOLIDERTYPES{TAGENEMY,TAGPLAYER,TAGTORCH};
 const enum GAUGETYPES{GAUGE_FILL,GAUGE_LAYER};
 const enum GAMEEVENTTYPE{EVENT_DIALOG,EVENT_ENTITYSPAWN,EVENT_LIGHTCHANGE,EVENT_SPAWNTORCH,EVENT_SPAWNGOLD,EVENT_PLAYSFX,EVENT_MOVEPLAYER,EVENT_ROOMENTER,EVENT_WARP};
+const enum LINETYPE{
+	LINETYPE_COMMENT,
+	LINETYPE_DIALOG,
+	LINETYPE_SPAWNENTITY,
+	LINETYPE_CHANGELIGHTLEVEL,
+	LINETYPE_SPAWNTORCH,
+	LINETYPE_SPAWNGOLD,
+	LINETYPE_PLAYSFX,
+	LINETYPE_MOVEPLAYER,
+	LINETYPE_ONROOMENTER,
+	LINETYPE_WARPTOMAP,
+	LINETYPE_UNKNOWN
+};
 #endif
 //vector<string> listOfDnglv; //files
 
@@ -52,14 +65,22 @@ void logHelperMessage(loglevel,int, ...);
 void threadedloghelpermessage(loglevel,string);
 void updateThreadQue();
 void registerGameobject(GameObject& gameobj);
+//utils
+template <typename T>
+string NumberToString ( T Number );
+template <typename T>
+T StringToNumber ( const string &Text );
 
 string myconcat(string,string,string);
 string myconcat(int,...);
 string getrandommaplayout(bool);
 #ifndef _GAMECONSTS_
 #define _GAMECONSTS_
+const int SCREEN_TILE_WIDTH = 25;
+const int SCREEN_TILE_HEIGHT = 19;
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 640;
 const int GAMEFPS = 30;
+const bool IS_IN_DEBUG_MODE = true;
 #endif
 #endif

@@ -130,8 +130,8 @@ void Dungion::Load(string myfile)
 		Entity monster2 = Entity(filemon2);
 		dificulty = 1;
 		Map newmap;
-		int randx = 1;
-		int randy = 1;
+		//int randx = 1;
+		//int randy = 1;
 		srand(time(NULL));
 		bool firstroom = true;
 		for(int i = 0; i < atoi(filenumrooms.c_str());i++)
@@ -141,11 +141,11 @@ void Dungion::Load(string myfile)
 			for(int nm = 0; nm < 4; nm++)
 			{
 				//srand(i+nm + randx + randy);
-				randx = rand() % 736 + 32;
-				randy = rand() % 568 + 64;
+				//randx = rand() % 736 + 32;
+				//randy = rand() % 568 + 64;
 				if(rand() % 2 + 1 == 1)
 				{
-					monster1.setBounds(Bounds(Point(randx,randy),64,64));
+					monster1.setBounds(Bounds(Point(0,0),64,64));
 					monster1.addColider("PLAYER");
 					monster1.addTag("ENEMY");
 					monster1.addColider("PLAYER_SLASH");
@@ -153,7 +153,7 @@ void Dungion::Load(string myfile)
 				}
 				else
 				{
-					monster2.setBounds(Bounds(Point(randx,randy),64,64));
+					monster2.setBounds(Bounds(Point(0,0),64,64));
 					monster2.addColider("PLAYER");
 					monster2.addTag("ENEMY");
 					monster2.addColider("PLAYER_SLASH");

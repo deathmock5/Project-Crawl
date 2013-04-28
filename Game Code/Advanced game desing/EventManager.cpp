@@ -38,101 +38,87 @@ bool EventManager::isEventInProcess()
 void EventManager::loadEvents(string file)
 {
 	ifstream scriptfile;
+	GameEvent newevent;
 	scriptfile.open(myconcat(2,"Scripts\\",file.c_str()));
-	
     if(!scriptfile.fail())
     {
 		logHelperMessage(OK,3,"File:'",myconcat(2,"Scripts\\",file.c_str()).c_str(),"' open.");
-		char next = '\n';								//set endline charicter
-		string line;									//set blank line
-		LINETYPE linetype;								//determine the line type
-		scriptfile.get(next);							//get garbage data out
-		scriptfile.get(next);
-		scriptfile.get(next);
-		getline(scriptfile,line);						//input the first line
-		while(!scriptfile.eof())						//while te files open
-		{
-			linetype = getLineType(line.c_str());				//get the line type.
-			GameEvent newevent;
-			string arguments[8];
-			if(linetype != LINETYPE_COMMENT)            //comments are ignored.
+
+		GameScriptFileDataset mydataset(scriptfile);
+		vector<GameScriptFileDatasetKeyname> records = mydataset.getDatasets();
+			for(int i = 0;i < records.size();i++)
+			{
+				vector<GameScriptFileDatasetKeynameChildren> recordsofchildren;
+				string value;
+				string arguments[8];
+				//0 # activator
+				//1 string activator
+				//2-6 args
+				//7 identifier
+				switch (records[i].getLineType())
 				{
-				arguments[0] = line;					//get the linetype:identifier line
-				int incrimenter = 1;					//start inctimenting at one.
-				getline(scriptfile,line);				//get the next line.
-				while(line.find("}")==std::string::npos)//loop untill you find the closeing curly brace.
-				{
-					arguments[incrimenter++] = line;	//add each line.
-					getline(scriptfile,line);			//get the next line.
+				case LINETYPE_COMMENT:
+					//IGNORE MEEEEE
+					break;
+				case LINETYPE_DIALOG:
+					newevent = GameEventDialog();																//Lets add a new dialog
+					value = records[i].getMyDatafire();
+					recordsofchildren = records[i].getChildData();
+					if(is_number(value))
+					{   																						//ok its timed
+						arguments[0] = value;																	//dialog:#
+						arguments[1] = "null";																	//dialog:foo
+					}
+					else
+					{
+						arguments[0] = -1;																		//dialog:#
+						arguments[1] = value;																	//dialog:foo
+					}
+					arguments[2] = recordsofchildren[0].getDataValue();											//Face:"blablabla"
+					arguments[3] = recordsofchildren[1].getDataValue();											//Text:"blablabla"
+					if(recordsofchildren.size() > 1)
+					{
+						//arguments[7] = recordsofchildren[2].getDataValue();
+					}
+					else
+					{
+						arguments[7] = "null";
+					}
+					newevent.setEventPramiters(4,arguments[0],arguments[1],arguments[2],arguments[3]);															//add the dialog information to the thing
+					logHelperMessage(INFO,3,"---DIALOG:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_SPAWNENTITY:
+					logHelperMessage(INFO,3,"---SPAWNENTITY:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_CHANGELIGHTLEVEL:
+					logHelperMessage(INFO,3,"---CHANGELIGHTLEVEL:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_SPAWNTORCH:
+					logHelperMessage(INFO,3,"---SPAWNTORCH:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_SPAWNGOLD:
+					logHelperMessage(INFO,3,"---SPAWNGOLD:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_PLAYSFX:
+					logHelperMessage(INFO,3,"---PLAYSFX:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_MOVEPLAYER:
+					logHelperMessage(INFO,3,"---MOVEPLAYER:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_ONROOMENTER:
+					logHelperMessage(INFO,3,"---ONROOMENTER:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_WARPTOMAP:
+					logHelperMessage(INFO,3,"---WARPTOMAP:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					break;
+				case LINETYPE_UNKNOWN:
+					logHelperMessage(WARNING,3,"---UNKNOWN:'",records[i].getMyDatafire().c_str(),"' found.");
+					break;
+				default:
+					logHelperMessage(WARNING,3,"---ERROR:'",records[i].getMyDatafire().c_str(),"' found.");
+					break;
 				}
-			}
-			
-			switch (linetype)
-			{
-			case LINETYPE_COMMENT:
-				//IGNORE MEEEEE
-				break;
-			case LINETYPE_DIALOG:
-				newevent = GameEventDialog();			//Lets add a new dialog
-				//if(is_number(getLineValue(arguments[0])))
-				//{
-				//	//ok its timed
-				//	arguments[0] = getLineValue(arguments[0]);
-				//}
-				//else
-				//{
-				//	//arguments[0] = -1;																	//dialog:#
-				//	//arguments[1] = getLineValue(arguments[0]);											//dialog:foo
-				//}
-				////arguments[2] = getLineValue(arguments[2]);												//	Face:""
-				////arguments[3] = getLineValue(arguments[3]);												//	Text:""
-				//if(arguments[4] != "")
-				//{
-				//	//i trigger another event
-				//	arguments[4] = getLineValue(arguments[4]);
-				//}
-				//newevent.setEventPramiters(2,1,1);      //add the dialog information to the thing
-				/*mytimedactivator = va_arg(messages,int);
-				faceimg = load_image(myconcat(2,"\\Images\\Faces\\",va_arg(messages,string)));
-				text = va_arg(messages,string);
-				if(number > 3)
-				{
-					myidentactivator = va_arg(messages,string);
-				}*/
-				break;
-			case LINETYPE_SPAWNENTITY:
-				break;
-			case LINETYPE_CHANGELIGHTLEVEL:
-				break;
-			case LINETYPE_SPAWNTORCH:
-				break;
-			case LINETYPE_SPAWNGOLD:
-				break;
-			case LINETYPE_PLAYSFX:
-				break;
-			case LINETYPE_MOVEPLAYER:
-				break;
-			case LINETYPE_ONROOMENTER:
-				break;
-			case LINETYPE_WARPTOMAP:
-				break;
-			case LINETYPE_UNKNOWN:
-				break;
-			default:
-				break;
-			}
-			getline(scriptfile,line);			//get the next line.
-			if(linetype != LINETYPE_COMMENT)
-			{
-				gamevents.push_back(newevent);
-			}
 		}
-        string filetileset;
-		string filebgs;
-		string filenumrooms;
-		string filemon1;
-		string filemon2;
-		string fileboss;
 		scriptfile.close();//close file
 	}
     else
@@ -181,60 +167,10 @@ void EventManager::addWarpToMapEvent(int time)
 {}
 void EventManager::addWarpToMapEvent(string uniqueid)
 {}
-LINETYPE EventManager::getLineType(string line)
-{
-	std::transform(line.begin(), line.end(), line.begin(), ::tolower); //Make all lower case.
-	if(line.find("dialog:")!=std::string::npos)
-	{
-		return LINETYPE_DIALOG;
-	}
-	if(line.find("spawnentity:")!=std::string::npos)
-	{
-		return LINETYPE_SPAWNENTITY;
-	}
-	if(line.find("changelightlevel:")!=std::string::npos)
-	{
-		return LINETYPE_CHANGELIGHTLEVEL;
-	}
-	if(line.find("spawntorch:")!=std::string::npos)
-	{
-		return LINETYPE_SPAWNTORCH;
-	}
-	if(line.find("spawngold:")!=std::string::npos)
-	{
-		return LINETYPE_SPAWNGOLD;
-	}
-	if(line.find("playsfx:")!=std::string::npos)
-	{
-		return LINETYPE_PLAYSFX;
-	}
-	if(line.find("moveplayer:")!=std::string::npos)
-	{
-		return LINETYPE_MOVEPLAYER;
-	}
-	if(line.find("onroomenter:")!=std::string::npos)
-	{
-		return LINETYPE_ONROOMENTER;
-	}
-	if(line.find("warptomap:")!=std::string::npos)
-	{
-		return LINETYPE_WARPTOMAP;
-	}
-	if(line.find("//")!=std::string::npos)
-	{
-		return LINETYPE_COMMENT;
-	}
-	logHelperMessage(WARNING,3,"Line: '",line.c_str(),"' Not determinable.");
-	return LINETYPE_UNKNOWN; //well. it cant be anything usefull, ignore it.
-}
-string EventManager::getLineValue(string data)
-{
-	return data.substr(data.find(":")+1);
-}
 bool EventManager::is_number(const std::string& s)
 {
 	bool hasfound = false;
-	locale loc ( "en_US" );
+	locale loc ("C");
 	for(int i = 0; i < s.length();i++)
 	{
 		if(std::isdigit(s[i],loc))
@@ -243,5 +179,5 @@ bool EventManager::is_number(const std::string& s)
 			i = s.length();
 		}
 	}
-	return hasfound;
+	return !hasfound;
 }

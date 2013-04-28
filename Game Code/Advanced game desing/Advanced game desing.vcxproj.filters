@@ -80,6 +80,10 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Definitions</Filter>
     </ClCompile>
+    <ClCompile Include="GameScriptFileDataset.cpp" />
+    <ClCompile Include="GameScriptFileDatasetKeyname.cpp" />
+    <ClCompile Include="GameScriptFileDatasetKeynameChildren.cpp" />
+    <ClCompile Include="GameEntityPath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bounds.h">
@@ -148,6 +152,10 @@
     <ClInclude Include="GameObject.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="GameScriptFileDataset.h" />
+    <ClInclude Include="GameScriptFileDatasetKeyname.h" />
+    <ClInclude Include="GameScriptFileDatasetKeynameChildren.h" />
+    <ClInclude Include="GameEntityPath.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

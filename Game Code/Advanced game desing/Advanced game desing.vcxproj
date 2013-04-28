@@ -117,6 +117,7 @@
     <ClCompile Include="Dungion.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="GameEntityPath.cpp" />
     <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameEventChangeLightLevel.cpp" />
     <ClCompile Include="GameEventDialog.cpp" />
@@ -128,6 +129,9 @@
     <ClCompile Include="GameEventSpawnTorch.cpp" />
     <ClCompile Include="GameEventWarpToMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameScriptFileDataset.cpp" />
+    <ClCompile Include="GameScriptFileDatasetKeyname.cpp" />
+    <ClCompile Include="GameScriptFileDatasetKeynameChildren.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -146,6 +150,7 @@
     <ClInclude Include="Dungion.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="GameEntityPath.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameEventChangeLightLevel.h" />
     <ClInclude Include="GameEventDialog.h" />
@@ -157,6 +162,9 @@
     <ClInclude Include="GameEventSpawnTorch.h" />
     <ClInclude Include="GameEventWarpToMap.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameScriptFileDataset.h" />
+    <ClInclude Include="GameScriptFileDatasetKeyname.h" />
+    <ClInclude Include="GameScriptFileDatasetKeynameChildren.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />

@@ -23,14 +23,12 @@ class Tile;
 #include <string>
 #include <vector>
 #include <sstream>
-#include <queue>
 #include "Player.h"
 #include "Map.h"
 #include "SystemVars.h"
 #include "Point.h"
 #include "Bounds.h"
-#include "Node.h"
-
+#include "GameEntityPath.h"
 
 using namespace std;
 using std::ifstream;
@@ -78,7 +76,6 @@ public:
 	void setTimeout(int);
 private:
 		void load(string);
-		string pathFind(Point playerpos);
 		bool hasbeeninited;
 		ALLEGRO_BITMAP* tileset;
 		ALLEGRO_SAMPLE* monatacknoise;
@@ -102,26 +99,9 @@ private:
 		int uniqueid;
 		int curenthealth;
 		int frametimeout;
+		GameEntityPath mypather;
 	//Const
 		int hpbace;
 		int damagebace;
-	//pathfinding
-	int n; // horizontal size of the map
-	int m; // vertical size size of the map
-	bool mapHasBeenSet;
-	int map[25][19];
-	int closed_Nodes_map[25][19]; // map of closed (tried-out) Nodes
-	int open_Nodes_map[25][19]; // map of open (not-yet-tried) Nodes
-	int dir_map[25][19]; // map of directions
-	int dir; // number of possible directions to go at any position
-	// if dir==4
-	//static int dx[dir]={1, 0, -1, 0};
-	//static int dy[dir]={0, 1, 0, -1};
-	// if dir==8
-    priority_queue<Node> pq[2]; // list of open (not-yet-tried) Nodes
-    int pqi; // pq index
-    Node* n0;
-    Node* m0;
-	string pathtoplayer;
 };
 #endif // !_Entity_h_

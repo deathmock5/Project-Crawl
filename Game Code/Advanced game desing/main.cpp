@@ -495,6 +495,7 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 			menuingame.updateGaugeValue("PMP",mydung.players[0].getMana());
 			menuingame.updateGaugeValue("PLV",mydung.players[0].getLives());
 			menuingame.draw();
+			//delete curentplayer;
 			al_flip_display();
 		}
 }
