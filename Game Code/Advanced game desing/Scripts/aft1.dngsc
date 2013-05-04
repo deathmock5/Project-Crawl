@@ -43,10 +43,6 @@ MovePlayer:s5
 	y:"0"
 	identifier:"s6"
 }
-Dialog:"s6"
-{
-	identifier:"s6"
-}
 //MovePlayer:s5{
 //	x:"5"
 //	y:"0"

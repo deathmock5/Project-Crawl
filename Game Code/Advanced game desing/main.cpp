@@ -14,7 +14,7 @@ using namespace std;
 #include "Player.h"
 #include "Map.h"
 #include "Menu.h"
-
+#include "Game.h"
 bool anyButtonChangedStatus();
 bool anyButtonIsPressed();
 bool noOtherButtonsArePressed(int);
@@ -28,6 +28,7 @@ DIRECTION lastdir;
 
 
 enum gameGuiState{MAIN,OPTION,MULTIPLAYER,INGAME,SHOP,INVINTORY,SAVELOAD,WORLDMAP};
+Game mygame;
 
 Menu mainmenu;
 void mainMenuClickSingle();
@@ -73,7 +74,7 @@ void initMenus();
 void changeGameState(gameGuiState);
 
 //game variables
-Dungion mydung;
+Dungion* mydung;
 gameGuiState curentstate;
 bool done = false;
 bool redraw = false;
@@ -84,7 +85,8 @@ int pos_x = 0;
 int pos_y = 0;
 int main(int argc, char **argv)
 {
-	mydung = Dungion();
+	setGameRefrence(&mygame);
+	//mydung = new Dungion();
 	if(al_init())logHelperMessage(OK,1,"Initilised Allegro 5.0.8");
 	else{ logHelperMessage(SEVERE,1,"Failed to initilise Allegro 5.0.8"); return -1;}
 	//set_window_title("Foobar"); // windows title
@@ -219,6 +221,7 @@ int main(int argc, char **argv)
 	}
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(display);
+	delete mydung;
 	return 0;
 }
 
@@ -230,26 +233,26 @@ void buttonHelper(int doButtonAction)
 		switch (doButtonAction)
 		{
 		case ALLEGRO_KEY_W:
-			mydung.players[0].processInput(WALK,BACK);
+			mydung->players[0].processInput(WALK,BACK);
 			lastdir = BACK;
 			break;
 		case ALLEGRO_KEY_A:
-			mydung.players[0].processInput(WALK,LEFT);
+			mydung->players[0].processInput(WALK,LEFT);
 			lastdir = LEFT;
 			break;
 		case ALLEGRO_KEY_S:
-			mydung.players[0].processInput(WALK,FORWARD);
+			mydung->players[0].processInput(WALK,FORWARD);
 			lastdir = FORWARD;
 			break;
 		case ALLEGRO_KEY_D:
-			mydung.players[0].processInput(WALK,RIGHT);
+			mydung->players[0].processInput(WALK,RIGHT);
 			lastdir = RIGHT;
 			break;
 		case ALLEGRO_KEY_E:
 			toggleInvintory();
 			break;
 		default:
-			mydung.players[0].processInput(STAND,lastdir);
+			mydung->players[0].processInput(STAND,lastdir);
 			break;
 		} 
 	}
@@ -427,20 +430,24 @@ void overworldMenuClickDung1()
 {
 	//TODO: overworldMenuClickDung1()
 	//mymap = Map("Lv1",1);
-	mydung = Dungion("Lv1");
+	mydung = new Dungion("Lv1");
+	//logHelperMessage(INFO,1,"MADEDUNG");
 	curentstate = INGAME;
+	getGameRefrence()->registerGameObject(mydung);
 }
 void overworldMenuClickDung2()
 {
 	//TODO: overworldMenuClickDung2()
-	mydung = Dungion("Lv2");
+	mydung = new Dungion("Lv2");
 	curentstate = INGAME;
+	getGameRefrence()->registerGameObject(mydung);
 }
 void overworldMenuClickDung3()
 {
 	//TODO: overworldMenuClickDung3()
-	mydung = Dungion("Lv3");
+	mydung = new Dungion("Lv3");
 	curentstate = INGAME;
+	getGameRefrence()->registerGameObject(mydung);
 }
 //multiplayer
 void gameGUIMultiplayer(ALLEGRO_EVENT ev)
@@ -472,7 +479,7 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
 			//TODO: Handle buttons on mouse clicked
-			mydung.players[0].processInput(ATACK,mydung.players[0].getFaceingDir(pos_x,pos_y));
+			mydung->players[0].processInput(ATACK,mydung->players[0].getFaceingDir(pos_x,pos_y));
 		}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 		{
@@ -487,13 +494,13 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 		{
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
-			mydung.Update();
-			mydung.Draw();
-			//mydung.reftoCurrentMap()->drawLight(display);
-			Player* curentplayer = mydung.refToCurrentPlayer();
-			menuingame.updateGaugeValue("PHP",mydung.players[0].getHealth());
-			menuingame.updateGaugeValue("PMP",mydung.players[0].getMana());
-			menuingame.updateGaugeValue("PLV",mydung.players[0].getLives());
+			mydung->Update();
+			mydung->Draw();
+			mydung->reftoCurrentMap()->drawLight(display);
+			Player* curentplayer = mydung->refToCurrentPlayer();
+			menuingame.updateGaugeValue("PHP",(int)mydung->players[0].getHealth());
+			menuingame.updateGaugeValue("PMP",(int)mydung->players[0].getMana());
+			menuingame.updateGaugeValue("PLV",(int)mydung->players[0].getLives());
 			menuingame.draw();
 			//delete curentplayer;
 			al_flip_display();
@@ -534,7 +541,7 @@ void gameGUIInvintry(ALLEGRO_EVENT ev)
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
 			//TODO: Handle buttons on mouse clicked
-			mydung.players[0].processInput(ATACK,mydung.players[0].getFaceingDir(pos_x,pos_y));
+			mydung->players[0].processInput(ATACK,mydung->players[0].getFaceingDir(pos_x,pos_y));
 		}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 		{
@@ -551,9 +558,9 @@ void gameGUIInvintry(ALLEGRO_EVENT ev)
 			al_clear_to_color(al_map_rgb(0,0,0));
 			//Map* curmap = mydung.reftoCurrentMap();
 
-			mydung.Draw();
+			mydung->Draw();
 			//mydung.reftoCurrentMap()->drawLight(display);
-			Player* curentplayer = mydung.refToCurrentPlayer();
+			Player* curentplayer = mydung->refToCurrentPlayer();
 			menuingame.updateGaugeValue("PHP",curentplayer->getHealth());
 			menuingame.updateGaugeValue("PMP",curentplayer->getMana());
 			menuingame.updateGaugeValue("PLV",curentplayer->getLives());

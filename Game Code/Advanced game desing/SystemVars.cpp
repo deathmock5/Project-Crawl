@@ -1,11 +1,9 @@
 #include "SystemVars.h"
 
 vector<string> dnglvs;
-
+static Game* curentgame;
 vector<loglevel> levels;
 vector<string> messagess;
-
-GameObject* gameobjects[10000];
 thread t1;
 bool threaddone = true;
 bool threadjoinedmain = true;
@@ -142,18 +140,13 @@ void threadedloghelpermessage(loglevel severity,string message)
 	cout << message << endl;
 	threaddone = true;
 }
-void registerGameobject(class GameObject& mygameobj)
-{
-	
-	gameobjects[0] = &mygameobj;
-}
-
 template <typename T>
 string NumberToString ( T Number )
 {
 	stringstream ss;
 	ss << Number;
 	return ss.str();
+	//string s = to_string((double)num);
 }
 template <typename T>
 T StringToNumber ( const string &Text )//Text not by const reference so that the function can be used with a 
@@ -162,7 +155,14 @@ T StringToNumber ( const string &Text )//Text not by const reference so that the
 	T result;
 	return ss >> result ? result : 0;
 }
-
+void setGameRefrence(Game* mygame)
+{
+	curentgame = mygame;
+}
+Game* getGameRefrence()
+{
+	return curentgame;
+}
 string myconcat(string folder,string innerfolder,string filename)
 {
 	std::stringstream ss;
@@ -222,4 +222,11 @@ string getrandommaplayout(bool bls)
 		return dnglvs[randomvar];
 	}
 	return "null";
+}
+float getAngleToTarget(float x1,float y1,float x2,float y2)
+{
+	float deltax = x2 - x1;
+	float deltay = y2 - y1;
+	float angle = atan2(deltax,deltay);
+	return angle - 3.14f / 2.0f;
 }

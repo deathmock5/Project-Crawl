@@ -44,6 +44,7 @@ public:
 	void addDoor(DIRECTION dir,int tomapid,bool needskey);
 
 	void spawnEnttityInMap(class Entity);
+	void spawnEnttityInMap(class Entity,bool);
 	void bakeTilemap();
 private:
 	float originx;

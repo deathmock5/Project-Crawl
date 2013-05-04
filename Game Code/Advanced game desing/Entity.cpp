@@ -3,42 +3,52 @@ using namespace std;
 using std::ifstream;
 Entity::Entity()
 {
-	framecount = -1;
+	//framecount = -1;
 	hasbeeninited = false;
+	immoveing = false;
+	isahitbox = false;
 }
 Entity::Entity(float spawnx,float spawny)
 {
 	hasbeeninited = false;
 	curenthealth = 1;
+	immoveing = false;
+	isahitbox = false;
 }
-Entity::Entity(Bounds hitboxSquare,bool ishitbox)
+Entity::Entity(Bounds hitboxSquare,ALLEGRO_BITMAP* ts)
 {
-	framecount = -1;
-	mybounds = hitboxSquare;
+	//framecount = -1;
+    mybounds = hitboxSquare;
 	isliveingcreature = false;
 	curenthealth = 1;
+	immoveing = false;
+	speed = 5;
+	isahitbox = true;
+	projecsprite = SpriteProjectile(ts);
 }
 Entity::Entity(string file)
 {
 	frametimeout = -1;
 	load(file);
 	hasbeeninited = true;
+	immoveing = false;
+	isahitbox = false;
 }
 Entity::Entity(string nam,ALLEGRO_BITMAP* ts,int w,int h,ALLEGRO_SAMPLE* atksnd,ALLEGRO_SAMPLE* dmgsnd,ATACKSTYLE sty,int hp,int dmg)
 {
-	framecount = -1;
-	tileset = ts;
+	//framecount = -1;
+	sprite = SpriteCharicter(ts);
 	monatacknoise = atksnd;
 	mondamagesnd = dmgsnd;
 	style = sty;
 	isliveingcreature = true;
 	alive = false;
 	//frameinformation
-	framecount = 0;
-	animation = STANDING;
-	direction = FORWARD;
-	delay = 0;
-	maxDelay = 1;
+	//framecount = 0;
+	//animation = STANDING;
+	//direction = FORWARD;
+	//delay = 0;
+	//maxDelay = 1;
 	statechanged = false;
 	mybounds = Bounds(0,0,w,h);
 	speed = 0;
@@ -49,6 +59,8 @@ Entity::Entity(string nam,ALLEGRO_BITMAP* ts,int w,int h,ALLEGRO_SAMPLE* atksnd,
 	curenthealth = hp;
 	damagebace = dmg;
 	addTag("ENEMY");
+	immoveing = false;
+	isahitbox = false;
 }
 Entity::~Entity()
 {
@@ -97,28 +109,24 @@ void Entity::draw(float originposx,float originposy)
 {
 	if(isliveingcreature && hasbeeninited)
 	{
-		//al_draw_filled_rectangle(posx,posy,posx+1.0f,posy+1.0f,al_map_rgb(255,255,255));
-		if(delay++ >= maxDelay)
+		al_draw_filled_rectangle(mybounds.getX(),mybounds.getY(),mybounds.getX() + mybounds.getW(),mybounds.getY() + mybounds.getH(),al_map_rgb(255,0,0));
+		sprite.Draw(mybounds.getX(),mybounds.getY());
+		if(sprite.getAnimation() == DEAD)
 		{
-		if(framecount++ >= frameSet[animation][4] -1)
-		{
-			framecount = 0;
-			if(animation == DEAD)
+			if(sprite.hasCompletedAnimationOnce())
 			{
 				alive = false;
 			}
-			if(animation != WALKING && animation != STANDING)
-			{
-				animation = STANDING;
-			}
 		}
-		delay = 0;
-		}
-		al_draw_bitmap_region(tileset,(float)framecount * mybounds.getW(),(float)frameSet[animation][direction] *  mybounds.getH(), mybounds.getW(), mybounds.getH(),mybounds.getX(),mybounds.getY(),0);
 	}
 	else
 	{
-		al_draw_filled_rectangle(mybounds.getX(),mybounds.getY(),mybounds.getX() + mybounds.getW(),mybounds.getY() + mybounds.getH(),al_map_rgb(255,255,255));
+		if(isahitbox)
+		{
+			//al_draw_filled_rectangle(mybounds.getX(),mybounds.getY(),mybounds.getX() + mybounds.getW(),mybounds.getY() + mybounds.getH(),al_map_rgb(255,255,255));
+			projecsprite.Draw(mybounds.getX(),mybounds.getY());
+		}
+		
 	}
 }
 void Entity::travelToPos(float tarx,float tary,float speed)
@@ -132,14 +140,8 @@ void Entity::update(vector<Player> &players,vector<Entity> &ents,Tile tiles[19][
 	{
 		if(isliveingcreature)
 		{
-			if(!mypather.locationHasBeenSet())
-			{
-				mypather.setMyLocation(Point(mybounds.getGridPos().getX(),mybounds.getGridPos().getY()));
-			}
-			if(!mypather.targetHasBeenSet())
-			{
-				mypather.setTargetLocation(Point(players[0].getBounds().getGridPos().getX(),players[0].getBounds().getGridPos().getY()));
-			}
+			if(!mypather.locationHasBeenSet()){mypather.setMyLocation(Point(mybounds.getGridPos().getX(),mybounds.getGridPos().getY()));}
+			if(!mypather.targetHasBeenSet()){mypather.setTargetLocation(Point(players[0].getBounds().getGridPos().getX(),players[0].getBounds().getGridPos().getY()));}
 			if(!mypather.mapHasBeenSet())
 			{
 				int map[19][25];
@@ -159,19 +161,52 @@ void Entity::update(vector<Player> &players,vector<Entity> &ents,Tile tiles[19][
 				}
 				mypather.setMap(map);
 			}
-			try
+			//ok got the path ext ext. lets set this puppy to move!
+			mypather.updatePather(speed);
+			if(!immoveing)
 			{
-				mypather.beginPathing();
+				ACTIONS action;
+				if(mypather.getDistanceToTarget() > 3)
+				{
+					sprite.setDirection(mypather.moveThisDirectionOneSpaceToGetToGoal());
+					statechanged = true;
+					immoveing = true;
+					action = WALK;
+				}
+				else
+				{
+					action = ATACK;
+				}
+			switch (action)
+			{
+			case STAND:
+				sprite.setAnimation(STANDING);
+				break;
+			case WALK:
+				sprite.setAnimation(WALKING);
+				break;
+			case ATACK:
+				if(sprite.getAnimation() == SLASH)
+				{
+					return; //if were already atacking then dont atack again....
+				}
+				//TODO: Get charicter weapon and then run atack animation
+				sprite.setAnimation(SLASH);
+				statechanged = true;
+				immoveing = false;
+				getGameRefrence()->sendMessageToAllObjects("ENEMY_0_SLASH",CLASSTYPE_DUNGION);
+				break;
+			default:
+				break;
 			}
-			catch(...)
-			{
-				logHelperMessage(SEVERE,1,"Unable to compute path");
+				
 			}
 		}
 	}
 	if(statechanged)
 	{
-		switch(animation)
+		double varience = rand() % 100 + 1;
+		switch(sprite.getAnimation())
 		{
 		case ULTI:
 			//TODO: ultimate code
@@ -180,37 +215,37 @@ void Entity::update(vector<Player> &players,vector<Entity> &ents,Tile tiles[19][
 			//TODO: Spawn fireball projectile
 			break;
 		case WALKING:
-			switch (direction)
+			switch (sprite.getDirection())
 			{
 			case BACK:
-				if(tiles[(int)(mybounds.getX() + 32.0f)/32][((int)(mybounds.getY() + 32.0f)/32)-1].passable())
+				if(tiles[((int)(mybounds.getY() - 16.0f/* + 32.0f*/)/32)-1][((int)(mybounds.getX()/*+ 32.0f*/)/32)].passable())//
 				{
-					mybounds.setY(mybounds.getY() - 2.0f);
+					mybounds.setY(mybounds.getY() - (speed + (varience / 200.0 )));
 				}
 				break;
 			case LEFT:
-				if(tiles[((int)(mybounds.getX()  + 48.0f)/32)-1][((int)(mybounds.getY()  + 14.0f)/32)].passable())
+				if(tiles[((int)(mybounds.getY())/32)-1][((int)(mybounds.getX() - 16.0f)/32)].passable())
 				{
-					mybounds.setX(mybounds.getX() - 2.0f);
+					mybounds.setX(mybounds.getX() - (speed + (varience / 200.0 )));
 				}
 				break;
 			case FORWARD:
-				if(tiles[((int)(mybounds.getX() + 32.0f)/32)][((int)(mybounds.getY()  + 0.0f)/32)+1].passable())
+				if(tiles[((int)(mybounds.getY() - 16.0f/* + 32.0f*/)/32)][((int)(mybounds.getX())/32)].passable())
 				{
-					mybounds.setY(mybounds.getY() + 2.0f);
+					mybounds.setY(mybounds.getY() + (speed + (varience / 200.0 )));
 				}
 				break;
 			case RIGHT:
-				if(tiles[((int)(mybounds.getX()  + 16.0f)/32)+1][((int)(mybounds.getY() + 14.0f)/32)].passable())
+				if(tiles[((int)(mybounds.getY() - 32.0f)/32)][((int)(mybounds.getX() - 16.0f)/32)+1].passable())
 				{
-					mybounds.setX(mybounds.getX() + 2.0f);
+					mybounds.setX(mybounds.getX() + (speed + (varience / 200.0 )));
 				}
-				break;
 			default:
 				break;
 			}
 			break;
 		case SLASH:
+			
 			//TODO: Hitbox stuff
 			break;
 		case BOW:
@@ -223,9 +258,31 @@ void Entity::update(vector<Player> &players,vector<Entity> &ents,Tile tiles[19][
 			//TODO: idle animation?
 			break;
 		}
-		if(animation != WALKING)
+		if(sprite.hasCompletedAnimationOnce())
 		{
+			if(sprite.getAnimation() == WALKING)
+			{
+				immoveing = false;
+			}
 			statechanged = false;
+		}
+	}
+	if(!isliveingcreature && (velocityx != 0 || velocityy != 0))
+	{
+		mybounds.setX(mybounds.getX() + velocityx * speed);
+		mybounds.setY(mybounds.getY() - velocityy * speed);
+		if(!projecsprite.angleHasBeenSet())
+		{
+			Point getchords = players[0].getLastKnownMouseChords();
+			projecsprite.setRotation(getAngleToTarget(players[0].getBounds().getX(),players[0].getBounds().getY() * -1.0f,getchords.getX(),getchords.getY() * -1.0f));
+		}
+		if(!(tiles[((int)mybounds.getY()/32)][((int)mybounds.getX()/32)].passable()))
+		{
+			alive = false;//i hit a wall, explode!
+		}
+		if(mybounds.getX() > SCREEN_WIDTH + 50 || mybounds.getY() > SCREEN_HEIGHT + 50)
+		{
+			alive = false;
 		}
 	}
 	if(isAlive() && frametimeout >= 0)
@@ -285,7 +342,7 @@ void Entity::load(string file)
 		monsterdata >> filemonhitsnd;
 		monsterdata >> filemonhpbace;
 		monsterdata >> filemondmgbace;
-		tileset = load_image(myconcat(2,"Monster\\",filemontileset.c_str()));
+		sprite = SpriteCharicter(load_image(myconcat(2,"Monster\\",filemontileset.c_str())));
 		monatacknoise = load_sound(myconcat(2,"Monster\\",filemonatksnd.c_str()));
 		mondamagesnd = load_sound(myconcat(2,"Monster\\",filemonhitsnd.c_str()));
 		//TODO: Get monster atack style
@@ -293,17 +350,17 @@ void Entity::load(string file)
 		curenthealth = atoi(filemonhpbace.c_str());
 		damagebace = atoi(filemondmgbace.c_str());
 		isliveingcreature = true;
-		framecount = 0;
-		animation = STANDING;
-		direction = FORWARD;
-		delay = 0;
-		maxDelay = 1;
+		//framecount = 0;
+		//animation = STANDING;
+		//direction = FORWARD;
+		//delay = 0;
+		//maxDelay = 1;
 		statechanged = false;
 		mybounds.setX(128.0f);
 		mybounds.setY(128.0f);
 		mybounds.setW(atoi(filemonwidth.c_str()));
 		mybounds.setH(atoi(filemonheight.c_str()));
-		speed = 2.0f;
+		speed = 1.0f;
 		velocityx = 1.0f;
 		velocityy = 1.0f;
 		monsterdata.close();
@@ -425,7 +482,7 @@ void Entity::damageMe(int amount)
 	if(curenthealth < 0)
 	{
 		statechanged = true;
-		animation = DEAD;
+		sprite.setAnimation(DEAD);
 	}
 }
 void Entity::damageMe(Item)
@@ -435,4 +492,9 @@ void Entity::damageMe(Item)
 void Entity::setTimeout(int val)
 {
 	frametimeout = val;
+}
+void Entity::setVelocity(float xv,float yv)
+{
+	velocityy= yv;
+	velocityx = xv;
 }

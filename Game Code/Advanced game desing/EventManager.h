@@ -6,8 +6,6 @@
 
 //=================================
 // forward declared dependencies
-class Dungion;
-class Menu;
 
 //=================================
 // included dependencies
@@ -33,7 +31,7 @@ public:
 	EventManager(void);
 	~EventManager(void);
 	bool tickUpdate();
-	void eventProcess(class Dungion&,Menu&);//Process an event
+	void eventProcess();//Process an event
 	bool isEventInProcess();//is an event already running and awanting to pass control back to user?
 	void loadEvents(string file);
 private:

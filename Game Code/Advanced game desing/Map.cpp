@@ -142,7 +142,6 @@ Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg,string map
 }
 void Map::draw()
 {
-	//TODO: transition logic
 	if(isOnScreen())
 	{
 		for(int r = 0;r < 19;r++)
@@ -221,7 +220,7 @@ void Map::update(Dungion& dung)
 		for(int i = 0;i < dung.curentplayers;i++)
 		{
 			dung.players[i].update(entitys,maptiles,dung);
-			int doortransfer = maptiles[((int)(dung.players[i].getBounds().getY() + 16.0f)/32)][((int)(dung.players[i].getBounds().getX() + 14.0f)/32)+1].isDoor();
+			int doortransfer = maptiles[((int)(dung.players[i].getBounds().getY() - 16.0f)/32)][((int)(dung.players[i].getBounds().getX())/32)].isDoor();
 			if(doortransfer > -1)
 			{
 				dung.triggerPlayerTransferToNewMap(doortransfer,i);
@@ -285,6 +284,11 @@ void Map::spawnEnttityInMap(Entity thing)
 	entspawnloc.setY(validspawnlocations[randone][0]);
 	entspawnloc.setX(validspawnlocations[randone][1]);
 	thing.setBounds(entspawnloc);
+	thing.spawnAtLocation(entitysonmap++);
+	entitys.push_back(thing);
+}
+void Map::spawnEnttityInMap(Entity thing,bool isHitbox)
+{
 	thing.spawnAtLocation(entitysonmap++);
 	entitys.push_back(thing);
 }

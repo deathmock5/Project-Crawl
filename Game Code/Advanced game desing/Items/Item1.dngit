@@ -1,0 +1,15 @@
+//How item files are layed out
+Doom Blade:Sword
+{
+	Image:"Doom Blade.png"
+	Sprite:"Doom Blade.png"
+	Description:"A giant sword."
+	HP:"1"
+	MP:"-1"
+	MA:"1"
+	MD:"-1"
+	SA:"3"
+	SD:"2"
+	RA:"-1"
+	RD:"3"
+}

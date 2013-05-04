@@ -23,7 +23,7 @@ bool EventManager::tickUpdate()
 	//TODO: return true if theres an event to process.
 	//int curentmanagedevent = theeventid
 }
-void EventManager::eventProcess(Dungion&,Menu&)
+void EventManager::eventProcess()
 {
 	//TODO: ok. i have a ref to the dung and to the menu, lets make things hapen.
 	//what event is suposed to pop?
@@ -64,28 +64,36 @@ void EventManager::loadEvents(string file)
 					newevent = GameEventDialog();																//Lets add a new dialog
 					value = records[i].getMyDatafire();
 					recordsofchildren = records[i].getChildData();
-					if(is_number(value))
-					{   																						//ok its timed
-						arguments[0] = value;																	//dialog:#
-						arguments[1] = "null";																	//dialog:foo
-					}
+					if(records.size() >= 2)
+					{
+						if(is_number(value))
+						{   																						//ok its timed
+							arguments[0] = value;																	//dialog:#
+							arguments[1] = "null";																	//dialog:foo
+						}
+						else
+						{
+							arguments[0] = -1;																		//dialog:#
+							arguments[1] = value;																	//dialog:foo
+						}
+						arguments[2] = recordsofchildren[0].getDataValue();											//Face:"blablabla"
+						arguments[3] = recordsofchildren[1].getDataValue();											//Text:"blablabla"
+						if(recordsofchildren.size() > 2)
+						{
+							arguments[7] = recordsofchildren[2].getDataValue();										//identifer:"thing"
+							newevent.setEventPramiters(4,arguments[0],arguments[1],arguments[2],arguments[3]);
+						}
+						else
+						{
+							newevent.setEventPramiters(5,arguments[0],arguments[1],arguments[2],arguments[3],arguments[7]);	
+						}
+						//add the dialog information to the thing
+						logHelperMessage(INFO,3,"---DIALOG:'",records[i].getMyDatafire().c_str(),"' found and created.");
+						}
 					else
 					{
-						arguments[0] = -1;																		//dialog:#
-						arguments[1] = value;																	//dialog:foo
+						logHelperMessage(INFO,3,"---DIALOG:'",records[i].getMyDatafire().c_str(),"' is invalid.");
 					}
-					arguments[2] = recordsofchildren[0].getDataValue();											//Face:"blablabla"
-					arguments[3] = recordsofchildren[1].getDataValue();											//Text:"blablabla"
-					if(recordsofchildren.size() > 1)
-					{
-						//arguments[7] = recordsofchildren[2].getDataValue();
-					}
-					else
-					{
-						arguments[7] = "null";
-					}
-					newevent.setEventPramiters(4,arguments[0],arguments[1],arguments[2],arguments[3]);															//add the dialog information to the thing
-					logHelperMessage(INFO,3,"---DIALOG:'",records[i].getMyDatafire().c_str(),"' found and created.");
 					break;
 				case LINETYPE_SPAWNENTITY:
 					logHelperMessage(INFO,3,"---SPAWNENTITY:'",records[i].getMyDatafire().c_str(),"' found and created.");

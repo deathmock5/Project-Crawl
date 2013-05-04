@@ -9,35 +9,43 @@ using namespace std;
 							{12,13,14,15,6},
 							{16,17,18,19,7},
 							{20,20,20,20,5}};*/
-Player::Player()
+Player::Player() : GameObject(CLASSTYPE_PLAYER)
 {
 	//TODO: remove me
 	health = 1;
 	lives = 3;
-	mana = 4;
+	MAXMANA = 4.0f;
+	mana = 4.0f;
+	MANAPERSECOND = 1;
 }
-Player::Player(string username)
+Player::Player(string username) : GameObject(CLASSTYPE_PLAYER)
 {
-	
-	framecount = 0;
-	animation = STANDING;
-	mybounds.setX(60);
-	mybounds.setY(60);
+	//framecount = 0;
+	//animation = STANDING;
+	mybounds.setX(64 + 16);
+	mybounds.setY(64 + 16);
 	mybounds.setW(32);
 	mybounds.setH(64);
-	tilesize = 64.0f;
-	tileset = load_image("Images\\mainChar.png");
-	direction = FORWARD;
-	delay = 0;
-	maxDelay = 1;
+	//tilesize = 64.0f;
+	playersprite = SpriteCharicter(load_image("Images\\Sprites\\mainChar.png"));
+	//direction = FORWARD;
+	//delay = 0;
+	//maxDelay = 1;
 	stateChanged = false;
 	health = 1;
 	lives = 3;
-	mana = 4;
+	MAXMANA = 4.0f;
+	mana = 4.0f;
+	MANAPERSECOND = 1;
+}
+void Player::sendMessage(string data)
+{
+	logHelperMessage(INFO,1,"Recived the message in Player");
 }
 void Player::draw()
 {
-	//al_draw_filled_rectangle(posx,posy,posx+1.0f,posy+1.0f,al_map_rgb(255,255,255));
+	al_draw_filled_rectangle(mybounds.getX(),mybounds.getY(),mybounds.getX() + mybounds.getW(),mybounds.getY() + mybounds.getH(),al_map_rgb(0,255,0));
+	/*
 	if(delay++ >= maxDelay)
 	{
 	if(framecount++ >= frameSet[animation][4] -1)
@@ -50,7 +58,8 @@ void Player::draw()
 	}
 	delay = 0;
 	}
-	al_draw_bitmap_region(tileset,(float)framecount * tilesize,(float)frameSet[animation][direction] * tilesize,tilesize,tilesize,mybounds.getX(),mybounds.getY(),0);
+	al_draw_bitmap_region(tileset,(float)framecount * tilesize,(float)frameSet[animation][direction] * tilesize,tilesize,tilesize,mybounds.getX()-32.0,mybounds.getY() - (32.0 + 16.0),0);*/
+	playersprite.Draw(mybounds.getX(),mybounds.getY());
 }
 void Player::drawLight(ALLEGRO_BITMAP *torchlight)
 {
@@ -59,9 +68,10 @@ void Player::drawLight(ALLEGRO_BITMAP *torchlight)
 }
 void Player::update(vector<Entity> &ents,Tile (&tiles)[19][25],Dungion& dung)
 {
+	
 	if(stateChanged)
 	{
-		switch(animation)
+		switch(playersprite.getAnimation())
 		{
 		case ULTI:
 
@@ -69,28 +79,28 @@ void Player::update(vector<Entity> &ents,Tile (&tiles)[19][25],Dungion& dung)
 		case WAND:
 			break;
 		case WALKING:
-			switch (direction)
+			switch (playersprite.getDirection())
 			{
 			case BACK:
-				if(tiles[((int)(mybounds.getY() + 32.0f)/32)-1][((int)(mybounds.getX() + 32.0f)/32)].passable())
+				if(tiles[((int)(mybounds.getY())/32)-1][((int)(mybounds.getX())/32)].passable())//
 				{
 					mybounds.setY(mybounds.getY() - 2.0f);
 				}
 				break;
 			case LEFT:
-				if(tiles[((int)(mybounds.getY() + 48.0f)/32)-1][((int)(mybounds.getX() + 14.0f)/32)].passable())
+				if(tiles[((int)(mybounds.getY() + 16)/32)-1][((int)(mybounds.getX() - 16.0f)/32)].passable())
 				{
 					mybounds.setX(mybounds.getX() - 2.0f);
 				}
 				break;
 			case FORWARD:
-				if(tiles[((int)(mybounds.getY() + 32.0f)/32)][((int)(mybounds.getX() + 0.0f)/32)+1].passable())
+				if(tiles[((int)(mybounds.getY())/32)][((int)(mybounds.getX())/32)].passable())
 				{
 					mybounds.setY(mybounds.getY() + 2.0f);
 				}
 				break;
 			case RIGHT:
-				if(tiles[((int)(mybounds.getY() + 16.0f)/32)][((int)(mybounds.getX() + 14.0f)/32)+1].passable())
+				if(tiles[((int)(mybounds.getY()-16.0f)/32)][((int)(mybounds.getX() - 16.0f)/32)+1].passable())
 				{
 					mybounds.setX(mybounds.getX() + 2.0f);
 				}
@@ -100,35 +110,8 @@ void Player::update(vector<Entity> &ents,Tile (&tiles)[19][25],Dungion& dung)
 			}
 			break;
 		case SLASH:
-			////TODO: Hitbox stuff
-			////slashhitbox.setW(32);
-			////slashhitbox.setH(32);
-			//switch (direction)
-			//{
-			//case BACK:
-			//	slashhitbox.setX(mybounds.getX() + 16);
-			//	slashhitbox.setY(mybounds.getY() - 16);
-			//	break;
-			//case LEFT:
-			//	slashhitbox.setX(mybounds.getX() - 16);
-			//	slashhitbox.setY(mybounds.getY() + 16);
-			//	break;
-			//case FORWARD:
-			//	slashhitbox.setX(mybounds.getX() + 16);
-			//	slashhitbox.setY(mybounds.getY() + 48);
-			//	break;
-			//case RIGHT:
-			//	slashhitbox.setX(mybounds.getX() + 48);
-			//	slashhitbox.setY(mybounds.getY() + 16);
-			//	break;
-			//default:
-			//	break;
-			//}
-			//myatackhitbox = Entity(slashhitbox,true);
-			//myatackhitbox.addTag("PLAYER_SLASH");
-			//myatackhitbox.addColider("ENEMY");
-			//myatackhitbox.setTimeout(3);
-			//dung.reftoCurrentMap()->spawnEnttityInMap(myatackhitbox);
+			//processAtack(MELEE);
+			processAtack(MAGIC);
 			break;
 		case BOW:
 			break;
@@ -137,7 +120,7 @@ void Player::update(vector<Entity> &ents,Tile (&tiles)[19][25],Dungion& dung)
 		case STANDING:
 			break;
 		}
-		if(animation != WALKING)
+		if(playersprite.getAnimation() != WALKING)
 		{
 			stateChanged = false;
 		}
@@ -153,6 +136,10 @@ void Player::update(vector<Entity> &ents,Tile (&tiles)[19][25],Dungion& dung)
 			}
 		}
 	}
+	if(mana < MAXMANA)
+	{
+		mana += MANAPERSECOND / GAMEFPS;
+	}
 }
 void Player::processInput(ACTIONS action,DIRECTION dir)
 {
@@ -160,28 +147,30 @@ void Player::processInput(ACTIONS action,DIRECTION dir)
 	switch (action)
 	{
 	case STAND:
-		animation = STANDING;
+		playersprite.setAnimation(STANDING);
 		break;
 	case WALK:
-		animation = WALKING;
+		playersprite.setAnimation(WALKING);
 		break;
 	case ATACK:
-		if(animation == SLASH)
+		if(playersprite.getAnimation() == SLASH)
 		{
 			return; //if were already atacking then dont atack again....
 		}
 		//TODO: Get charicter weapon and then run atack animation
-		animation = SLASH;
+		playersprite.setAnimation(SLASH);
 		break;
 	default:
 		break;
 	}
 	stateChanged = true;
-	framecount = 0;
-	direction = dir;
+	//framecount = 0;
+	playersprite.setDirection(dir);
 }
 DIRECTION Player::getFaceingDir(int x,int y)
 {
+	mousechords.setX(x);
+	mousechords.setY(y);
 	int dleft = mybounds.getX() + 16 - x;//negitive if right, positive when left
 	int dup = mybounds.getY() + 32 - y;//positive when up negitive when down
 	int dright = x - (mybounds.getX() + 16);
@@ -208,11 +197,32 @@ void Player::setBounds(Bounds newbounds)
 {
 	mybounds = newbounds;
 }
+void Player::processAtack(ATACKSTYLE style)
+{
+	switch (style)
+	{
+	case MAGIC:
+		if(mana > 1.0f)
+		{
+			getGameRefrence()->sendMessageToAllObjects("PLAYER0_MAGIC",CLASSTYPE_DUNGION);
+			mana -= 1.0f;
+		}
+		break;
+	case MELEE:
+		getGameRefrence()->sendMessageToAllObjects("PLAYER0_SLASH",CLASSTYPE_DUNGION);
+		break;
+	case RANGED:
+		getGameRefrence()->sendMessageToAllObjects("PLAYER0_RANGE",CLASSTYPE_DUNGION);
+		break;
+	default:
+		break;
+	}
+}
 int Player::getHealth()
 {
 	return health;
 }
-int Player::getMana()
+float Player::getMana()
 {
 	return mana;
 }
@@ -243,4 +253,12 @@ void Player::damageMe(int amount)
 int Player::getMoney()
 {
 	return money;
+}
+DIRECTION Player::getDirection()
+{
+	return playersprite.getDirection();
+}
+Point Player::getLastKnownMouseChords()
+{
+	return mousechords;
 }

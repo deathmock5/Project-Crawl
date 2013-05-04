@@ -6,7 +6,7 @@
 
 //=================================
 // forward declared dependencies
-
+enum CLASSTYPE;
 //=================================
 // included dependencies
 #include <iostream>
@@ -15,18 +15,21 @@ using namespace std;
 
 //=================================
 // the actual class
-const enum CLASSTYPE{CLASSTYPE_NULL,CLASSTYPE_PLAYER,CLASSTYPE_DUNGION,CLASSTYPE_ENTITY,CLASSTYPE_MAP,CLASSTYPE_MENU};
+
 class GameObject
 {
 public:
 	GameObject();
-	GameObject(CLASSTYPE mytype);
+	GameObject(CLASSTYPE);
 	~GameObject(void);
-
-	virtual void sendMessage(string data,CLASSTYPE recip);
-	virtual CLASSTYPE getMyClassType();
-	virtual void setMyClassType(CLASSTYPE newrecip);
-protected:
-	const CLASSTYPE _MYCURRENTCLASSTYPE;
+	virtual void sendMessage(string data);
+	CLASSTYPE getMyClassType();
+	void setMyClassType(CLASSTYPE newrecip);
+	void setId(int val);
+	int getId();
+private:
+	//CLASSTYPE _MYCURRENTCLASSTYPE;
+	int myid;
+	CLASSTYPE MYTYPE;
 };
 #endif

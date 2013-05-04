@@ -28,8 +28,11 @@ public:
 	bool targetHasBeenSet();
 	bool mapHasBeenSet();
 	bool pathHasBeenComputed();
+	bool entityNeedRepath(int unitsmoved);
 	void beginPathing();
-	int moveThisDirectionOneSpaceToGetToGoal();
+	void updatePather(float);
+	DIRECTION moveThisDirectionOneSpaceToGetToGoal();
+	int getDistanceToTarget();
 	~GameEntityPath(void);
 private:
 	string computePath();
@@ -42,7 +45,7 @@ private:
 	bool hasvlidmap;
 	string pathtoplayer;
 	//pathfinding
-	
+	int totalunitsmoved;
 	int n; // horizontal size of the map
 	int m; // vertical size size of the map
 	int dir; // number of possible directions to go at any position

@@ -29,7 +29,8 @@ class Tile;
 #include "Point.h"
 #include "Bounds.h"
 #include "GameEntityPath.h"
-
+#include "SpriteCharicter.h"
+#include "SpriteProjectile.h"
 using namespace std;
 using std::ifstream;
 
@@ -39,7 +40,7 @@ public:
 	Entity();
 	Entity(float,float);
 	Entity(Bounds);
-	Entity(Bounds,bool);
+	Entity(Bounds,ALLEGRO_BITMAP*);
 	Entity(string);
 	Entity(string,ALLEGRO_BITMAP*,int,int,ALLEGRO_SAMPLE*,ALLEGRO_SAMPLE*,ATACKSTYLE,int,int);
 	~Entity();
@@ -74,20 +75,21 @@ public:
 	void damageMe(int);
 	void damageMe(Item);
 	void setTimeout(int);
+	void setVelocity(float,float);
 private:
 		void load(string);
 		bool hasbeeninited;
-		ALLEGRO_BITMAP* tileset;
+		//ALLEGRO_BITMAP* tileset;
 		ALLEGRO_SAMPLE* monatacknoise;
 		ALLEGRO_SAMPLE* mondamagesnd;
 		ATACKSTYLE style;
-		FRAMESET animation;
-		DIRECTION direction;
+		//FRAMESET animation;
+		//DIRECTION direction;
 		bool isliveingcreature; //is it a moveable thing?
 		bool alive; //is it onscreen
-		int framecount;
-		int delay;
-		int maxDelay;
+		//int framecount;
+		//int delay;
+		//int maxDelay;
 		bool statechanged;
 	//dynamic variables
 		Bounds mybounds;
@@ -100,6 +102,10 @@ private:
 		int curenthealth;
 		int frametimeout;
 		GameEntityPath mypather;
+		bool immoveing;
+		SpriteCharicter sprite;
+		SpriteProjectile projecsprite;
+		bool isahitbox;
 	//Const
 		int hpbace;
 		int damagebace;

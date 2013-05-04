@@ -16,7 +16,7 @@ using std::ifstream;
 //	int curentroom;
 //	std::vector<Map> maps;
 //TODO: move player into this file
-Dungion::Dungion(void) : GameObject(CLASSTYPE_DUNGION)
+Dungion::Dungion(void) : GameObject()
 {
 	//tileset
 	//bgs
@@ -30,6 +30,8 @@ Dungion::Dungion(string dungfile): GameObject(CLASSTYPE_DUNGION)
 	Load(dungfile);
 	curentroom = 0;
 	maps[curentroom].show();
+	//logHelperMessage(INFO,1,"Sending test");
+	//getGameRefrence()->sendMessageToAllObjects("test",CLASSTYPE_PLAYER);
 }
 
 Dungion::Dungion(Player curentplayer): GameObject(CLASSTYPE_DUNGION)
@@ -39,6 +41,10 @@ Dungion::Dungion(Player curentplayer): GameObject(CLASSTYPE_DUNGION)
 
 Dungion::~Dungion(void)
 {
+	if(players.size() >= 1)
+	{
+		//delete &(players[0]);
+	}
 	//TODO: Unload information
 }
 
@@ -78,8 +84,14 @@ void Dungion::Draw()
 
 void Dungion::Update()
 {
-	//TODO: Update
-	maps[curentroom].update(*this);
+	if(!thisdungenventmanager.isEventInProcess())
+	{
+		if(thisdungenventmanager.tickUpdate())
+		{
+			thisdungenventmanager.eventProcess();
+		}
+		maps[curentroom].update(*this);
+	}
 }
 
 void Dungion::Load(string myfile)
@@ -119,11 +131,30 @@ void Dungion::Load(string myfile)
 		//logHelperMessage(INFO,1,filemon1.c_str());
 		//logHelperMessage(INFO,1,filemon2.c_str());
 		//logHelperMessage(INFO,1,fileboss.c_str());
+
 		dungfile.close();//close file
 		tileset = load_image(filetileset);//load tileset
 		ALLEGRO_BITMAP* torchlight = load_image(myconcat("Images/","LightCore", "/Light.png").c_str());
+		fireballsprite = load_image("Images\\Projectiles\\MagicAtack.png");
+		arrowsprite = load_image("Images\\Projectiles\\RangeAtack.png");
 		//ALLEGRO_BITMAP* playertls = load_image(myconcat(
 		bgs = load_sound(filebgs); //Load bgs
+		monster_atack = load_sound("\\Sound\\SFX\\Monster 1.wav");
+		monster_atack2 = load_sound("\\Sound\\SFX\\Monster 2.wav");
+		monster_atack3 = load_sound("\\Sound\\SFX\\Monster 3.wav");
+		monster_atack4 = load_sound("\\Sound\\SFX\\Monster 4.wav");
+		monster_atack5 = load_sound("\\Sound\\SFX\\Monster 5.wav");
+		monster_atack6 = load_sound("\\Sound\\SFX\\Monster 6.wav");
+		monster_damaged = load_sound("\\Sound\\SFX\\Monster Hurt.wav");
+		monster_damaged2 = load_sound("\\Sound\\SFX\\Monster Hurt 2.wav");
+		player_atack;
+		player_damaged;
+		weapon_melee_swipe;
+		weapon_melee_hit;
+		weapon_ranged_fire;
+		weapon_ranged_hit;
+		weapon_magic_cast;
+		weapon_magic_hit;
         //TODO: get difculty multiplier
         //TODO:	set darkness level bace
 		Entity monster1 = Entity(filemon1);
@@ -145,18 +176,22 @@ void Dungion::Load(string myfile)
 				//randy = rand() % 568 + 64;
 				if(rand() % 2 + 1 == 1)
 				{
-					monster1.setBounds(Bounds(Point(0,0),64,64));
+					//monster1.setBounds(Bounds(Point(0,0),64,64));
 					monster1.addColider("PLAYER");
 					monster1.addTag("ENEMY");
 					monster1.addColider("PLAYER_SLASH");
+					monster1.addColider("PLAYER_MAGIC");
+					monster1.addColider("PLAYER_RANGE");
 					newmap.spawnEnttityInMap(monster1);
 				}
 				else
 				{
-					monster2.setBounds(Bounds(Point(0,0),64,64));
+					//monster2.setBounds(Bounds(Point(0,0),64,64));
 					monster2.addColider("PLAYER");
 					monster2.addTag("ENEMY");
 					monster2.addColider("PLAYER_SLASH");
+					monster2.addColider("PLAYER_MAGIC");
+					monster2.addColider("PLAYER_RANGE");
 					newmap.spawnEnttityInMap(monster2);
 				}
 			}
@@ -181,8 +216,9 @@ void Dungion::Load(string myfile)
         //cout << "Unable to open file:" << myfile << endl;
     }
     curentplayers = 1;
-	players.push_back(Player("Player"));
-	
+	Player* newplayer = new Player("MINE");
+	getGameRefrence()->registerGameObject(newplayer);
+	players.push_back(*newplayer);
 }
 
 Map* Dungion::reftoCurrentMap()
@@ -222,4 +258,85 @@ void Dungion::triggerPlayerTransferToNewMap(int tomap,int playerid)
 		curentpos.setY(536);
 	}
 	players[playerid].setBounds(curentpos);
+}
+
+void Dungion::sendMessage(string data)
+{
+	//decompile the message.
+	string identifer = data.substr(0,6);
+	if(identifer == "PLAYER")
+	{
+		//player stuff
+		//lets get the player
+		string playernumb = data.substr(6,1);
+		//now what does it want."PLAYER0_MAGIC"
+		identifer = data.substr(8,5);
+		if(identifer == "SLASH" || identifer == "MAGIC" || identifer == "RANGE")
+		{
+			Bounds atackhitboxbounds;
+			Entity myatackhitbox;
+			Point velocity;
+			Point lastmouseloc = players[0].getLastKnownMouseChords();
+			float angle = getAngleToTarget(players[0].getBounds().getX(),players[0].getBounds().getY(),lastmouseloc.getX(),lastmouseloc.getY());
+			velocity.setX(cos(angle));
+			velocity.setY(sin(angle));
+			atackhitboxbounds.setW(32);
+			atackhitboxbounds.setH(32);
+			switch (players[0].getDirection())
+					{
+					case BACK:
+						atackhitboxbounds.setX(players[0].getBounds().getX() - 16.0f);
+						atackhitboxbounds.setY(players[0].getBounds().getY() - 48.0f);
+						break;
+					case LEFT:
+						atackhitboxbounds.setX(players[0].getBounds().getX() - 48.0f);
+						atackhitboxbounds.setY(players[0].getBounds().getY() - 20.0f);
+						break;
+					case FORWARD:
+						atackhitboxbounds.setX(players[0].getBounds().getX() - 16.0f);
+						atackhitboxbounds.setY(players[0].getBounds().getY() + 16.0f);
+						break;
+					case RIGHT:
+						atackhitboxbounds.setX(players[0].getBounds().getX() + 16.0f);
+						atackhitboxbounds.setY(players[0].getBounds().getY() - 20.0f);
+						break;
+					default:
+						break;
+					}
+			myatackhitbox = Entity(atackhitboxbounds,fireballsprite);
+			if(identifer == "SLASH")
+			{
+				//ok the player wants to slash.
+					myatackhitbox.addTag("PLAYER_SLASH");
+					myatackhitbox.addColider("ENEMY");
+					myatackhitbox.setTimeout(3);
+					maps[curentroom].spawnEnttityInMap(myatackhitbox,fireballsprite);
+			}
+			if(identifer == "MAGIC")
+			{
+					myatackhitbox.addTag("PLAYER_MAGIC");
+					myatackhitbox.addColider("ENEMY");
+					myatackhitbox.setTimeout(3000);
+					
+					myatackhitbox.setVelocity(velocity.getX(),velocity.getY());
+					maps[curentroom].spawnEnttityInMap(myatackhitbox,fireballsprite);
+			}
+			if(identifer == "RANGE")
+			{
+					myatackhitbox.addTag("PLAYER_RANGE");
+					myatackhitbox.addColider("ENEMY");
+					myatackhitbox.setTimeout(3000);
+					myatackhitbox.setVelocity(velocity.getX(),velocity.getY());
+					maps[curentroom].spawnEnttityInMap(myatackhitbox,fireballsprite);
+			}
+		}
+	}
+	else if(identifer == "ENEMY_")
+	{
+		logHelperMessage(INFO,1,"Enemy is declareing an atack");
+	}
+	else
+	{
+		logHelperMessage(INFO,1,data.c_str());
+	}
 }

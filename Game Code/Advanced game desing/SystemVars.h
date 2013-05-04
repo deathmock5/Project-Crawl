@@ -1,15 +1,6 @@
 #pragma once
 //=================================
 // include guard
-#ifndef _SYSTEMVARS_H_
-#define _SYSTEMVARS_H_
-
-//=================================
-// forward declared dependencies
-class GameObject;
-
-//=================================
-// included dependencies
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <allegro5\allegro_image.h>
@@ -18,6 +9,14 @@ class GameObject;
 #include <allegro5\allegro_acodec.h>
 #include <allegro5\allegro_font.h>
 #include <allegro5\allegro_ttf.h>
+#ifndef _SYSTEMVARS_H_
+#define _SYSTEMVARS_H_
+
+//=================================
+// forward declared dependencies
+class Game;
+//=================================
+// included dependencies
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
@@ -28,7 +27,7 @@ class GameObject;
 #include <stdio.h>
 #include <vector>
 #include <thread>
-
+#include "Game.h"
 using namespace std;
 //=================================
 // the actual class
@@ -56,24 +55,25 @@ const enum LINETYPE{
 	LINETYPE_WARPTOMAP,
 	LINETYPE_UNKNOWN
 };
+const enum CLASSTYPE{CLASSTYPE_NULL,CLASSTYPE_PLAYER,CLASSTYPE_DUNGION,CLASSTYPE_ENTITY,CLASSTYPE_MAP,CLASSTYPE_MENU};
 #endif
-//vector<string> listOfDnglv; //files
 
 ALLEGRO_BITMAP* load_image(string);
 ALLEGRO_SAMPLE* load_sound(string);
 void logHelperMessage(loglevel,int, ...);
 void threadedloghelpermessage(loglevel,string);
 void updateThreadQue();
-void registerGameobject(GameObject& gameobj);
+void setGameRefrence(Game*);
+Game* getGameRefrence();
 //utils
 template <typename T>
 string NumberToString ( T Number );
 template <typename T>
 T StringToNumber ( const string &Text );
-
 string myconcat(string,string,string);
 string myconcat(int,...);
 string getrandommaplayout(bool);
+float getAngleToTarget(float x1,float y1,float x2,float y2);
 #ifndef _GAMECONSTS_
 #define _GAMECONSTS_
 const int SCREEN_TILE_WIDTH = 25;
@@ -82,5 +82,6 @@ const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 640;
 const int GAMEFPS = 30;
 const bool IS_IN_DEBUG_MODE = true;
+
 #endif
 #endif
