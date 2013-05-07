@@ -9,8 +9,8 @@
 enum CLASSTYPE;
 //=================================
 // included dependencies
-#include <iostream>
 #include "SystemVars.h"
+#include <iostream>
 using namespace std;
 
 //=================================

@@ -204,15 +204,15 @@ void Player::processAtack(ATACKSTYLE style)
 	case MAGIC:
 		if(mana > 1.0f)
 		{
-			getGameRefrence()->sendMessageToAllObjects("PLAYER0_MAGIC",CLASSTYPE_DUNGION);
+			getGameRefrence()->sendMessageToAllObjects("PLAYR_0_MAGIC",CLASSTYPE_DUNGION);
 			mana -= 1.0f;
 		}
 		break;
 	case MELEE:
-		getGameRefrence()->sendMessageToAllObjects("PLAYER0_SLASH",CLASSTYPE_DUNGION);
+		getGameRefrence()->sendMessageToAllObjects("PLAYR_0_SLASH",CLASSTYPE_DUNGION);
 		break;
 	case RANGED:
-		getGameRefrence()->sendMessageToAllObjects("PLAYER0_RANGE",CLASSTYPE_DUNGION);
+		getGameRefrence()->sendMessageToAllObjects("PLAYR_0_RANGE",CLASSTYPE_DUNGION);
 		break;
 	default:
 		break;

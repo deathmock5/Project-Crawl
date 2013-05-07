@@ -11,24 +11,19 @@ GameEventSpawnTorch::~GameEventSpawnTorch(void)
 {
 }
 
-void GameEventSpawnTorch::applyEvent(Dungion& dung,Menu& menu)
+void GameEventSpawnTorch::applyEvent()
 {
-	dung.reftoCurrentMap()->spawnEnttityInMap(torchent);
+	//dung.reftoCurrentMap()->spawnEnttityInMap(torchent);
 }
 void GameEventSpawnTorch::setEventPramiters(int number,...)
 {
 	va_list messages;
 	va_start(messages,number);
 
-	mytimedactivator = va_arg(messages,int);
-	torchent = Entity(myconcat(2,"Monster\\","torch.dngmn"));
-	Bounds newbounds = torchent.getBounds();
-	newbounds.setX(va_arg(messages,int));
-	newbounds.setY(va_arg(messages,int));
-	torchent.setBounds(newbounds);
-	if(number > 3)
-	{
-		myidentactivator = va_arg(messages,string);
-	}
+	mytimedactivator = atoi(va_arg(messages,string).c_str());
+	myidentactivator = va_arg(messages,string);
+	datamessage = "TORCH_" + va_arg(messages,string) + ",";
+	datamessage += va_arg(messages,string);
+	posibleidentiget = va_arg(messages,string);
 }
 

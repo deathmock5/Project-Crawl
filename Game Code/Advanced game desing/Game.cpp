@@ -1,6 +1,6 @@
 #include "Game.h"
-#include "Player.h"
-#include "Dungion.h"
+//#include "Player.h"
+//#include "Dungion.h"
 
 Game::Game(void)
 {
@@ -8,6 +8,12 @@ Game::Game(void)
 	numberofobjects = 0;
 	numberofcreatedobjects = 0;
 	//logHelperMessage(INFO,1,"Registerd game");
+}
+
+void Game::inate()
+{
+	soundmanager = new GameSoundManager();
+	//getGameRefrence()->registerGameObject(soundmanager);
 }
 
 void Game::registerGameObject(GameObject * s)
@@ -51,9 +57,15 @@ void Game::sendMessageToAllObjects(string message)
 
 void Game::sendMessageToAllObjects(string message,CLASSTYPE recip)
 {
+	if(recip == CLASSTYPE_SOUNDMANAGER)
+		{
+			soundmanager->sendMessage(message);
+			return;
+		}
 	if(gameobjects.size() == 0)
 	{
 		logHelperMessage(INFO,1,"But que is empty.");
+		
 	}
 	vector<GameObject*>::iterator p;
       for(p = gameobjects.begin(); p != gameobjects.end(); p++)
@@ -67,20 +79,27 @@ void Game::sendMessageToAllObjects(string message,CLASSTYPE recip)
 				  break;
 			  case CLASSTYPE_PLAYER:
 				  //logHelperMessage(INFO,1,"SENT TO PLAYER");
-				  static_cast<Player*>(*p)->sendMessage(message);
+				  //static_cast<Player*>
+				  (*p)->sendMessage(message);
 				  break;
 			  case CLASSTYPE_DUNGION:
 				  //logHelperMessage(INFO,1,"SENT TO DUNG");
-				  static_cast<Dungion*>(*p)->sendMessage(message);
+				  (*p)->sendMessage(message);
 				  break;
 			  case CLASSTYPE_ENTITY:
 				  //logHelperMessage(INFO,1,"SENT TO ENTITY");
+				  (*p)->sendMessage(message);
 				  break;
 			  case CLASSTYPE_MAP:
 				  //logHelperMessage(INFO,1,"SENT TO MAP");
+				  (*p)->sendMessage(message);				  
 				  break;
 			  case CLASSTYPE_MENU:
 				  //logHelperMessage(INFO,1,"SENT TO MENU");
+				  (*p)->sendMessage(message);
+				  break;
+			  case CLASSTYPE_SOUNDMANAGER:
+				  soundmanager->sendMessage(message);
 				  break;
 			  default:
 				  //logHelperMessage(INFO,1,"SENT TO NO IDEA");

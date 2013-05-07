@@ -7,15 +7,19 @@ GameEvent::GameEvent()
 	string identactivator = "null";
 }
 
+int GameEvent::getMyTimedActivator()
+{
+	return mytimedactivator;
+}
 
 GameEvent::~GameEvent(void)
 {
 
 }
 
-void GameEvent::applyEvent(Dungion& dng,Menu& mnu)
+void GameEvent::applyEvent()
 {
-
+	logHelperMessage(INFO,1,"Test");
 }
 
 void GameEvent::setEventPramiters(int,...)

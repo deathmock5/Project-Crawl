@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 
-Menu::Menu(void)
+Menu::Menu(void) : GameObject(CLASSTYPE_MENU)
 {
 	whiteArial24= al_load_font("arial.ttf", 24, 0);
 	aDialogIsShown = false;
@@ -140,7 +140,10 @@ void Menu::acitonClick()
 		}
 	}
 }
-
+void Menu::sendMessage(string data)
+{
+	logHelperMessage(INFO,2,"Got: ",data.c_str());
+}
 void Menu::addButton(float x, float y, ALLEGRO_BITMAP *imageup,ALLEGRO_BITMAP *imagedown,string action,void (*function)())
 {
 	btnactions.push_back(action);
@@ -233,19 +236,20 @@ void Menu::mouseLocation(int x,int y)
 	}
 }
 
-void Menu::setClickSound(ALLEGRO_SAMPLE* sample)
+void Menu::setClickSound(string sample)
 {
 	//TODO: clicksound
 }
-void Menu::setBgs(ALLEGRO_SAMPLE* sample)
+void Menu::setBgs(string sample)
 {
-	bgs = sample;
+	menubgs = sample;
 }
 void Menu::playBgs()
 {
-	al_play_sample(bgs,0.5f,0,1,ALLEGRO_PLAYMODE_LOOP,&bgs_id);
+	//al_play_sample(bgs,0.5f,0,1,ALLEGRO_PLAYMODE_LOOP,&bgs_id);
+	getGameRefrence()->sendMessageToAllObjects(myconcat(2,"BGM_PLAY_",menubgs.c_str()).c_str(),CLASSTYPE_SOUNDMANAGER);
 }
 void Menu::pauseBgs()
 {
-	al_stop_sample(&bgs_id);
+	
 }

@@ -1,18 +1,23 @@
 #pragma once
+//=================================
+// include guard
 #ifndef _GameEventMovePlayer_H_
 #define _GameEventMovePlayer_H_
-class Player; //in dung file, so all good
+//=================================
+// forward declared dependencies
+
+//=================================
+// included dependencies
 #include "GameEvent.h"
-#include "Bounds.h"
+//=================================
+// the actual class
 
 class GameEventMovePlayer : public GameEvent
 {
 public:
 	GameEventMovePlayer(void);
 	~GameEventMovePlayer(void);
-	void applyEvent(Dungion&,Menu&);
+	void applyEvent();
 	void setEventPramiters(int,...);
-private:
-	Bounds newpos;
 };
 #endif

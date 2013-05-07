@@ -6,13 +6,15 @@
 
 //=================================
 // forward declared dependencies
-class GameObject;
+class GameObject;//defined
 class Player;
 class Dungion;
+class GameSoundManager;
 //=================================
 // included dependencies
 #include "SystemVars.h"
 #include "GameObject.h"
+#include "GameSoundManager.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -22,6 +24,7 @@ class Game
 {
 public:
 	Game(void);
+	void inate();
 	void registerGameObject(GameObject * s);
 	void unregisterGameObject(GameObject * s);
 	void sendMessageToAllObjects(string message);
@@ -31,5 +34,6 @@ private:
 	vector<GameObject*> gameobjects;
 	int numberofobjects;
 	int numberofcreatedobjects;
+	GameSoundManager* soundmanager;
 };
 #endif

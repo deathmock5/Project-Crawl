@@ -11,23 +11,20 @@ GameEventSpawnEntity::~GameEventSpawnEntity(void)
 
 }
 
-void GameEventSpawnEntity::applyEvent(Dungion& dung,Menu& menu)
+void GameEventSpawnEntity::applyEvent()
 {
-	dung.reftoCurrentMap()->spawnEnttityInMap(monstertospawn);
+	//dung.reftoCurrentMap()->spawnEnttityInMap(monstertospawn);
 }
 void GameEventSpawnEntity::setEventPramiters(int number,...)
 {
 	va_list messages;
 	va_start(messages,number);
+	mytimedactivator = atoi(va_arg(messages,string).c_str());
+	myidentactivator = va_arg(messages,string);
+	datamessage += "ENTTY_-_SPAWN_";
+	datamessage += va_arg(messages,string) + ',';
+	datamessage += va_arg(messages,string) + ',';
+	datamessage += va_arg(messages,string);
+	posibleidentiget = va_arg(messages,string);
 
-	mytimedactivator = va_arg(messages,int);
-	monstertospawn = Entity(va_arg(messages,string));
-	monsterpos = monstertospawn.getBounds();
-	monsterpos.setX(va_arg(messages,int));
-	monsterpos.setY(va_arg(messages,int));
-	monstertospawn.setBounds(monsterpos);
-	if(number > 3)
-	{
-		myidentactivator = va_arg(messages,string);
-	}
 }

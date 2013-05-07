@@ -19,6 +19,8 @@ public:
 	Tile();
 	Tile(TILETYPE,ALLEGRO_BITMAP*,float,float);
 	Tile(TILETYPE,ALLEGRO_BITMAP*,float,float,int);
+	Tile(TILETYPE,ALLEGRO_BITMAP*,float,float,int,int);
+	void toggleState2();
 	void draw(float posx,float posy);
 	void drawLight(float posx,float posy);
 	TILETYPE getTileType();
@@ -31,5 +33,6 @@ private:
 	ALLEGRO_BITMAP *myimg;
 	ALLEGRO_COLOR color;
 	int mystate;
+	int mystate2;
 };
 #endif // !_Tile_h_

@@ -1,12 +1,25 @@
 #pragma once
+//=================================
+// include guard
+#ifndef _GameEventWarpToMap_H_
+#define _GameEventWarpToMap_H_
+
+
+//=================================
+// forward declared dependencies
+
+//=================================
+// included dependencies
 #include "GameEvent.h"
-class GameEventWarpToMap :
-	public GameEvent
+//=================================
+// the actual class
+
+class GameEventWarpToMap : public GameEvent
 {
 public:
 	GameEventWarpToMap(void);
 	~GameEventWarpToMap(void);
-	void applyEvent(Dungion&,Menu&);
+	void applyEvent();
 	void setEventPramiters(int,...);
 };
-
+#endif

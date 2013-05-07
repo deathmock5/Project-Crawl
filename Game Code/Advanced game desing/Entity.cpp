@@ -190,11 +190,11 @@ void Entity::update(vector<Player> &players,vector<Entity> &ents,Tile tiles[19][
 				{
 					return; //if were already atacking then dont atack again....
 				}
-				//TODO: Get charicter weapon and then run atack animation
+				//TODO: Get enemy weapon and then run atack animation
 				sprite.setAnimation(SLASH);
 				statechanged = true;
 				immoveing = false;
-				getGameRefrence()->sendMessageToAllObjects("ENEMY_0_SLASH",CLASSTYPE_DUNGION);
+				
 				break;
 			default:
 				break;
@@ -245,7 +245,7 @@ void Entity::update(vector<Player> &players,vector<Entity> &ents,Tile tiles[19][
 			}
 			break;
 		case SLASH:
-			
+			getGameRefrence()->sendMessageToAllObjects("ENEMY_0_SLASH",CLASSTYPE_DUNGION);
 			//TODO: Hitbox stuff
 			break;
 		case BOW:

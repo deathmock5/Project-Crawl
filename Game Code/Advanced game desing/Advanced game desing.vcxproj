@@ -114,6 +114,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bounds.cpp" />
+    <ClCompile Include="GameSoundManager.cpp" />
     <ClCompile Include="SpriteCharicter.cpp" />
     <ClCompile Include="Dungion.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bounds.h" />
+    <ClInclude Include="GameSoundManager.h" />
     <ClInclude Include="SpriteCharicter.h" />
     <ClInclude Include="Dungion.h" />
     <ClInclude Include="Entity.h" />

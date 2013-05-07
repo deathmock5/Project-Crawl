@@ -10,7 +10,6 @@ SpawnEntity:s0
 	file:"boss1.dngmn"
 	x:"13"
 	y:"10"
-	x:"12"
 	identifier:"s1"
 }
 Dialog:s1
@@ -59,10 +58,7 @@ Dialog:s7
 	text:"Okay sweetie, show me the way. After, run to our hideout so that you can remain safe!"
 	identifier:"s8"
 }
-WarpToMap:s8
-{
-	//Nothing
-}
+
 WarpToMap:s8{
 	identifier:"s9"
 }

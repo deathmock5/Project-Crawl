@@ -32,7 +32,7 @@ GameScriptFileDatasetKeyname::GameScriptFileDatasetKeyname(string lines):hasdata
 		bool foundnextchild = false;
 		bool inquotes = false;
 		int indexcount = 0;
-		while(!foundnextchild && indexcount < lines.length())
+		while(!foundnextchild && indexcount < (int)lines.length())
 		{
 			if(lines[indexcount] == '"' && !inquotes)
 			{
@@ -41,6 +41,10 @@ GameScriptFileDatasetKeyname::GameScriptFileDatasetKeyname(string lines):hasdata
 			else if(lines[indexcount] == '"' && inquotes)
 			{
 				inquotes = false;
+				if(indexcount != lines.length() - 1)
+				{
+					lines = lines.substr(0,indexcount) + ',' + lines.substr(indexcount + 1);
+				}
 			}
 			if(!inquotes)
 			{

@@ -12,7 +12,7 @@ GameEventWarpToMap::~GameEventWarpToMap(void)
 
 }
 
-void GameEventWarpToMap::applyEvent(Dungion& dung,Menu& menu)
+void GameEventWarpToMap::applyEvent()
 {
 	//TODO: warp to map;
 }
@@ -21,9 +21,7 @@ void GameEventWarpToMap::setEventPramiters(int number,...)
 	va_list messages;
 	va_start(messages,number);
 
-	mytimedactivator = va_arg(messages,int);
-	if(number > 1)
-	{
-		myidentactivator = va_arg(messages,string);
-	}
+	mytimedactivator = atoi(va_arg(messages,string).c_str());
+	myidentactivator = va_arg(messages,string);
+	posibleidentiget = va_arg(messages,string);
 }

@@ -11,6 +11,7 @@ using namespace std;
 
 //refrenced classes and namespaces
 #include "SystemVars.cpp"
+#include "GameObject.h"
 #include "Player.h"
 #include "Map.h"
 #include "Menu.h"
@@ -30,14 +31,14 @@ DIRECTION lastdir;
 enum gameGuiState{MAIN,OPTION,MULTIPLAYER,INGAME,SHOP,INVINTORY,SAVELOAD,WORLDMAP};
 Game mygame;
 
-Menu mainmenu;
+Menu* mainmenu;
 void mainMenuClickSingle();
 void mainMenuClickMulti();
 void mainMenuClickOption();
 void mainMenuClickExit();
 void gameGUIMain(ALLEGRO_EVENT);
 
-Menu menuoptions;
+Menu* menuoptions;
 void optionsMenuClickResolution();
 void optionsMenuClickBrightness();
 void optionsMenuClickConfig();
@@ -45,29 +46,29 @@ void optionsMenuClickDificulty();
 void optionsMenuClickBack();
 void gameGUIOption(ALLEGRO_EVENT);
 
-Menu menuoverworld;
+Menu* menuoverworld;
 void overworldMenuClickDung1();
 void overworldMenuClickDung2();
 void overworldMenuClickDung3();
 void gameGUIOverworld(ALLEGRO_EVENT);
 
-Menu menumulti = Menu();
+Menu* menumulti;
 void gameGUIMultiplayer(ALLEGRO_EVENT);
 
-Menu menuingame = Menu();
+Menu* menuingame;
 void gameGUIIngame(ALLEGRO_EVENT);
 
-Menu menucutscene = Menu();
+Menu* menucutscene;
 void gameGUICutscene(ALLEGRO_EVENT);
 
-Menu menushop = Menu();
+Menu* menushop;
 void gameGUIShop(ALLEGRO_EVENT);
 
-Menu menuinvintory = Menu();
+Menu* menuinvintory;
 void gameGUIInvintry(ALLEGRO_EVENT);
 void toggleInvintory();
 
-Menu menusaveload = Menu();
+Menu* menusaveload;
 void gameGUISaveLoad(ALLEGRO_EVENT);
 
 void initMenus();
@@ -86,6 +87,7 @@ int pos_y = 0;
 int main(int argc, char **argv)
 {
 	setGameRefrence(&mygame);
+	mygame.inate();
 	//mydung = new Dungion();
 	if(al_init())logHelperMessage(OK,1,"Initilised Allegro 5.0.8");
 	else{ logHelperMessage(SEVERE,1,"Failed to initilise Allegro 5.0.8"); return -1;}
@@ -167,7 +169,7 @@ int main(int argc, char **argv)
 
 	initMenus();
 	curentstate = MAIN;
-	mainmenu.playBgs();
+	mainmenu->playBgs();
 
 
 	al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
@@ -287,11 +289,11 @@ void gameGUIMain(ALLEGRO_EVENT ev)
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
 			{
-				mainmenu.mouseLocation(ev.mouse.x,ev.mouse.y);
+				mainmenu->mouseLocation(ev.mouse.x,ev.mouse.y);
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			mainmenu.acitonClick();
+			mainmenu->acitonClick();
 		}
 		else if(ev.type = ALLEGRO_EVENT_TIMER)
 		{
@@ -303,7 +305,7 @@ void gameGUIMain(ALLEGRO_EVENT ev)
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
 
-			mainmenu.draw();
+			mainmenu->draw();
 			al_flip_display();
 		}
 }	//Main menu
@@ -346,11 +348,11 @@ void gameGUIOption(ALLEGRO_EVENT ev)
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
 			{
-				menuoptions.mouseLocation(ev.mouse.x,ev.mouse.y);
+				menuoptions->mouseLocation(ev.mouse.x,ev.mouse.y);
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			menuoptions.acitonClick();
+			menuoptions->acitonClick();
 		}
 		else if(ev.type = ALLEGRO_EVENT_TIMER)
 		{
@@ -362,7 +364,7 @@ void gameGUIOption(ALLEGRO_EVENT ev)
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
 
-			menuoptions.draw();
+			menuoptions->draw();
 			al_flip_display();
 		}
 }
@@ -406,11 +408,11 @@ void gameGUIOverworld(ALLEGRO_EVENT ev)
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
 			{
-				menuoverworld.mouseLocation(ev.mouse.x,ev.mouse.y);
+				menuoverworld->mouseLocation(ev.mouse.x,ev.mouse.y);
 			}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			menuoverworld.acitonClick();
+			menuoverworld->acitonClick();
 		}
 		else if(ev.type = ALLEGRO_EVENT_TIMER)
 		{
@@ -422,7 +424,7 @@ void gameGUIOverworld(ALLEGRO_EVENT ev)
 			redraw = false;
 			al_clear_to_color(al_map_rgb(0,0,0));
 
-			menuoverworld.draw();
+			menuoverworld->draw();
 			al_flip_display();
 		}
 }
@@ -496,12 +498,12 @@ void gameGUIIngame(ALLEGRO_EVENT ev)
 			al_clear_to_color(al_map_rgb(0,0,0));
 			mydung->Update();
 			mydung->Draw();
-			mydung->reftoCurrentMap()->drawLight(display);
+			//mydung->reftoCurrentMap()->drawLight(display);
 			Player* curentplayer = mydung->refToCurrentPlayer();
-			menuingame.updateGaugeValue("PHP",(int)mydung->players[0].getHealth());
-			menuingame.updateGaugeValue("PMP",(int)mydung->players[0].getMana());
-			menuingame.updateGaugeValue("PLV",(int)mydung->players[0].getLives());
-			menuingame.draw();
+			menuingame->updateGaugeValue("PHP",(int)mydung->players[0].getHealth());
+			menuingame->updateGaugeValue("PMP",(int)mydung->players[0].getMana());
+			menuingame->updateGaugeValue("PLV",(int)mydung->players[0].getLives());
+			menuingame->draw();
 			//delete curentplayer;
 			al_flip_display();
 		}
@@ -561,11 +563,11 @@ void gameGUIInvintry(ALLEGRO_EVENT ev)
 			mydung->Draw();
 			//mydung.reftoCurrentMap()->drawLight(display);
 			Player* curentplayer = mydung->refToCurrentPlayer();
-			menuingame.updateGaugeValue("PHP",curentplayer->getHealth());
-			menuingame.updateGaugeValue("PMP",curentplayer->getMana());
-			menuingame.updateGaugeValue("PLV",curentplayer->getLives());
-			menuingame.draw();
-			menuinvintory.draw();
+			menuingame->updateGaugeValue("PHP",curentplayer->getHealth());
+			menuingame->updateGaugeValue("PMP",curentplayer->getMana());
+			menuingame->updateGaugeValue("PLV",curentplayer->getLives());
+			menuingame->draw();
+			menuinvintory->draw();
 			al_flip_display();
 		}
 }
@@ -581,7 +583,7 @@ void initMenus()
 	
 	//mymenu.addButton(20.0f,20.0f,al_load_bitmap("Images\\Menus\\Test\\btnup.png"),al_load_bitmap("Images\\Menus\\Test\\btndown.png"),"bla");
 	//mainmenu
-		mainmenu = Menu(); //mainmenu
+		mainmenu = new Menu(); //mainmenu
 		logHelperMessage(INFO,1,"Creating mainmenu");
 		//load images.
 			ALLEGRO_BITMAP* mainmenubg = load_image("Images\\Menus\\main\\bg.png");
@@ -595,24 +597,27 @@ void initMenus()
 			ALLEGRO_BITMAP* mainmenuexit_DOWN = load_image("Images\\Menus\\main\\exit_down.png");
 			ALLEGRO_BITMAP* mainmenucopyright = load_image("Images\\Menus\\main\\copywrite.png");
 			ALLEGRO_BITMAP* mainmenuversion = load_image("Images\\Menus\\main\\version.png");
-			ALLEGRO_SAMPLE* mainmenubgs = load_sound("Sound\\BGS\\PCC Title.wav");
+			string mainmenubgs = "Sound\\BGS\\Title.wav";
+			getGameRefrence()->sendMessageToAllObjects(myconcat(2,"BGM_PLAY_","Sound\\BGS\\Title.wav"),CLASSTYPE_SOUNDMANAGER);
+			//ALLEGRO_SAMPLE* mainmenubgs = load_sound("Sound\\BGS\\Title.wav");
 		//create button pointer functions
 			void(*mainmenusingleclick)() = &mainMenuClickSingle;
 			void(*mainmenumulticlick)() = &mainMenuClickMulti;
 			void(*mainmenuoptionclick)() = &mainMenuClickOption;
 			void(*mainmenuexitclick)() = &mainMenuClickExit;
 		//add buttons
-			mainmenu.addImage(0,0,mainmenubg);
-			mainmenu.addImage(112,60,mainmenutitle);
-			mainmenu.addButton(266,350,mainmenusingle_UP,mainmenusingle_DOWN,"Single",mainmenusingleclick);
-			mainmenu.addImage(266,414,mainmenumulti);//TODO:multiplayer button
-			mainmenu.addButton(266,480,mainmenuoptions_UP,mainmenuoptions_DOWN,"Options",mainmenuoptionclick);
-			mainmenu.addButton(266,545,mainmenuexit_UP,mainmenuexit_DOWN,"Exit",mainmenuexitclick);
-			mainmenu.addImage(0,606,mainmenucopyright);
-			mainmenu.addImage(575,606,mainmenuversion);
-			mainmenu.setBgs(mainmenubgs);
+			mainmenu->addImage(0,0,mainmenubg);
+			mainmenu->addImage(112,60,mainmenutitle);
+			mainmenu->addButton(266,350,mainmenusingle_UP,mainmenusingle_DOWN,"Single",mainmenusingleclick);
+			mainmenu->addImage(266,414,mainmenumulti);//TODO:multiplayer button
+			mainmenu->addButton(266,480,mainmenuoptions_UP,mainmenuoptions_DOWN,"Options",mainmenuoptionclick);
+			mainmenu->addButton(266,545,mainmenuexit_UP,mainmenuexit_DOWN,"Exit",mainmenuexitclick);
+			mainmenu->addImage(0,606,mainmenucopyright);
+			mainmenu->addImage(575,606,mainmenuversion);
+			mainmenu->setBgs(mainmenubgs);
+			getGameRefrence()->registerGameObject(mainmenu);//register menu
 	//optionsmenu
-		menuoptions = Menu(); // options menu
+		menuoptions = new Menu(); // options menu
 		logHelperMessage(INFO,1,"Creating optionmenu");
 		//images
 			ALLEGRO_BITMAP* optionmenubg = load_image("Images\\Menus\\option\\bg.png");
@@ -634,15 +639,16 @@ void initMenus()
 			void(*optionmenudificultyclick)() = &optionsMenuClickDificulty;
 			void(*optionmenubackclick)() = &optionsMenuClickBack;
 		//add information to menu
-			menuoptions.addImage(0,0,optionmenubg);
-			menuoptions.addImage(241,21,optionmenutitle);
-			menuoptions.addButton(125,156,optionmenuresolution_UP,optionmenuresolution_DOWN,"resolution",optionmenuresolutionclick);
-			menuoptions.addButton(125,254,optionmenubrightness_UP,optionmenubrightness_DOWN,"brightness",optionmenubrightnessclick);
-			menuoptions.addButton(125,351,optionmenuconfig_UP,optionmenuconfig_DOWN,"config",optionmenuconfigclick);
-			menuoptions.addButton(125,446,optionmenudifficulty_UP,optionmenudifficulty_DOWN,"difficulty",optionmenudificultyclick);
-			menuoptions.addButton(125,546,optionmenuback_UP,optionmenuback_DOWN,"back",optionmenubackclick);
+			menuoptions->addImage(0,0,optionmenubg);
+			menuoptions->addImage(241,21,optionmenutitle);
+			menuoptions->addButton(125,156,optionmenuresolution_UP,optionmenuresolution_DOWN,"resolution",optionmenuresolutionclick);
+			menuoptions->addButton(125,254,optionmenubrightness_UP,optionmenubrightness_DOWN,"brightness",optionmenubrightnessclick);
+			menuoptions->addButton(125,351,optionmenuconfig_UP,optionmenuconfig_DOWN,"config",optionmenuconfigclick);
+			menuoptions->addButton(125,446,optionmenudifficulty_UP,optionmenudifficulty_DOWN,"difficulty",optionmenudificultyclick);
+			menuoptions->addButton(125,546,optionmenuback_UP,optionmenuback_DOWN,"back",optionmenubackclick);
+			getGameRefrence()->registerGameObject(menuoptions);//register menu
 	//menuoverworld
-		menuoverworld = Menu();
+		menuoverworld = new Menu();
 		logHelperMessage(INFO,1,"Creating overworldmenu");
 		//load images
 			ALLEGRO_BITMAP* overworldmenubg = load_image("Images\\Menus\\overworld\\bg.jpg");
@@ -655,15 +661,17 @@ void initMenus()
 			void(*overworldmenuclickdung2)() = &overworldMenuClickDung2;
 			void(*overworldmenuclickdung3)() = &overworldMenuClickDung3;
 		//add buttons
-			menuoverworld.addImage(0,0,overworldmenubg);
-			menuoverworld.addButton(107,465,overworlddung_UP,overworlddung1_DOWN,"dung1",overworldMenuClickDung1);
-			menuoverworld.addButton(714,416,overworlddung_UP,overworlddung2_DOWN,"dung2",overworldMenuClickDung2);
-			menuoverworld.addButton(574,323,overworlddung_UP,overworlddung3_DOWN,"dung3",overworldMenuClickDung3);
+			menuoverworld->addImage(0,0,overworldmenubg);
+			menuoverworld->addButton(107,465,overworlddung_UP,overworlddung1_DOWN,"dung1",overworldMenuClickDung1);
+			menuoverworld->addButton(714,416,overworlddung_UP,overworlddung2_DOWN,"dung2",overworldMenuClickDung2);
+			menuoverworld->addButton(574,323,overworlddung_UP,overworlddung3_DOWN,"dung3",overworldMenuClickDung3);
+			getGameRefrence()->registerGameObject(menuoverworld);//register menu
 	//menumulti
-		menumulti = Menu();
+		menumulti = new Menu();
 		//TODO: Load multiplayer gui elements
+		getGameRefrence()->registerGameObject(menumulti);//register menu
 	//menuingame
-		menuingame = Menu();
+		menuingame = new Menu();
 		logHelperMessage(INFO,1,"Creating menuingame ");
 		ALLEGRO_BITMAP* menuingamephpimg = load_image("Images\\Menus\\ingame\\health.png");
 		ALLEGRO_BITMAP* menuingamepmpimg = load_image("Images\\Menus\\ingame\\mana.png");
@@ -671,27 +679,32 @@ void initMenus()
 		Bounds menuingamephpbounds = Bounds(608,0,192,32);
 		Bounds menuingamepmpbounds = Bounds(416,0,192,32);
 		Bounds menuingameplvbounds = Bounds(0,0,192,32);
-		menuingame.addGauge(menuingamephpimg,menuingamephpbounds,GAUGE_LAYER,10,"PHP");
-		menuingame.addGauge(menuingamepmpimg,menuingamepmpbounds,GAUGE_LAYER,10,"PMP");
-		menuingame.addGauge(menuingameplvimg,menuingameplvbounds,GAUGE_LAYER,10,"PLV");
+		menuingame->addGauge(menuingamephpimg,menuingamephpbounds,GAUGE_LAYER,10,"PHP");
+		menuingame->addGauge(menuingamepmpimg,menuingamepmpbounds,GAUGE_LAYER,10,"PMP");
+		menuingame->addGauge(menuingameplvimg,menuingameplvbounds,GAUGE_LAYER,10,"PLV");
 		//TODO: load ingamemenu gui elements
+		getGameRefrence()->registerGameObject(menuingame);//register menu
 	//menucutscene
-		menucutscene = Menu();
+		menucutscene = new Menu();
 		//TODO: load cutscene gui elements
+		getGameRefrence()->registerGameObject(menucutscene);//register menu
 	//menu shop
-		menushop = Menu();
+		menushop = new Menu();
 		//TODO: load menushot gui elements
+		getGameRefrence()->registerGameObject(menushop);//register menu
 	//menu invintory
-		menuinvintory = Menu();
+		menuinvintory = new Menu();
 		ALLEGRO_BITMAP* menuinvintoybg = load_image("Images\\Menus\\invintory\\bg.png");
 		Bounds menuinvintorybgbounds = Bounds(64,122,672,418);
 		Bounds menuinvintorymoneybounds = Bounds(560,145,0,0);
-		menuinvintory.addImage(menuinvintorybgbounds.getX(),menuinvintorybgbounds.getY(),menuinvintoybg);
-		menuinvintory.addNumber(menuinvintorymoneybounds,"INVMONEY",0);
+		menuinvintory->addImage(menuinvintorybgbounds.getX(),menuinvintorybgbounds.getY(),menuinvintoybg);
+		menuinvintory->addNumber(menuinvintorymoneybounds,"INVMONEY",0);
+		getGameRefrence()->registerGameObject(menuinvintory);//register menu
 		//TODO: load menuinvintory gui elements
 	//menusaveload
-		menusaveload = Menu();
+		menusaveload = new Menu();
 		//TODO: load saveload gui elements
+		getGameRefrence()->registerGameObject(menusaveload);//register menu
 }
 void changeGameState(gameGuiState newstate)
 {

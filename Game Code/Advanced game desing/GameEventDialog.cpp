@@ -11,10 +11,10 @@ GameEventDialog::~GameEventDialog(void)
 	//deconstructor
 }
 
-void GameEventDialog::applyEvent(Dungion& dung,Menu& menu)
+void GameEventDialog::applyEvent()
 {
-	menu.addDialog(faceimg,text);
-	menu.showDialog();
+	//menu.addDialog(faceimg,text);
+	//menu.showDialog();
 }
 
 void GameEventDialog::setEventPramiters(int number,...)
@@ -22,16 +22,9 @@ void GameEventDialog::setEventPramiters(int number,...)
 	va_list messages;
 	va_start(messages,number);
 
-	mytimedactivator = va_arg(messages,int);
+	mytimedactivator = atoi(va_arg(messages,string).c_str());
 	myidentactivator = va_arg(messages,string);
-	faceimg = load_image(myconcat(2,"\\Images\\Faces\\",va_arg(messages,string)));
-	text = va_arg(messages,string);
-	if(number == 5)
-	{
-		 posibleidentiget = va_arg(messages,string);
-	}
-	else
-	{
-		posibleidentiget = "null";
-	}
+	datamessage = "DIALO_" + va_arg(messages,string) + ",";
+	datamessage += va_arg(messages,string);
+	posibleidentiget = va_arg(messages,string);
 }

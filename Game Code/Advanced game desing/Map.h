@@ -33,7 +33,7 @@ class Map
 public:
 	Map();
 	Map(string,string,int);
-	Map(ALLEGRO_BITMAP*,ALLEGRO_BITMAP*,ALLEGRO_SAMPLE*,string,int);
+	Map(ALLEGRO_BITMAP*,ALLEGRO_BITMAP*,string,string,int);
 	void draw();
 	void drawLight(ALLEGRO_DISPLAY*);
 	void moveMapToPos(float posx,float posy,float speed);
@@ -42,7 +42,8 @@ public:
 	void show();
 	void hide();
 	void addDoor(DIRECTION dir,int tomapid,bool needskey);
-
+	bool doorUnlocked();
+	void setDoorLockStatus(bool);
 	void spawnEnttityInMap(class Entity);
 	void spawnEnttityInMap(class Entity,bool);
 	void bakeTilemap();
@@ -58,7 +59,7 @@ private:
 	ALLEGRO_BITMAP *gorelayer;
 
 	ALLEGRO_BITMAP *torchlight;
-	ALLEGRO_SAMPLE *bgs;
+	string bgs;
 	//tiles
 	Tile maptiles[19][25];
 	//enemys

@@ -25,13 +25,14 @@ Dungion::Dungion(void) : GameObject()
 	//load
 }
 
-Dungion::Dungion(string dungfile): GameObject(CLASSTYPE_DUNGION)
+Dungion::Dungion(string dungfile) : GameObject(CLASSTYPE_DUNGION)
 {
 	Load(dungfile);
 	curentroom = 0;
 	maps[curentroom].show();
 	//logHelperMessage(INFO,1,"Sending test");
 	//getGameRefrence()->sendMessageToAllObjects("test",CLASSTYPE_PLAYER);
+	
 }
 
 Dungion::Dungion(Player curentplayer): GameObject(CLASSTYPE_DUNGION)
@@ -60,12 +61,11 @@ Dungion& Dungion::operator=(const Dungion &rhs) {
 	curentplayers = rhs.curentplayers;
 	players = rhs.players;
 	tileset = rhs.tileset;
-	bgs = rhs.bgs;
 	rooms = rhs.rooms;
 	curentroom = rhs.curentroom;
 	dificulty = rhs.dificulty;
 	maps = rhs.maps;
-    return *this;  // Return a reference to myself.
+    return *this;
  }
 
 void Dungion::Draw()
@@ -76,21 +76,24 @@ void Dungion::Draw()
 		{
 			players[i].draw();
 		}
-	/*for(int i = 0;i < curentplayers;i++)
+	for(int i = 0;i < curentplayers;i++)
 		{
-			players[i].drawLight(torchlight);
-		}*/
+			//players[i].drawLight(torchlight);
+		}
 }
 
 void Dungion::Update()
 {
-	if(!thisdungenventmanager.isEventInProcess())
+	if(!thisdungenventmanager->isEventInProcess())
 	{
-		if(thisdungenventmanager.tickUpdate())
+		if(thisdungenventmanager->tickUpdate())
 		{
-			thisdungenventmanager.eventProcess();
+			thisdungenventmanager->eventProcess();
 		}
-		maps[curentroom].update(*this);
+		else
+		{
+			maps[curentroom].update(*this);
+		}
 	}
 }
 
@@ -123,7 +126,9 @@ void Dungion::Load(string myfile)
 		if(!dungfile.eof())
 		{
 			dungfile >> dungionscript;
-			thisdungenventmanager.loadEvents(dungionscript);
+			thisdungenventmanager = new EventManager();
+			thisdungenventmanager->loadEvents(dungionscript);
+			getGameRefrence()->registerGameObject(thisdungenventmanager);
 		}
 		//logHelperMessage(INFO,1,filetileset.c_str());
 		//logHelperMessage(INFO,1,filebgs.c_str());
@@ -136,26 +141,27 @@ void Dungion::Load(string myfile)
 		tileset = load_image(filetileset);//load tileset
 		ALLEGRO_BITMAP* torchlight = load_image(myconcat("Images/","LightCore", "/Light.png").c_str());
 		fireballsprite = load_image("Images\\Projectiles\\MagicAtack.png");
-		arrowsprite = load_image("Images\\Projectiles\\RangeAtack.png");
-		//ALLEGRO_BITMAP* playertls = load_image(myconcat(
-		bgs = load_sound(filebgs); //Load bgs
-		monster_atack = load_sound("\\Sound\\SFX\\Monster 1.wav");
-		monster_atack2 = load_sound("\\Sound\\SFX\\Monster 2.wav");
-		monster_atack3 = load_sound("\\Sound\\SFX\\Monster 3.wav");
-		monster_atack4 = load_sound("\\Sound\\SFX\\Monster 4.wav");
-		monster_atack5 = load_sound("\\Sound\\SFX\\Monster 5.wav");
-		monster_atack6 = load_sound("\\Sound\\SFX\\Monster 6.wav");
-		monster_damaged = load_sound("\\Sound\\SFX\\Monster Hurt.wav");
-		monster_damaged2 = load_sound("\\Sound\\SFX\\Monster Hurt 2.wav");
-		player_atack;
-		player_damaged;
-		weapon_melee_swipe;
-		weapon_melee_hit;
-		weapon_ranged_fire;
-		weapon_ranged_hit;
-		weapon_magic_cast;
-		weapon_magic_hit;
-        //TODO: get difculty multiplier
+		arrowsprite = load_image("Images\\Projectiles\\ArrowAtack.png");
+
+		getGameRefrence()->sendMessageToAllObjects(myconcat(2,"BGM_LOAD_Sound\\BGS\\",filebgs.c_str()),CLASSTYPE_SOUNDMANAGER);
+		bgs = myconcat(2,"Sound\\BGS\\",filebgs.c_str());
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Monster 1.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Monster 2.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Monster 3.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Monster 4.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Monster 5.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Monster 6.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Monster Hurt.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Monster Hurt 2.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Player Attack.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Player Hurt.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Big Sword Whip.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Big Sword Hit.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Arrow Shot.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Arrow Hit.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Magic Fire.wav",CLASSTYPE_SOUNDMANAGER);
+		getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Magic Hit.wav",CLASSTYPE_SOUNDMANAGER);
+        //TODO: get difculty multiplier 
         //TODO:	set darkness level bace
 		Entity monster1 = Entity(filemon1);
 		Entity monster2 = Entity(filemon2);
@@ -168,8 +174,8 @@ void Dungion::Load(string myfile)
 		for(int i = 0; i < atoi(filenumrooms.c_str());i++)
 		{
 			//newmap = Map();
-			newmap = Map(tileset,torchlight,bgs,getrandommaplayout(false),i);
-			for(int nm = 0; nm < 4; nm++)
+			newmap = Map(tileset,torchlight,myconcat(2,"Sound\\BGS\\",filebgs.c_str()),getrandommaplayout(false),i);
+			for(int nm = 0; nm < i * 2 + 1; nm++)
 			{
 				//srand(i+nm + randx + randy);
 				//randx = rand() % 736 + 32;
@@ -230,7 +236,14 @@ Player* Dungion::refToCurrentPlayer()
 {
 	return &players[0];
 }
+bool Dungion::curentMapDoorUnlocked()
+{
+	return true;
+}
+void Dungion::unllockCurentMapDoor()
+{
 
+}
 void Dungion::triggerPlayerTransferToNewMap(int tomap,int playerid)
 {
 	curentroom = tomap;
@@ -258,13 +271,24 @@ void Dungion::triggerPlayerTransferToNewMap(int tomap,int playerid)
 		curentpos.setY(536);
 	}
 	players[playerid].setBounds(curentpos);
+	if(tomap == maps.size() - 1)
+	{
+		getGameRefrence()->sendMessageToAllObjects("BGM_PLAY_Sound\\BGS\\boss.wav",CLASSTYPE_SOUNDMANAGER);
+	}
+	else
+	{
+		getGameRefrence()->sendMessageToAllObjects(myconcat(2,"BGM_PLAY_",bgs.c_str()).c_str(),CLASSTYPE_SOUNDMANAGER);
+	}
 }
 
 void Dungion::sendMessage(string data)
 {
 	//decompile the message.
-	string identifer = data.substr(0,6);
-	if(identifer == "PLAYER")
+	/*5,1,5,...
+	PLAYR_1_MELEE
+	ENEMY_14_MAGIC*/
+	string identifer = data.substr(0,5);
+	if(identifer == "PLAYR")
 	{
 		//player stuff
 		//lets get the player
@@ -311,15 +335,18 @@ void Dungion::sendMessage(string data)
 					myatackhitbox.addColider("ENEMY");
 					myatackhitbox.setTimeout(3);
 					maps[curentroom].spawnEnttityInMap(myatackhitbox,fireballsprite);
+					getGameRefrence()->sendMessageToAllObjects("SFX_PLAY_Sound\\SFX\\Player Attack.wav",CLASSTYPE_SOUNDMANAGER);
+					getGameRefrence()->sendMessageToAllObjects("SFX_PLAY_Sound\\SFX\\Big Sword Whip.wav",CLASSTYPE_SOUNDMANAGER);
 			}
 			if(identifer == "MAGIC")
 			{
 					myatackhitbox.addTag("PLAYER_MAGIC");
 					myatackhitbox.addColider("ENEMY");
 					myatackhitbox.setTimeout(3000);
-					
 					myatackhitbox.setVelocity(velocity.getX(),velocity.getY());
 					maps[curentroom].spawnEnttityInMap(myatackhitbox,fireballsprite);
+					getGameRefrence()->sendMessageToAllObjects("SFX_PLAY_Sound\\SFX\\Player Attack.wav",CLASSTYPE_SOUNDMANAGER);
+					getGameRefrence()->sendMessageToAllObjects("SFX_PLAY_Sound\\SFX\\Magic Fire.wav",CLASSTYPE_SOUNDMANAGER);
 			}
 			if(identifer == "RANGE")
 			{
@@ -328,15 +355,35 @@ void Dungion::sendMessage(string data)
 					myatackhitbox.setTimeout(3000);
 					myatackhitbox.setVelocity(velocity.getX(),velocity.getY());
 					maps[curentroom].spawnEnttityInMap(myatackhitbox,fireballsprite);
+					getGameRefrence()->sendMessageToAllObjects("SFX_PLAY_Sound\\SFX\\Player Attack.wav",CLASSTYPE_SOUNDMANAGER);
+					getGameRefrence()->sendMessageToAllObjects("SFX_LOAD_Sound\\SFX\\Arrow Shot.wav",CLASSTYPE_SOUNDMANAGER);
 			}
+			
 		}
 	}
-	else if(identifer == "ENEMY_")
+	else if(identifer == "ENEMY")
 	{
-		logHelperMessage(INFO,1,"Enemy is declareing an atack");
+		//"ENEMY_0_SLASH"
+		identifer = data.substr(8);
+		logHelperMessage(INFO,1,"Enemy is declareing");
+		if(identifer == "SLASH")
+		{
+			logHelperMessage(INFO,1,"---A melee atack");
+		}
+		else if(identifer == "MAGIC")
+		{
+			//magic 'n' shit
+			logHelperMessage(INFO,1,"---A magic atack");
+		}
+		else if(identifer == "RANGE")
+		{
+			//fire that bitch an arrow.
+			//bitches love arrows
+			logHelperMessage(INFO,1,"---A ranged atack");
+		}
 	}
 	else
 	{
-		logHelperMessage(INFO,1,data.c_str());
+		logHelperMessage(INFO,3,"Message: '",data.c_str(),"' unknown.");
 	}
 }

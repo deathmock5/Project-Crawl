@@ -23,6 +23,20 @@ Tile::Tile(TILETYPE mytype,ALLEGRO_BITMAP* img,float x,float y,int state)
 	color = al_map_rgba(0, 0, 0, 180);
 	mystate = state;
 }
+Tile::Tile(TILETYPE mytype,ALLEGRO_BITMAP* img,float x,float y,int state,int secondarystate)
+{
+	myimg = img;
+	type = mytype;
+	gridx = x;
+	gridy = y;
+	color = al_map_rgba(0, 0, 0, 180);
+	mystate = state;
+	mystate2 = secondarystate;
+}
+void Tile::toggleState2()
+{
+	mystate2 = 1;
+}
 void Tile::draw(float posx,float posy)
 {
 	//const enum TILETYPE{FLOOR,WALL,DOOR,WATER,POT,CHEST,TORCH};
@@ -36,27 +50,54 @@ void Tile::draw(float posx,float posy)
 		
 			break;
 		case DOOR:
-		
-			if(gridx == 12)
+			if(gridy == 12)
 			{
-				if(gridy == 0)
+				if(gridx == 0)
 				{
-					al_draw_tinted_scaled_rotated_bitmap_region(myimg,0,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,0,0);
+					if(mystate2 == 0)
+					{
+						al_draw_tinted_scaled_rotated_bitmap_region(myimg,0,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 0.0f / 180.0f,0);
+					}
+					else
+					{
+						al_draw_tinted_scaled_rotated_bitmap_region(myimg,32.0f,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 0.0f / 180.0f,0);
+					}
 				}
 				else
 				{
-					al_draw_tinted_scaled_rotated_bitmap_region(myimg,0,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 180.0f / 180.0f,0);
+					if(mystate2 == 0)
+					{
+						al_draw_tinted_scaled_rotated_bitmap_region(myimg,0,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 180.0f / 180.0f,0);
+					}
+					else
+					{
+						al_draw_tinted_scaled_rotated_bitmap_region(myimg,32.0f,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 180.0f/ 180.0f,0);
+					}
 				}
 			}
 			else
 			{
-				if(gridx == 0)
+				if(gridy == 0)
 				{
-					al_draw_tinted_scaled_rotated_bitmap_region(myimg,0,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 270.0f / 180.0f,0);
+					if(mystate2 == 0)
+					{
+						al_draw_tinted_scaled_rotated_bitmap_region(myimg,0,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 270.0f/ 180.0f,0);
+					}
+					else
+					{
+						al_draw_tinted_scaled_rotated_bitmap_region(myimg,32.0f,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 270.0f/ 180.0f,0);
+					}
 				}
 				else
 				{
-					al_draw_tinted_scaled_rotated_bitmap_region(myimg,0,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 * 90.0f / 180.0f,0);
+					if(mystate2 == 0)
+					{
+						al_draw_tinted_scaled_rotated_bitmap_region(myimg,0,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 *  90.0f / 180.0f,0);
+					}
+					else
+					{
+						al_draw_tinted_scaled_rotated_bitmap_region(myimg,32.0f,64.0f,32.0f,32.0f,al_map_rgb(255,255,255),16.0f,16.0f,posx + 16.0f,posy + 16.0f,1.0f,1.0f,3.14 *  90.0f / 180.0f,0);
+					}
 				}
 			}
 		
@@ -93,12 +134,19 @@ TILETYPE Tile::getTileType()
 bool Tile::passable()
 {
 	//const enum TILETYPE{FLOOR,WALL,DOOR,WATER,POT,CHEST,TORCH};
-	if(type == WALL || type == WATER || type == POT || type == CHEST )
+	if(type == WALL || type == WATER || type == POT || type == CHEST || type == TORCH )
 	{
 		return false;
 	}
 	else
 	{
+		if(type == DOOR)
+		{
+			if(mystate2 == 0)
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 }

@@ -35,9 +35,6 @@
     <ClCompile Include="Strings.cpp">
       <Filter>Definitions</Filter>
     </ClCompile>
-    <ClCompile Include="SystemVars.cpp">
-      <Filter>Definitions</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Definitions</Filter>
     </ClCompile>
@@ -101,6 +98,10 @@
     <ClCompile Include="SpriteProjectile.cpp">
       <Filter>Definitions\GameSprite</Filter>
     </ClCompile>
+    <ClCompile Include="GameSoundManager.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemVars.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bounds.h">
@@ -192,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="SpriteProjectile.h">
       <Filter>Headers\GameSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSoundManager.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -37,7 +37,7 @@ Map::Map(string dungname,string layout,int player)
 	logHelperMessage(WARNING,3,"Map:",dungname.c_str()," Created-Depricated");
 	hide();
 }
-Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,ALLEGRO_SAMPLE* bg,string mapfile,int roomnumber)
+Map::Map(ALLEGRO_BITMAP* tls,ALLEGRO_BITMAP* light,string bg,string mapfile,int roomnumber)
 {
 	entitysonmap = 0;
 	//load the file
@@ -217,6 +217,12 @@ void Map::update(Dungion& dung)
 				entitys.erase(entitys.begin() + i);
 			}
 		}
+		if(entitys.size() == 0)
+		{
+			//room clear
+			maptiles[0][12].toggleState2();
+			maptiles[18][12].toggleState2();
+		}
 		for(int i = 0;i < dung.curentplayers;i++)
 		{
 			dung.players[i].update(entitys,maptiles,dung);
@@ -236,6 +242,7 @@ bool Map::isOnScreen()
 void Map::show()
 {
 	onscreen = true;
+	getGameRefrence()->sendMessageToAllObjects(myconcat(2,"BGM_PLAY_",bgs.c_str()).c_str(),CLASSTYPE_SOUNDMANAGER);
 }
 void Map::hide()
 {
@@ -248,18 +255,26 @@ void Map::addDoor(DIRECTION dir,int tomapid,bool needskey)
 	{
 	case BACK:
 		//down
-		maptiles[18][12] = Tile(DOOR,lvtileset,18,12,tomapid);
+		maptiles[18][12] = Tile(DOOR,lvtileset,18,12,tomapid,0);
 		break;
 	case LEFT:
 		break;
 	case FORWARD:
-		maptiles[0][12] = Tile(DOOR,lvtileset,0,12,tomapid);
+		maptiles[0][12] = Tile(DOOR,lvtileset,0,12,tomapid,0);
 		break;
 	case RIGHT:
 		break;
 	default:
 		break;
 	}
+}
+bool Map::doorUnlocked()
+{
+	return true;
+}
+void Map::setDoorLockStatus(bool status)
+{
+
 }
 void Map::spawnEnttityInMap(Entity thing)
 {

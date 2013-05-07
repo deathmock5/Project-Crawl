@@ -20,8 +20,9 @@
 #include <iostream>
 #include "Bounds.h"
 #include "SystemVars.h"
+#include "GameObject.h"
 using namespace std;
-class Menu
+class Menu : public GameObject
 {
 public:
 	Menu(void);
@@ -29,6 +30,7 @@ public:
 	void draw();
 	string hasScrolledOverOption(float x,float y);
 	void acitonClick();
+	virtual void sendMessage(string data) override;
 	//adds
 	void addButton(float x, float y, ALLEGRO_BITMAP *imageup,ALLEGRO_BITMAP *imagedown,string action,void (*function)());
 	void addImage(float x, float y, ALLEGRO_BITMAP *image);
@@ -43,10 +45,11 @@ public:
 	void closeDialog();
 	void updateGaugeValue(string,int);
 	void mouseLocation(int,int);
-	void setClickSound(ALLEGRO_SAMPLE*);
-	void setBgs(ALLEGRO_SAMPLE*);
+	void setClickSound(string);
+	void setBgs(string);
 	void playBgs();
 	void pauseBgs();
+	
 private:
 	ALLEGRO_FONT *whiteArial24;
 	bool aDialogIsShown;
@@ -81,9 +84,9 @@ private:
 	vector<string> dialogtexts;
 
 	//sound
-	ALLEGRO_SAMPLE* clicksound;
-	ALLEGRO_SAMPLE* bgs;
-	ALLEGRO_SAMPLE_ID bgs_id;
+	string menubgs;
+	string menuclicksound;
+	string menuhoversound;
 
 	//gauge
 	vector<ALLEGRO_BITMAP*> gaugeimages;

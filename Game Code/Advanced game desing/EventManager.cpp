@@ -1,17 +1,10 @@
 #include "EventManager.h"
-#include "GameEventChangeLightLevel.h"
-#include "GameEventDialog.h"
-#include "GameEventMovePlayer.h"
-#include "GameEventOnRoomEnter.h"
-#include "GameEventPlaySfx.h"
-#include "GameEventSpawnEntity.h"
-#include "GameEventSpawnGold.h"
-#include "GameEventSpawnTorch.h"
-#include "GameEventWarpToMap.h"
+using namespace std;
 
-EventManager::EventManager(void)
+EventManager::EventManager() : GameObject(CLASSTYPE_EVENTMANAGER)
 {
-
+	curenttimer = 0;
+	popedevent = -1;
 }
 EventManager::~EventManager(void)
 {
@@ -19,26 +12,37 @@ EventManager::~EventManager(void)
 }
 bool EventManager::tickUpdate()
 {
+	for(int i = 0;i < (int)gamevents.size();i++)
+	{
+		if(gamevents[i]->getMyTimedActivator() == curenttimer)
+		{
+			popedevent = i;
+			return true;
+		}
+	}
+	curenttimer++;
 	return false;
-	//TODO: return true if theres an event to process.
-	//int curentmanagedevent = theeventid
 }
 void EventManager::eventProcess()
 {
-	//TODO: ok. i have a ref to the dung and to the menu, lets make things hapen.
 	//what event is suposed to pop?
-
+	logHelperMessage(INFO,1,"POPED");
+	gamevents[popedevent]->applyEvent();
+	gamevents.erase(gamevents.begin() + popedevent);
+	popedevent = -1;
 }
 bool EventManager::isEventInProcess()
 {
-	//TODO: if curentmanagedevent == -1
+	if(popedevent >= 0)
+	{
+		return true;
+	}
 	return false;
-	
 }
 void EventManager::loadEvents(string file)
 {
 	ifstream scriptfile;
-	GameEvent newevent;
+	GameEvent* newevent;
 	scriptfile.open(myconcat(2,"Scripts\\",file.c_str()));
     if(!scriptfile.fail())
     {
@@ -46,7 +50,7 @@ void EventManager::loadEvents(string file)
 
 		GameScriptFileDataset mydataset(scriptfile);
 		vector<GameScriptFileDatasetKeyname> records = mydataset.getDatasets();
-			for(int i = 0;i < records.size();i++)
+			for(int i = 0;i < (int)records.size();i++)
 			{
 				vector<GameScriptFileDatasetKeynameChildren> recordsofchildren;
 				string value;
@@ -61,7 +65,7 @@ void EventManager::loadEvents(string file)
 					//IGNORE MEEEEE
 					break;
 				case LINETYPE_DIALOG:
-					newevent = GameEventDialog();																//Lets add a new dialog
+					newevent = new GameEventDialog();																//Lets add a new dialog
 					value = records[i].getMyDatafire();
 					recordsofchildren = records[i].getChildData();
 					if(records.size() >= 2)
@@ -73,45 +77,252 @@ void EventManager::loadEvents(string file)
 						}
 						else
 						{
-							arguments[0] = -1;																		//dialog:#
+							arguments[0] = "-1";																	//dialog:#
 							arguments[1] = value;																	//dialog:foo
 						}
 						arguments[2] = recordsofchildren[0].getDataValue();											//Face:"blablabla"
 						arguments[3] = recordsofchildren[1].getDataValue();											//Text:"blablabla"
-						if(recordsofchildren.size() > 2)
+						if(recordsofchildren.size() == 3)
 						{
 							arguments[7] = recordsofchildren[2].getDataValue();										//identifer:"thing"
-							newevent.setEventPramiters(4,arguments[0],arguments[1],arguments[2],arguments[3]);
 						}
 						else
 						{
-							newevent.setEventPramiters(5,arguments[0],arguments[1],arguments[2],arguments[3],arguments[7]);	
+							arguments[7] = "null";
 						}
+						newevent->setEventPramiters(5,arguments[0],arguments[1],arguments[2],arguments[3],arguments[7]);
 						//add the dialog information to the thing
 						logHelperMessage(INFO,3,"---DIALOG:'",records[i].getMyDatafire().c_str(),"' found and created.");
+						gamevents.push_back(newevent);
 						}
 					else
 					{
 						logHelperMessage(INFO,3,"---DIALOG:'",records[i].getMyDatafire().c_str(),"' is invalid.");
 					}
+					
 					break;
 				case LINETYPE_SPAWNENTITY:
-					logHelperMessage(INFO,3,"---SPAWNENTITY:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					newevent = new GameEventSpawnEntity();															//Lets add a new entity
+					value = records[i].getMyDatafire();
+					recordsofchildren = records[i].getChildData();
+					if(records.size() >= 2)
+					{
+						if(is_number(value))
+						{   																						//ok its timed
+							arguments[0] = value;																	//spawn:#
+							arguments[1] = "null";																	//spawn:foo
+						}
+						else
+						{
+							arguments[0] = "-1";																	//spawn:#
+							arguments[1] = value;																	//spawn:foo
+						}
+						arguments[2] = recordsofchildren[0].getDataValue();											//File:"blablabla"
+						arguments[3] = recordsofchildren[1].getDataValue();											//x:"blablabla"
+						arguments[4] = recordsofchildren[2].getDataValue();											//y:"blablabla"
+						if(recordsofchildren.size() == 4)
+						{
+							arguments[7] = recordsofchildren[3].getDataValue();										//identifer:"thing"
+						}
+						else
+						{
+							arguments[7] = "null";	
+						}
+						newevent->setEventPramiters(6,arguments[0],arguments[1],arguments[2],arguments[3],arguments[4],arguments[7]);
+						//add the dialog information to the thing
+						gamevents.push_back(newevent);
+						logHelperMessage(INFO,3,"---SPAWNENTITY:'",records[i].getMyDatafire().c_str(),"' found and created.");
+						}
+					else
+					{
+						logHelperMessage(INFO,3,"---SPAWNENTITY:'",records[i].getMyDatafire().c_str(),"' is invalid.");
+					}
+					
+					
 					break;
 				case LINETYPE_CHANGELIGHTLEVEL:
-					logHelperMessage(INFO,3,"---CHANGELIGHTLEVEL:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					newevent = new GameEventChangeLightLevel();															//Lets add a new dialog
+					value = records[i].getMyDatafire();
+					recordsofchildren = records[i].getChildData();
+					if(records.size() >= 2)
+					{
+						if(is_number(value))
+						{   																						//ok its timed
+							arguments[0] = value;																	//spawn:#
+							arguments[1] = "null";																	//spawn:foo
+						}
+						else
+						{
+							arguments[0] = "-1";																		//spawn:#
+							arguments[1] = value;																	//spawn:foo
+						}
+						arguments[2] = recordsofchildren[0].getDataValue();											//File:"blablabla"
+						if(recordsofchildren.size() == 2)
+						{
+							arguments[7] = recordsofchildren[1].getDataValue();										//identifer:"thing"
+						}
+						else
+						{
+							arguments[7] = "null";	
+						}
+						newevent->setEventPramiters(4,arguments[0],arguments[1],arguments[2],arguments[7]);
+						//add the dialog information to the thing
+						gamevents.push_back(newevent);
+						logHelperMessage(INFO,3,"---CHANGELIGHTLEVEL:'",records[i].getMyDatafire().c_str(),"' found and created.");
+						}
+					else
+					{
+						logHelperMessage(INFO,3,"---CHANGELIGHTLEVEL:'",records[i].getMyDatafire().c_str(),"' is invalid.");
+					}
+					
 					break;
 				case LINETYPE_SPAWNTORCH:
-					logHelperMessage(INFO,3,"---SPAWNTORCH:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					newevent = new GameEventSpawnTorch();															//Lets add a new dialog
+					value = records[i].getMyDatafire();
+					recordsofchildren = records[i].getChildData();
+					if(records.size() >= 2)
+					{
+						if(is_number(value))
+						{   																						//ok its timed
+							arguments[0] = value;																	//spawn:#
+							arguments[1] = "null";																	//spawn:foo
+						}
+						else
+						{
+							arguments[0] = "-1";																		//spawn:#
+							arguments[1] = value;																	//spawn:foo
+						}
+						arguments[2] = recordsofchildren[0].getDataValue();											//File:"blablabla"
+						arguments[3] = recordsofchildren[1].getDataValue();											//x:"blablabla"									//y:"blablabla"
+						if(recordsofchildren.size() == 3)
+						{
+							arguments[7] = recordsofchildren[2].getDataValue();										//identifer:"thing"
+						}
+						else
+						{
+							arguments[7] = "null";	
+						}
+						newevent->setEventPramiters(5,arguments[0],arguments[1],arguments[2],arguments[3],arguments[7]);
+						//add the dialog information to the thing
+						gamevents.push_back(newevent);
+						logHelperMessage(INFO,3,"---SPAWNTORCH:'",records[i].getMyDatafire().c_str(),"' found and created.");
+						}
+					else
+					{
+						logHelperMessage(INFO,3,"---SPAWNTORCH:'",records[i].getMyDatafire().c_str(),"' is invalid.");
+					}
+					
 					break;
 				case LINETYPE_SPAWNGOLD:
-					logHelperMessage(INFO,3,"---SPAWNGOLD:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					newevent = new GameEventSpawnGold();															//Lets add a new dialog
+					value = records[i].getMyDatafire();
+					recordsofchildren = records[i].getChildData();
+					if(records.size() >= 2)
+					{
+						if(is_number(value))
+						{   																						//ok its timed
+							arguments[0] = value;																	//spawn:#
+							arguments[1] = "null";																	//spawn:foo
+						}
+						else
+						{
+							arguments[0] = "-1";																		//spawn:#
+							arguments[1] = value;																	//spawn:foo
+						}
+						arguments[2] = recordsofchildren[0].getDataValue();											//File:"blablabla"
+						arguments[3] = recordsofchildren[1].getDataValue();											//x:"blablabla"
+						arguments[4] = recordsofchildren[2].getDataValue();											//y:"blablabla"
+						if(recordsofchildren.size() == 4)
+						{
+							arguments[7] = recordsofchildren[3].getDataValue();										//identifer:"thing"
+						}
+						else
+						{
+							arguments[7] = "null";	
+						}
+						newevent->setEventPramiters(6,arguments[0],arguments[1],arguments[2],arguments[3],arguments[4],arguments[7]);
+						//add the dialog information to the thing
+						gamevents.push_back(newevent);
+						logHelperMessage(INFO,3,"---SPAWNGOLD:'",records[i].getMyDatafire().c_str(),"' found and created.");
+						}
+					else
+					{
+						logHelperMessage(INFO,3,"---SPAWNGOLD:'",records[i].getMyDatafire().c_str(),"' is invalid.");
+					}
+					
 					break;
 				case LINETYPE_PLAYSFX:
-					logHelperMessage(INFO,3,"---PLAYSFX:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					newevent = new GameEventPlaySfx();															//Lets add a new dialog
+					value = records[i].getMyDatafire();
+					recordsofchildren = records[i].getChildData();
+					if(records.size() >= 2)
+					{
+						if(is_number(value))
+						{   																						//ok its timed
+							arguments[0] = value;																	//spawn:#
+							arguments[1] = "null";																	//spawn:foo
+						}
+						else
+						{
+							arguments[0] = "-1";																		//spawn:#
+							arguments[1] = value;																	//spawn:foo
+						}
+						arguments[2] = recordsofchildren[0].getDataValue();											//File:"blablabla"
+						if(recordsofchildren.size() == 2)
+						{
+							arguments[7] = recordsofchildren[1].getDataValue();										//identifer:"thing"
+						}
+						else
+						{
+							arguments[7] = "null";	
+						}
+						newevent->setEventPramiters(4,arguments[0],arguments[1],arguments[2],arguments[7]);
+						//add the dialog information to the thing
+						gamevents.push_back(newevent);
+						logHelperMessage(INFO,3,"---PLAYSFX::'",records[i].getMyDatafire().c_str(),"' found and created.");
+						}
+					else
+					{
+						logHelperMessage(INFO,3,"---PLAYSFX::'",records[i].getMyDatafire().c_str(),"' is invalid.");
+					}
+					
 					break;
 				case LINETYPE_MOVEPLAYER:
-					logHelperMessage(INFO,3,"---MOVEPLAYER:'",records[i].getMyDatafire().c_str(),"' found and created.");
+					newevent = new GameEventMovePlayer();															//Lets add a new dialog
+					value = records[i].getMyDatafire();
+					recordsofchildren = records[i].getChildData();
+					if(records.size() >= 2)
+					{
+						if(is_number(value))
+						{   																						//ok its timed
+							arguments[0] = value;																	//spawn:#
+							arguments[1] = "null";																	//spawn:foo
+						}
+						else
+						{
+							arguments[0] = "-1";																		//spawn:#
+							arguments[1] = value;																	//spawn:foo
+						}
+						arguments[2] = recordsofchildren[0].getDataValue();											//File:"blablabla"
+						arguments[3] = recordsofchildren[1].getDataValue();											//x:"blablabla"
+						if(recordsofchildren.size() == 3)
+						{
+							arguments[7] = recordsofchildren[1].getDataValue();										//identifer:"thing"
+						}
+						else
+						{
+							arguments[7] = "null";	
+						}
+						newevent->setEventPramiters(5,arguments[0],arguments[1],arguments[2],arguments[3],arguments[7]);
+						//add the dialog information to the thing
+						gamevents.push_back(newevent);
+						logHelperMessage(INFO,3,"---MOVEPLAYER:'",records[i].getMyDatafire().c_str(),"' found and created.");
+						}
+					else
+					{
+						logHelperMessage(INFO,3,"---MOVEPLAYER:'",records[i].getMyDatafire().c_str(),"' is invalid.");
+					}
+					
 					break;
 				case LINETYPE_ONROOMENTER:
 					logHelperMessage(INFO,3,"---ONROOMENTER:'",records[i].getMyDatafire().c_str(),"' found and created.");
@@ -135,51 +346,11 @@ void EventManager::loadEvents(string file)
         //cout << "Unable to open file:" << myfile << endl;
     }
 }
-void EventManager::addDialogEvent(int time)
-{
-	//TODO: add a dialog event to the stack.
-}
-void EventManager::addDIilogEvent(string uniqeid)
-{
-	//TODO: add a dialog event by uniqueid
-}
-void EventManager::addEntitySpawnEvent(int time)
-{
-
-}
-void EventManager::addEntitySpawnEvent(string uniqueid)
-{}
-void EventManager::addLightChangeEvent(int time)
-{}
-void EventManager::addLightChangeEvent(string uniqueid)
-{}
-void EventManager::addSpawnTorchEvent(int time)
-{}
-void EventManager::addSpawnTorchEvent(string uniqueid)
-{}
-void EventManager::addSpawnGoldEvent(int time)
-{}
-void EventManager::addSpawnGoldEvent(string uniqueid)
-{}
-void EventManager::addPlaySfxEvent(int time)
-{}
-void EventManager::addPlaySfxEvent(string uniqueid)
-{}
-void EventManager::addMovePlayerEvent(int time)
-{}
-void EventManager::addMovePlayerEvent(string uniqueid)
-{}
-void EventManager::addRoomEnterEvent(string roomid)
-{}
-void EventManager::addWarpToMapEvent(int time)
-{}
-void EventManager::addWarpToMapEvent(string uniqueid)
-{}
 bool EventManager::is_number(const std::string& s)
 {
 	bool hasfound = false;
 	locale loc ("C");
-	for(int i = 0; i < s.length();i++)
+	for(int i = 0; i < (int)s.length();i++)
 	{
 		if(std::isdigit(s[i],loc))
 		{
@@ -188,4 +359,8 @@ bool EventManager::is_number(const std::string& s)
 		}
 	}
 	return !hasfound;
+}
+void EventManager::sendMessage(string data)
+{
+	
 }

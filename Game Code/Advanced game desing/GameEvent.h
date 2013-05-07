@@ -3,8 +3,7 @@
 #ifndef _GAMEEVENT_H_
 #define _GAMEEVENT_H_
 //forwards
-class Dungion;
-class Menu;
+
 //dependencys
 #include <string>
 #include <vector>
@@ -16,12 +15,14 @@ class GameEvent
 public:
 	GameEvent();
 	~GameEvent(void);
-	virtual void applyEvent(Dungion&,Menu&);
+	virtual void applyEvent();
 	virtual void setEventPramiters(int,...);
+	int getMyTimedActivator();
 protected:
 	GAMEEVENTTYPE mytype;
 	int mytimedactivator;
 	string myidentactivator;
 	string posibleidentiget;
+	string datamessage;
 };
 #endif

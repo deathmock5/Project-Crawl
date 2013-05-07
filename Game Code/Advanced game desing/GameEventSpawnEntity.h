@@ -1,17 +1,25 @@
 #pragma once
+//=================================
+// include guard
+#ifndef _GameEventSpawnEntity_H_
+#define _GameEventSpawnEntity_H_
+
+//=================================
+// forward declared dependencies
+
+//=================================
+// included dependencies
 #include "GameEvent.h"
-#include "Menu.h"
-#include "Entity.h"
-class GameEventSpawnEntity :
-	public GameEvent
+
+//=================================
+// the actual class
+
+class GameEventSpawnEntity : public GameEvent
 {
 public:
 	GameEventSpawnEntity(void);
 	~GameEventSpawnEntity(void);
-	void applyEvent(Dungion&,Menu&);
+	void applyEvent();
 	void setEventPramiters(int,...);
-private:
-	class Entity monstertospawn;
-	Bounds monsterpos;
 };
-
+#endif
