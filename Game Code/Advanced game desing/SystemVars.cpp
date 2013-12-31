@@ -4,39 +4,60 @@ vector<string> dnglvs;
 static Game* curentgame;
 vector<loglevel> levels;
 vector<string> messagess;
+vector<ALLEGRO_BITMAP*> loadedbitmaps;
+vector<string> loadedbitmapnames;
+vector<ALLEGRO_SAMPLE*> loadedsamples;
+vector<string> loadedsamplenames;
 thread t1;
 bool threaddone = true;
 bool threadjoinedmain = true;
 ALLEGRO_BITMAP* load_image(string path)
 {
-	ALLEGRO_BITMAP* file;
+	ALLEGRO_BITMAP* file = nullptr;
+	for(int i = 0;i < loadedbitmapnames.size();i++)
+	{
+		if(loadedbitmapnames[i] == path)
+		{
+			logHelperMessage(OK,3,"The file:'",path.c_str(),"' is already loaded.");
+			return loadedbitmaps[i];
+		}
+	}
 	try
 	{
 		file = al_load_bitmap(path.c_str());
-		//cout << "The file:'" << path.c_str() << "' loaded" << endl;
 		if(file == NULL)
 			throw 1;
 		logHelperMessage(OK,3,"The file:'",path.c_str(),"' loaded.");
+		loadedbitmapnames.push_back(path);
 	}
 	catch(...)
 	{
-		logHelperMessage(SEVERE,3,"The file:'",path.c_str(),"' was not found.");
+		logHelperMessage(SEVERE,3,"The file:'",path.c_str(),"' was not found/loaded.");
 	}
 	return file;
 }
 ALLEGRO_SAMPLE* load_sound(string path)
 {
-	ALLEGRO_SAMPLE* file;
+	ALLEGRO_SAMPLE* file = nullptr;
+	for(int i = 0;i < loadedsamplenames.size();i++)
+	{
+		if(loadedbitmapnames[i] == path)
+		{
+			logHelperMessage(OK,3,"The file:'",path.c_str(),"' is already loaded.");
+			return loadedsamples[i];
+		}
+	}
 	try
 	{
 		file = al_load_sample(path.c_str());
 		if(file == NULL)
 			throw 1;
-		logHelperMessage(OK,3,"The file'",path.c_str(),"' loaded.");
+		logHelperMessage(OK,3,"The file:'",path.c_str(),"' loaded.");
+		loadedsamplenames.push_back(path);
 	}
 	catch(...)
 	{
-		logHelperMessage(SEVERE,3,"The file:'",path.c_str(),"' failed to load.");
+		logHelperMessage(SEVERE,3,"The file:'",path.c_str(),"' was not found/loaded.");
 	}
 	return file;
 }
@@ -140,21 +161,21 @@ void threadedloghelpermessage(loglevel severity,string message)
 	cout << message << endl;
 	threaddone = true;
 }
-template <typename T>
-string NumberToString ( T Number )
-{
-	stringstream ss;
-	ss << Number;
-	return ss.str();
-	//string s = to_string((double)num);
-}
-template <typename T>
-T StringToNumber ( const string &Text )//Text not by const reference so that the function can be used with a 
-{										//character array as argument
-	stringstream ss(Text);
-	T result;
-	return ss >> result ? result : 0;
-}
+//template <typename T>
+//string NumberToString ( T Number )
+//{
+//	stringstream ss;
+//	ss << Number;
+//	return ss.str();
+//	//string s = to_string((double)num);
+//}
+//template <typename T>
+//T StringToNumber ( const string &Text )//Text not by const reference so that the function can be used with a 
+//{										//character array as argument
+//	stringstream ss(Text);
+//	T result;
+//	return ss >> result ? result : 0;
+//}
 void setGameRefrence(Game* mygame)
 {
 	curentgame = mygame;

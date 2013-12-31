@@ -1,0 +1,71 @@
+//after defeating first dungeon
+//will need char spawning locations
+
+OnRoomEnter:BOSS{
+	identifier:"s0"
+}
+
+SpawnEntity:s0{
+	file:"boss1.dngmn"
+	x:"13"
+	y:"10"
+	identifier:"s1"
+}
+
+Dialog:s1{
+	face:"boss3.png"
+	text:"This can't be over! I'll be back, I swear it!"
+	identifier:"s2"
+}
+
+Dialog:s2{
+	face:"boss1.png"
+	text:"hrrrgrrrk"
+	identifier:"s3"
+}
+
+Dialog:s3{
+	face:"wife.png"
+	text:"Thank you for saving US!!!"
+	identifier:"s4"
+}
+
+Dialog:s4{
+	face:"main.png"
+	text:"It so good to see you again!! This time I won’t let anything happen to you ever again!"
+	identifier:s5
+}
+
+SpawnEntity:s5{
+	file:"daughter.dngmn"
+	x:"0"
+	y:"8"
+	identifier:"s6"
+}
+
+SpawnEntity:s6{
+	file:"son.dngmn"
+	x:"0"
+	y:"7"
+	identifier:"s7"
+}
+
+Dialog:s7{
+	face:"daughter.png"
+	text:"Dad! Mom!"
+	identifier:"s8"
+}
+
+Dialog:s8{
+	face:"main.png"
+	text:"Didn't I tell you to... Oh, never mind. We're all together again!"
+	identifier:"s9"
+}
+
+Dialog:s9{
+	face:"black.png"
+	text:"And they lived happily ever after."
+	identifier:"s8675309"
+}
+
+WarpToMap:s8675309{}

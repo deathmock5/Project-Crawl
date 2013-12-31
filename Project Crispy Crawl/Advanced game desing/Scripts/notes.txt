@@ -1,0 +1,20 @@
+[0]int:Time									-1
+[1]string:identifer							null
+[2]string:argument							null
+[3]string:argument							null
+[4]string:argument							null
+[5]string:argument							null
+[6]string:argument							null
+[7]string:identifer							null
+
+ENTTY_-_SPAWN_name,x,y
+DIALO_face,text
+LIGHT_lv
+MOVEP_-_x,y
+PLAYR_-_atack
+ENEMY_-_atack
+BGM_PLAY_file
+SFX_PLAY_file
+SGOLD_x,y,amt
+TORCH_x,y
+MWARP_

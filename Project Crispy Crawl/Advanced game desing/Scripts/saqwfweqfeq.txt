@@ -1,0 +1,51 @@
+//TODO: update
+		//if(gridx == 0)
+		//{
+		//	if(gridy > 0 && gridy < 18)
+		//	{
+		//		//left wall
+		//		al_draw_filled_rectangle(posx + 16.0f, posy, posx + 32.0f, posy + 32.0f, color);
+		//	}
+		//	else if(gridy == 0)
+		//	{
+		//		//top left corner
+		//		al_draw_filled_rectangle(posx + 16.0f, posy + 16.0f, posx + 32.0f, posy + 32.0f, color);
+		//	}
+		//	else
+		//	{
+		//		//bottom left corner
+		//		al_draw_filled_rectangle(posx + 16.0f, posy, posx + 32.0f, posy + 16.0f, color);
+		//	}
+		//}
+		//else if(gridx == 24)
+		//{
+		//	//right wall
+		//	if(gridy > 0 && gridy < 18)
+		//	{
+		//		//normal wall
+		//		al_draw_filled_rectangle(posx, posy, posx + 16.0f, posy + 32.0f, color);
+		//	}
+		//	else if(gridy == 0)
+		//	{
+		//		//top right corner
+		//		al_draw_filled_rectangle(posx, posy+ 16.0f, posx + 16.0f, posy + 32.0f, color);
+		//	}
+		//	else
+		//	{
+		//		//bottom right corner
+		//		al_draw_filled_rectangle(posx, posy, posx + 16.0f, posy + 16.0f, color);
+		//	}
+		//}
+		//else
+		//{
+		//	if(gridy == 0)
+		//	{
+		//		//top wall
+		//		al_draw_filled_rectangle(posx, posy + 16.0f, posx + 32.0f, posy + 32.0f, color);
+		//	}
+		//	else
+		//	{
+		//		//bottom wall
+		//		al_draw_filled_rectangle(posx, posy, posx + 32.0f, posy + 16.0f, color);
+		//	}
+		//}

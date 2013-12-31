@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Bounds.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Dungion.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Strings.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemVars.h">
+      <Filter>Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEvent.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventChangeLightLevel.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventDialog.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventMovePlayer.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventOnRoomEnter.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventPlaySfx.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnEntity.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnGold.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventSpawnTorch.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventWarpToMap.cpp">
+      <Filter>Definitions\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScriptFileDataset.cpp">
+      <Filter>Definitions\GameScript</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScriptFileDatasetKeynameChildren.cpp">
+      <Filter>Definitions\GameScript</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScriptFileDatasetKeyname.cpp">
+      <Filter>Definitions\GameScript</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEntityPath.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Definitions\GameSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteCharicter.cpp">
+      <Filter>Definitions\GameSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteProjectile.cpp">
+      <Filter>Definitions\GameSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSoundManager.cpp">
+      <Filter>Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemVars.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bounds.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Dungion.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventChangeLightLevel.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventDialog.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventMovePlayer.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventOnRoomEnter.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventPlaySfx.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnEntity.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnGold.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventSpawnTorch.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventWarpToMap.h">
+      <Filter>Headers\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScriptFileDataset.h">
+      <Filter>Headers\GameScript</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScriptFileDatasetKeyname.h">
+      <Filter>Headers\GameScript</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScriptFileDatasetKeynameChildren.h">
+      <Filter>Headers\GameScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Headers\GamePathing</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEntityPath.h">
+      <Filter>Headers\GamePathing</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteCharicter.h">
+      <Filter>Headers\GameSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Headers\GameSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteProjectile.h">
+      <Filter>Headers\GameSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSoundManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{3c8031a4-cdcd-44bb-a599-9df924048625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions">
+      <UniqueIdentifier>{754822f6-0f7e-4c8e-a740-edb58275eb2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\GameEvent">
+      <UniqueIdentifier>{d9a511ae-3db9-435a-b717-ffe0a37b2189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\GameScript">
+      <UniqueIdentifier>{f7bc2317-bae6-4b2c-8559-3ef8b22fc31e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions\GameEvent">
+      <UniqueIdentifier>{574551a6-338e-4e7b-a65a-75e82d4765a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions\GameScript">
+      <UniqueIdentifier>{bcb55525-f495-4a31-b235-b6188bdc6dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\GamePathing">
+      <UniqueIdentifier>{938817f8-65c0-4b1c-b03d-77f0335395b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\GameSprite">
+      <UniqueIdentifier>{66eb13e0-ef7d-4e49-bd38-a3a2a7261e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Definitions\GameSprite">
+      <UniqueIdentifier>{3a872728-c3c7-421e-a527-c8fbd3f94c86}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

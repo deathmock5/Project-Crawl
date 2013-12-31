@@ -1,0 +1,7 @@
+﻿Name:Slime
+Tile:Slime.png
+Size:32.0
+SfxAtk:splat.ogg
+SfxHit:splat.ogg
+HpBace:25
+DamageBace:15

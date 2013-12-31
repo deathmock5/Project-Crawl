@@ -1,0 +1,12 @@
+# - floor (walkable)
+@ - wall
+$ - open door
+1 - chest
+2 - pot
+3 - damage tile
+4 - torch
+5 - monster 1
+6 - monster 2
+7 - monster 3 (do not use)
+8 - water (unpassable non-wall)
+9 - boss monster (max 1 per room)

@@ -12,9 +12,19 @@ namespace DungMaker
 {
     public partial class DungionEdit : Form
     {
+
         public DungionEdit()
         {
             InitializeComponent();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="r"></param>
+        public DungionEdit(int e, int r)
+        {
+
         }
     }
 }
