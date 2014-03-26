@@ -13,13 +13,48 @@ namespace DMAntiCheat
     {
         return a + b;
     }*/
-	void DMPint::setInt(int val)
+	void DMPint::set(int val)
 	{
 		myvalue = val;
+		obfuscate();
 	}
+	void DMPint::set(DMPbyte val)
+	{
+		myvalue = val.getint();
+		obfuscate();
+	}
+	void DMPint::set(DMPint val)
+	{
+		myvalue = val.getint();
+		obfuscate();
+	}
+	void DMPint::set(DMPdouble val)
+	{
+		myvalue = val.getint();
+		obfuscate();
+	}
+	void DMPint::set(DMPstring val)
+	{
+		myvalue = val.getint();
+		obfuscate();
+	}
+	
 
 	int DMPint::getint()
 	{
-		return 0;
+		return deobfuscate();
+	}
+
+
+	int DMPint::deobfuscate()
+	{
+		return myvalue / -5;
+	}
+	void DMPint::obfuscate()
+	{
+		if (!obfusicated)
+		{
+			myvalue = myvalue * -5;
+		}
 	}
 }

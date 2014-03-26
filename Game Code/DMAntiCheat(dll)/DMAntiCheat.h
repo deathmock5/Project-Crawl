@@ -1,5 +1,18 @@
-//TODO: Everything
+//Include guards
+#ifndef _DMAntiCheat_H_
+#define _DMAntiCheat_H_
+
+//Included dependancys
 #include <cstring>
+#include <io.h>
+//forward declarations
+
+class DMPint;
+class DMPdouble;
+class DMPstring;
+class DMPbyte;
+
+//Dll stuff
 #ifdef DM_EXPORTS
 #define DM_API __declspec(dllimport) 
 #else
@@ -8,6 +21,34 @@
 
 namespace DMAntiCheat
 {
+	class DMPbyte
+	{
+	public:
+		//methods
+		DM_API void set(int);
+		DM_API void set(DMPbyte);
+		DM_API void set(DMPdouble);
+		DM_API void set(DMPint);
+		DM_API void set(DMPstring);
+		DM_API int getint();
+		DM_API DMPbyte getDMPbyte();
+		DM_API DMPint getDMPint();
+		DM_API DMPstring getDMPstirng();
+		DM_API DMPdouble getDMPdouble();
+
+		//int16
+		//int32
+		//uint
+		//tinyint
+		DM_API short getshort();
+		DM_API long getlong();
+		DM_API double Add(double a, double b);
+	private:
+		DM_API int deobfuscate();
+		DM_API void obfuscate();
+		int myvalue;
+		bool obfusicated;
+	};
 	///<summary>
 	///A protected version of int that tries to avoid memory scanning and editing.
 	///</summary>
@@ -16,9 +57,7 @@ namespace DMAntiCheat
     public:
 		//operator overloads
 		DMPint & operator=(const int &rhs)
-		{
-			if (this == &rhs)      // Same object?
-				return *this;        // Yes, so skip assignment, and just return *this.
+		{    
 			set(rhs);
 			return *this;
 		}
@@ -41,9 +80,20 @@ namespace DMAntiCheat
 		}
 		//+=
 		DMPint & DMPint::operator+=(const int &rhs) {
+			int tempval = 0;
+			tempval += deobfuscate();
+			tempval += rhs;
+			myvalue = tempval;
+			obfuscate();
 			return *this;
 		}
 		DMPint & DMPint::operator+=(const DMPbyte &rhs) {
+			//TODO: dmpint += byte
+			int tempval = 0;
+			tempval += deobfuscate();
+			//tempval += deobfuscate(rhs.myvalue); cant due to const, make a new variable?
+			this->myvalue = tempval;
+			obfuscate();
 			return *this;
 		}
 		DMPint & DMPint::operator+=(const DMPint &rhs) {
@@ -191,6 +241,42 @@ namespace DMAntiCheat
 			result += other;            // Use += to add other to the copy.
 			return result;              // All done!
 		}
+		//==
+		bool DMPint::operator==(const int &other) const {
+			if (myvalue == other)
+			{
+				return true;
+			}
+			return false;
+		}
+		bool DMPint::operator==(const DMPbyte &other) const {
+			return false;
+		}
+		bool DMPint::operator==(const DMPint &other) const {
+			return false;
+		}
+		bool DMPint::operator==(const DMPstring &other) const {
+			return false;
+		}
+		bool DMPint::operator==(const DMPdouble &other) const {
+			return false;
+		}
+		//!=
+		bool DMPint::operator!=(const int &other) const {
+			return false;
+		}
+		bool DMPint::operator!=(const DMPbyte &other) const {
+			return false;
+		}
+		bool DMPint::operator!=(const DMPint &other) const {
+			return false;
+		}
+		bool DMPint::operator!=(const DMPstring &other) const {
+			return false;
+		}
+		bool DMPint::operator!=(const DMPdouble &other) const {
+			return false;
+		}
 		//methods
 		DM_API void set(int);
 		DM_API void set(DMPbyte);
@@ -198,6 +284,11 @@ namespace DMAntiCheat
 		DM_API void set(DMPint);
 		DM_API void set(DMPstring);
 		DM_API int getint();
+		DM_API DMPbyte getDMPbyte();
+		DM_API DMPint getDMPint();
+		DM_API DMPstring getDMPstirng();
+		DM_API DMPdouble getDMPdouble();
+
 		//int16
 		//int32
 		//uint
@@ -206,25 +297,73 @@ namespace DMAntiCheat
 		DM_API long getlong();
         DM_API double Add(double a, double b);
 	private:
-		DM_API void scrambledata();
+		DM_API int deobfuscate();
+		DM_API int deobfuscate(int);
+		DM_API void obfuscate();
 		int myvalue;
-		bool fliped;
-		bool multiplied;
+		bool obfusicated;
     };
-
-	class DMPdouble
-	{
-
-	};
 
 	class DMPstring
 	{
-		std::string getStdString();
-		
+	public:
+		//methods
+		DM_API void set(int);
+		DM_API void set(DMPbyte);
+		DM_API void set(DMPdouble);
+		DM_API void set(DMPint);
+		DM_API void set(DMPstring);
+		DM_API int getint();
+		DM_API DMPbyte getDMPbyte();
+		DM_API DMPint getDMPint();
+		DM_API DMPstring getDMPstirng();
+		DM_API DMPdouble getDMPdouble();
+
+		//int16
+		//int32
+		//uint
+		//tinyint
+		DM_API short getshort();
+		DM_API long getlong();
+		DM_API double Add(double a, double b);
+	private:
+		DM_API int deobfuscate();
+		DM_API void obfuscate();
+		int myvalue;
+		bool obfusicated;
 	};
 
-	class DMPbyte
+	class DMPdouble
 	{
+	public:
+		//methods
+		DM_API void set(int);
+		DM_API void set(DMPbyte);
+		DM_API void set(DMPdouble);
+		DM_API void set(DMPint);
+		DM_API void set(DMPstring);
+		DM_API int getint();
+		DM_API DMPbyte getDMPbyte();
+		DM_API DMPint getDMPint();
+		DM_API DMPstring getDMPstirng();
+		DM_API DMPdouble getDMPdouble();
 
+		//int16
+		//int32
+		//uint
+		//tinyint
+		DM_API short getshort();
+		DM_API long getlong();
+		DM_API double Add(double a, double b);
+	private:
+		DM_API int deobfuscate();
+		DM_API void obfuscate();
+		int myvalue;
+		bool obfusicated;
 	};
+
+	
+
+	
 }
+#endif

@@ -102,7 +102,7 @@ namespace DMLogger {
 			cout << sec;
 		}
 		cout << "] ";
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),0x07);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),0x07);
 	}
 }
 #endif

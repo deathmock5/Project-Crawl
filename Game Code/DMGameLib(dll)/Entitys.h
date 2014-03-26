@@ -10,7 +10,7 @@
 #endif
 namespace GameLib
 {
-	class Entity()
+	class Entity
 	{
 	public:
 		DMLOGGGER_API Entity();
